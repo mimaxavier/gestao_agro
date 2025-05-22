@@ -1,0 +1,2 @@
+class Galinha:
+    pass

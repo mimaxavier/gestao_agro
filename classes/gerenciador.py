@@ -1,0 +1,2 @@
+class Gerenciador:
+    pass
