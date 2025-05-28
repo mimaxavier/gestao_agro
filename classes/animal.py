@@ -6,9 +6,10 @@ class Animal:
         self.especie = especie
         self.data_nascimento = data_nascimento
         self.peso = peso
+        self.historico_vacinacao = []
+        self.historico_producao = []
 
     def vacinar(self, vacina, data):
-        self.historico_vacinacao = []
         self.vacina = vacina
         data = datetime.strptime(data, "%d/%m/%Y")
 
@@ -39,9 +40,21 @@ class Animal:
         
         print("Alimentando...")
 
-    def produzir_leite(self):
+    def produzir_leite(self, data, quantidade):
+        try:
+            data_convertida = datetime.strptime(data, "%d/%m/%Y")
+            data_formatada = data_convertida.strftime("%d/%m/%Y")
+        except ValueError:
+            print("Formato de data inválido! Tente novamente!")
+            return
+        
+        registro = {"Quantidade:": quantidade, "Data:": data_formatada}
+
+        if quantidade>0:
+            self.historico_producao.append(registro)
+
         if self.especie == 'vaca':
-            print("produzindo leite...")
+            print("Produzindo leite...")
 
     def verificar_abate(self):
         if self.idade>5 or self.peso>60:
