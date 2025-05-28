@@ -1,10 +1,11 @@
 from datetime import datetime
 
 class Animal:
-    def __init__(self, codigo, especie, data_nascimento):
+    def __init__(self, codigo, especie, data_nascimento, peso):
         self.codigo = codigo
         self.especie = especie
         self.data_nascimento = data_nascimento
+        self.peso = peso
 
     def vacinar(self, vacina, data):
         self.historico_vacinacao = []
@@ -22,9 +23,20 @@ class Animal:
         for registro in self.historico_vacinacao:
             print(registro)
 
-    def alimentar(self):
-        #tipo_De_racao
-        #peso
+    def alimentar(self, tipo_racao, peso_atual, data):
+        self.historico_alimentacao = []
+
+        self.tipo_racao = tipo_racao
+        self.peso_atual = peso_atual
+        data = datetime.now()
+        registro = {"Tipo de Ração:": tipo_racao, "Peso atual": peso_atual, "Data": data}
+
+        if self.tipo_racao:
+            self.historico_alimentacao.append(registro)
+            print("Registro adicionado:", registro)
+            
+        
+        
         print("Alimentando...")
 
     def produzir_leite(self):
