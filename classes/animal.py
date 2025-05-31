@@ -8,6 +8,7 @@ class Animal:
         self.peso = peso
         self.historico_vacinacao = []
         self.historico_producao = []
+        self.historico_alimentacao = []
 
     def vacinar(self, vacina, data):
         self.vacina = vacina
@@ -24,21 +25,19 @@ class Animal:
         for registro in self.historico_vacinacao:
             print(registro)
 
-    def alimentar(self, tipo_racao, peso_atual, data):
-        self.historico_alimentacao = []
-
+    #  O método alimentar recebe o tipo de ração, a quantidade ofertada e a data.
+    def alimentar(self, tipo_racao, qtd_racao, data):
         self.tipo_racao = tipo_racao
-        self.peso_atual = peso_atual
-        data = datetime.now()
-        registro = {"Tipo de Ração:": tipo_racao, "Peso atual": peso_atual, "Data": data}
+        self.qtd_racao = qtd_racao
+
+        data_formatada = datetime.strptime(data, "%d/%m/%Y")
+
+        registro = {"Tipo de Ração:": self.tipo_racao, "Quantidade de ração:": self.qtd_racao, "Data": data_formatada.strftime("%d/%m/%Y")}
 
         if self.tipo_racao:
             self.historico_alimentacao.append(registro)
             print("Registro adicionado:", registro)
             
-        
-        
-        print("Alimentando...")
 
     def produzir_leite(self, data, quantidade):
         try:
