@@ -15,3 +15,5 @@ vaca.produzir_leite("28/05/2025", 50)
 #vaca.mostrar_registro(123)
 
 vaca.alimentar("Royal", 15, "31/05/2025")
+
+vaca.mostrar_registro(123)

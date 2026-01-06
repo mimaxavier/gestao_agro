@@ -12,18 +12,28 @@ class Animal:
 
     def vacinar(self, vacina, data):
         self.vacina = vacina
-        data = datetime.strptime(data, "%d/%m/%Y")
+        data = datetime.strptime(data, r"%d/%m/%Y")
 
-        registro = {"Vacina": vacina, "Data": data.strftime("%d/%m/%Y")}
+        registro = {"Vacina": vacina, "Data": data.strftime(r"%d/%m/%Y")}
 
         if self.vacina:
             self.historico_vacinacao.append(registro)
             print("Registro adicionado:", registro)
         
 
-    def mostrar_registro(self, codigo):
-        for registro in self.historico_vacinacao:
-            print(registro)
+    def mostrar_registro(self, codigo, tipo):
+            mapa = {
+                "Alimentação": self.historico_alimentacao,
+                "Vacinação": self.historico_vacinacao
+                "Produção": self.producao
+            }
+
+            historico = mapa.get(tipo)
+
+            
+
+            for registro in historico:
+                print(registro)
 
     #  O método alimentar recebe o tipo de ração, a quantidade ofertada e a data.
     def alimentar(self, tipo_racao, qtd_racao, data):
