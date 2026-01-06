@@ -6,6 +6,7 @@ class Animal:
         self.especie = especie
         self.data_nascimento = data_nascimento
         self.peso = peso
+
         self.historico_vacinacao = []
         self.historico_producao = []
         self.historico_alimentacao = []
@@ -21,19 +22,20 @@ class Animal:
             print("Registro adicionado:", registro)
         
 
-    def mostrar_registro(self, codigo, tipo):
+    def obter_historico(self, tipo):
             mapa = {
                 "Alimentação": self.historico_alimentacao,
-                "Vacinação": self.historico_vacinacao
-                "Produção": self.producao
+                "Vacinação": self.historico_vacinacao,
+                "Produção": self.historico_producao
             }
 
-            historico = mapa.get(tipo)
+            return mapa.get(tipo, [])
+    
+    def calcular_idade(self, data_nascimento):
+        datadenascimento = datetime.strptime(self.data_nascimento, r"%d/%m/%Y")
+        hoje = datetime.today()
 
-            
-
-            for registro in historico:
-                print(registro)
+        return (hoje - datadenascimento).days/365
 
     #  O método alimentar recebe o tipo de ração, a quantidade ofertada e a data.
     def alimentar(self, tipo_racao, qtd_racao, data):
@@ -49,7 +51,7 @@ class Animal:
             print("Registro adicionado:", registro)
             
 
-    def produzir_leite(self, data, quantidade):
+    def registrar_producao(self, tipo, data, quantidade):
         try:
             data_convertida = datetime.strptime(data, "%d/%m/%Y")
             data_formatada = data_convertida.strftime("%d/%m/%Y")
@@ -57,7 +59,11 @@ class Animal:
             print("Formato de data inválido! Tente novamente!")
             return
         
-        registro = {"Quantidade:": quantidade, "Data:": data_formatada}
+        registro = {
+                    "Tipo": tipo,
+                    "Quantidade:": quantidade, 
+                    "Data:": data_formatada
+                    }
 
         if quantidade>0:
             self.historico_producao.append(registro)
@@ -66,6 +72,8 @@ class Animal:
             print("Produzindo leite...")
 
     def verificar_abate(self):
-        if self.idade>5 or self.peso>60:
-            print("está pronto para o abate...")
+        idade = self.calcular_idade()
+
+        return self.idade>5 or self.peso>=60
+        
         
