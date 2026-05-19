@@ -8,7 +8,7 @@ vaca.vacinar("Virus do boi", '22/05/2025')
 
 #vaca.alimentar("Royal", 15)
 
-vaca.produzir_leite("28/05/2025", 50)
+#vaca.produzir_leite("28/05/2025", 50)
 
 #vaca.verificar_abate()
 
@@ -16,4 +16,6 @@ vaca.produzir_leite("28/05/2025", 50)
 
 vaca.alimentar("Royal", 15, "31/05/2025")
 
-vaca.mostrar_registro(123)
+#vaca.mostrar_registro(123)
+
+vaca.obter_historico("Alimentação")
