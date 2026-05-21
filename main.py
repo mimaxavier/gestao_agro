@@ -1,5 +1,5 @@
 from datetime import datetime
-from classes.animal import Animal
+from models.animal import Animal
 
 vaca = Animal(123,"vaca", 5, 15)
 

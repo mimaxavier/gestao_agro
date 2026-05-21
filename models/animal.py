@@ -31,11 +31,6 @@ class Animal:
 
             return mapa.get(tipo, [])
     
-    def calcular_idade(self, data_nascimento):
-        datadenascimento = datetime.strptime(self.data_nascimento, r"%d/%m/%Y")
-        hoje = datetime.today()
-
-        return (hoje - datadenascimento).days/365
 
     #  O método alimentar recebe o tipo de ração, a quantidade ofertada e a data.
     def alimentar(self, tipo_racao, qtd_racao, data):
