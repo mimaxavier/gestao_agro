@@ -69,6 +69,6 @@ class Animal:
     def verificar_abate(self):
         idade = self.calcular_idade()
 
-        return self.idade>5 or self.peso>=60
+        return idade>5 or self.peso>=60
         
         

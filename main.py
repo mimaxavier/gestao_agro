@@ -1,21 +1,12 @@
 from datetime import datetime
 from models.animal import Animal
+from models.plantation import Plantation
 
-vaca = Animal(123,"vaca", 5, 15)
+corn = Plantation(1, "Corn", "24/01/2026")
 
-vaca.vacinar("Vírus da Vaca Louca", '12/5/2025')
-vaca.vacinar("Virus do boi", '22/05/2025')
+print(corn.expected_harvest_date)
 
-#vaca.alimentar("Royal", 15)
+Soybean = Plantation(2, "Soybean", "22/05/2026")
 
-#vaca.produzir_leite("28/05/2025", 50)
+print(Soybean.expected_harvest_date)
 
-#vaca.verificar_abate()
-
-#vaca.mostrar_registro(123)
-
-vaca.alimentar("Royal", 15, "31/05/2025")
-
-#vaca.mostrar_registro(123)
-
-vaca.obter_historico("Alimentação")
