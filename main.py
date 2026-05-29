@@ -13,7 +13,7 @@ print(Soybean.expected_harvest_date)'''
 
 aplicacao1 = VaccineApplication(12, "Brucelose", "23/04/2026")
 
-print(aplicacao1.next_dose)
-print(aplicacao1.status)
-
+# print(aplicacao1.next_dose)
+# print(aplicacao1.status)
+print(aplicacao1.validate_apply_date())
 
