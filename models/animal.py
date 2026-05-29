@@ -63,12 +63,10 @@ class Animal:
         if quantidade>0:
             self.historico_producao.append(registro)
 
-        if self.especie == 'vaca':
-            print("Produzindo leite...")
 
     def verificar_abate(self):
         idade = self.calcular_idade()
 
-        return idade>5 or self.peso>=60
+        return idade>3 or self.peso>=240
         
         
