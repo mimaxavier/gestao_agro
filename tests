@@ -1,1 +1,19 @@
-tests_animal
+from models.animal import Animal
+
+def test_animal():
+	animal = Animal(
+			animal_id = 1,
+			name = "Mimosa"
+)
+	
+	assert animal.animal_id == 1
+	assert animal.name == "Mimosa"
+
+def vacinar():
+	animal.vacinar("Raiva", "23/04/2026")
+
+	assert vacinar.name == "Raiva"
+	assert vacinar.data == "23/04/2026"
+
+def 
+
