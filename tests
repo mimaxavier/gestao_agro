@@ -15,5 +15,10 @@ def vacinar():
 	assert vacinar.name == "Raiva"
 	assert vacinar.data == "23/04/2026"
 
-def 
+def alimentar():
+	animal.alimentar("Super", 30, "25/05/2026")
+
+	assert alimentar.name == "Super"
+	assert alimentar.quantidade == 30
+	assert alimentar.date == "23/03/2026"
 
