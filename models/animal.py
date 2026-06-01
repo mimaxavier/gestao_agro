@@ -1,4 +1,5 @@
 from datetime import datetime
+from models.vaccine import VaccineApplication
 
 class Animal:
     def __init__(self, codigo, especie, data_nascimento, peso):
@@ -22,7 +23,7 @@ class Animal:
             print("Registro adicionado:", registro)
         
 
-    def obter_historico(self, tipo):
+    def obter_historico(self, tipo,):
             mapa = {
                 "Alimentação": self.historico_alimentacao,
                 "Vacinação": self.historico_vacinacao,
@@ -48,8 +49,8 @@ class Animal:
 
     def registrar_producao(self, tipo, data, quantidade):
         try:
-            data_convertida = datetime.strptime(data, "%d/%m/%Y")
-            data_formatada = data_convertida.strftime("%d/%m/%Y")
+            data_convertida = datetime.strptime(data, r"%d/%m/%Y")
+            data_formatada = data_convertida.strftime(r"%d/%m/%Y")
         except ValueError:
             print("Formato de data inválido! Tente novamente!")
             return

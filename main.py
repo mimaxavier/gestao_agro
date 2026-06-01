@@ -3,17 +3,20 @@ from models.animal import Animal
 from models.plantation import Plantation
 from models.vaccine import VaccineApplication
 
-'''corn = Plantation(1, "Corn", "24/01/2026")
+dolomita = Animal(1, "cow", "26/09/2025", 250.57)
 
-print(corn.expected_harvest_date)
+#dolomita.vacinar("Raiva", "23/02/2026")
 
-Soybean = Plantation(2, "Soybean", "22/05/2026")
+#dolomita.obter_historico("Vacinação")
 
-print(Soybean.expected_harvest_date)'''
+dolomita.vacinar("Brucelose", "20/04/2025")
+dolomita.vacinar("Raiva", "21/03/2025")
 
-aplicacao1 = VaccineApplication(12, "Brucelose", "23/04/2026")
+dolomita.obter_historico("Vacinação")
 
-# print(aplicacao1.next_dose)
-# print(aplicacao1.status)
-print(aplicacao1.validate_apply_date())
+dolomita.alimentar("Super", 35, "22/05/2026")
+dolomita.alimentar("Super", 35, "26/07/2025")
 
+dolomita.obter_historico("Alimentação")
+
+dolomita.registrar_producao("Leite", "23/04/2026", 58)
