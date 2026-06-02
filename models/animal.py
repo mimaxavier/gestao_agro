@@ -12,15 +12,9 @@ class Animal:
         self.historico_producao = []
         self.historico_alimentacao = []
 
-    def vacinar(self, vacina, data):
-        self.vacina = vacina
-        data = datetime.strptime(data, r"%d/%m/%Y")
-
-        registro = {"Vacina": vacina, "Data": data.strftime(r"%d/%m/%Y")}
-
-        if self.vacina:
-            self.historico_vacinacao.append(registro)
-            print("Registro adicionado:", registro)
+    def vacinar(self, VaccineApplication):
+        self.historico_vacinacao = []
+        self.historico_vacinacao.append(VaccineApplication)
         
 
     def obter_historico(self, tipo,):
@@ -34,20 +28,12 @@ class Animal:
     
 
     #  O método alimentar recebe o tipo de ração, a quantidade ofertada e a data.
-    def alimentar(self, tipo_racao, qtd_racao, data):
-        self.tipo_racao = tipo_racao
-        self.qtd_racao = qtd_racao
-
-        data_formatada = datetime.strptime(data, "%d/%m/%Y")
-
-        registro = {"Tipo de Ração:": self.tipo_racao, "Quantidade de ração:": self.qtd_racao, "Data": data_formatada.strftime("%d/%m/%Y")}
-
-        if self.tipo_racao:
-            self.historico_alimentacao.append(registro)
-            print("Registro adicionado:", registro)
+    def alimentar(self, FeedingRecord):
+        self.historico_alimentacao = []
+        self.historico_alimentacao.append(FeedingRecord)
             
 
-    def registrar_producao(self, tipo, data, quantidade):
+    def produzir(self, tipo, data, quantidade):
         try:
             data_convertida = datetime.strptime(data, r"%d/%m/%Y")
             data_formatada = data_convertida.strftime(r"%d/%m/%Y")

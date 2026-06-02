@@ -7,8 +7,7 @@ class VaccineApplication:
         self.animal_id = animal_id
         self.vaccine_name = vaccine_name
         self.apply_date = datetime.strptime(apply_date, r"%d/%m/%Y").date()
-        self.next_dose = self.calculate_next_dose().date()
-        self.status = self.display_info()
+        self.next_dose = self.calculate_next_dose()
 
 
     def calculate_next_dose(self):
