@@ -1,9 +1,11 @@
 from datetime import datetime
 from models.vaccine import VaccineApplication
+import database.connection
+conn = database.connection.get_connection()
 
 class Animal:
-    def __init__(self, codigo, especie, data_nascimento, peso):
-        self.codigo = codigo
+    def __init__(self, id, especie, data_nascimento, peso):
+        self.codigo = id
         self.especie = especie
         self.data_nascimento = data_nascimento
         self.peso = peso
@@ -27,7 +29,7 @@ class Animal:
             return mapa.get(tipo, [])
     
 
-    #  O método alimentar recebe o tipo de ração, a quantidade ofertada e a data.
+    #  Feed method create a object FeedingRecord
     def alimentar(self, FeedingRecord):
         self.historico_alimentacao = []
         self.historico_alimentacao.append(FeedingRecord)
