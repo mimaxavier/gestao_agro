@@ -6,4 +6,42 @@ birth_date TEXT,
 weight REAL CHECK(weight>0)
 );
 
-SELECT * FROM animals;
+CREATE TABLE vaccinesapplication (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+animal_id INTEGER NOT NULL,
+vaccine_name TEXT NOT NULL,
+apply_date TEXT NOT NULL,
+
+FOREIGN KEY (animal_id) 
+    REFERENCES animals(id)
+);
+
+CREATE TABLE plantations (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+crop_type TEXT NOT NULL,
+planting_date TEXT NOT NULL
+);
+
+CREATE TABLE feedingrecord (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+animal_id INTEGER NOT NULL,
+type_feeding TEXT NOT NULL,
+quantity REAL NOT NULL,
+feeding_date TEXT NOT NULL,
+
+FOREIGN KEY (animal_id)
+    REFERENCES animals(id)
+);
+
+CREATE TABLE productionrecord (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+animal_id INTEGER NOT NULL,
+production_type TEXT NOT NULL,
+unit TEXT NOT NULL,
+quantity_production INTEGER NOT NULL,
+date_production TEXT NOT NULL,
+
+FOREIGN KEY (animal_id)
+    REFERENCES animals(id)
+
+);

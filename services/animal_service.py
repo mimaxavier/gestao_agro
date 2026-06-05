@@ -15,9 +15,5 @@ class Gerenciador:
             for registro in historico:
                 print(registro)
 
-def calcular_idade(self, data_nascimento):
-        datadenascimento = datetime.strptime(self.data_nascimento, r"%d/%m/%Y")
-        hoje = datetime.today()
 
-        return (hoje - datadenascimento).days/365
 
