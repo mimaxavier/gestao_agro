@@ -1,5 +1,14 @@
+# Banco SQLite
+*.db
+
+# Arquivos temporários do Python
 __pycache__/
 *.pyc
 .pytest_cache/
-.venv/
+
+# Ambiente virtual
 venv/
+.venv/
+
+# Arquivos do sistema
+.DS_Store
