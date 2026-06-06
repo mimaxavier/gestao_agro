@@ -17,3 +17,5 @@ repository = AnimalRepository()
 #repository.save(animalzinho)
 repository.save(pingo)
 repository.save(discoteca)
+
+producao1 = ProductionRecord("milho", )
