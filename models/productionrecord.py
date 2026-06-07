@@ -18,11 +18,17 @@ class ProductionRecord:
 
     # Validate production
     def _validate_production_type(self, production):
-        if production not in self.production_type:
+        if production not in self.production_type_list:
             raise ValueError("Tipo de Produção inválido!")
         
         if not isinstance(production, str):
             raise TypeError("A unidade precisa ser uma string!")
+        
+        if production is None:
+            raise ValueError("Precisa digitar um tipo de produção!")
+        
+        if not production.strip():
+            raise ValueError("Tipo de Produção não pode estar vazia!")
 
     # Validate quantity
     def _validate_quantity_production(self, quantity_production):
@@ -30,7 +36,7 @@ class ProductionRecord:
             raise ValueError("A quantidade não pode ser menor ou igual a 0!")
         
         if not isinstance(quantity_production, int):
-            raise TypeError("A unidade precisa ser uma string!")
+            raise TypeError("A unidade precisa ser um inteiro!")
         
         if quantity_production is None:
             raise ValueError("A quantidade não pode estar vazia!")
@@ -40,11 +46,13 @@ class ProductionRecord:
         if unit is None:
             raise ValueError ("Precisa digitar uma unidade.")
         
+        if not isinstance(unit, str):
+            raise TypeError("A unidade precisa ser uma string!")
+        
         if not unit.strip():
             raise ValueError("Unidade não pode estar vazia!")
         
-        if not isinstance(unit, str):
-            raise TypeError("A unidade precisa ser uma string!")
+       
       
 
 

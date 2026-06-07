@@ -18,4 +18,4 @@ repository = AnimalRepository()
 repository.save(pingo)
 repository.save(discoteca)
 
-producao1 = ProductionRecord("milho", )
+producao1 = ProductionRecord("eggs", "kg", 15, "22/03/2026")

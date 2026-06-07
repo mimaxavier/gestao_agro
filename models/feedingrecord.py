@@ -8,16 +8,31 @@ class FeedingRecord:
             "Capim",
             ]
 
-    def __init__(self, animal_id, type_feeding, quantity, date_feeding):
+    def __init__(self, animal_id, type_feeding, quantity_feeding, date_feeding):
+        self._validate_types(type_feeding)
+
         self.animal_id = animal_id
         self.typefeeding = type_feeding
-        self.quantity = quantity
-        self.date_feeding = datetime.strptime(self.date_feeding, r"%d/%m/%Y")
+        self.quantity_feeding = quantity_feeding
+        self.date_feeding = datetime.strptime(date_feeding, r"%d/%m/%Y")
 
-    def _validate_types(self):
-            productiontype = self.production_type
-
-            if productiontype not in self.valid_feed_types:
+    def _validate_types(self, feedingtype):
+            if feedingtype not in self.valid_feed_types:
                 raise ValueError("Tipo de alimentação inválido!")
+            
+            
+    def _validate_quantityfeeding(self, quantity_feeding):
+            if not isinstance(quantity_feeding, int):
+                  raise TypeError("Quantidade deve ter valor inteiro")
+            
+            if quantity_feeding is None:
+                  raise ValueError("A quantidade não pode estar vazia!")
+            
+            if not quantity_feeding.strip():
+                  raise ValueError("Quantidade nao pode estar vazia")
+            
+    
+            
+    
 
 
