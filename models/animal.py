@@ -4,8 +4,12 @@ from models.vaccine import VaccineApplication
 
 class Animal:
     def __init__(self, especie, birth_date, weight, id = None):
+        self._validate_species(especie)
+        self._validate_weight(weight)
+        self._validate_birthdate(birth_date)
+
         self.especie = especie
-        self.birth_date = birth_date.date()
+        self.birth_date = datetime.strptime(birth_date, r"%d/%m/%Y").date()
         self.weight = weight
         self.id = id
 
@@ -20,14 +24,15 @@ class Animal:
             raise ValueError("O campo não pode estar vazio!")
         
     def _validate_weight(self, weight):
-        if weight<=0:
-            raise ValueError("Peso não pode ser menor ou igual a 0. Digite um peso válido!")
+        if not isinstance(weight, float):
+            raise TypeError("O campo precisa ser um número real!")
         
         if weight is None:
             raise ValueError ("Precisa digitar um peso.")
+         
+        if weight<=0:
+            raise ValueError("Peso não pode ser menor ou igual a 0. Digite um peso válido!")
             
-        if not isinstance(weight, float):
-            raise TypeError("O campo precisa ser um número real!")
         
     def _validate_birthdate(self, birthdate):
         if birthdate > date.today():
@@ -46,8 +51,6 @@ class Animal:
         return (hoje - datadenascimento).days/365
 
     def verificar_abate(self):
-        idade = self.calcular_idade()
-
-        return idade>3 or self.peso>=240
+        return self.weight>450
         
         

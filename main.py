@@ -5,7 +5,7 @@ from models.vaccine import VaccineApplication
 from models.productionrecord import ProductionRecord
 from repositories.animal_repository import AnimalRepository
 
-#Criando um animal
+'''#Criando um animal
 #animalzinho = Animal(2, "cow", "18/02/2025", 100)
 pingo = Animal("horse", "02/12/2023", 250)
 discoteca = Animal("cow", "03/02/2022", 356)
@@ -18,4 +18,7 @@ repository = AnimalRepository()
 repository.save(pingo)
 repository.save(discoteca)
 
-producao1 = ProductionRecord("eggs", "kg", 15, "22/03/2026")
+producao1 = ProductionRecord("eggs", "kg", 15, "22/03/2026")'''
+
+animal5 = Animal("bovine", "20/03/2023", -4.5)
+

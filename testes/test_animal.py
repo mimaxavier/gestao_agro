@@ -2,63 +2,66 @@ from models.animal import Animal
 from models.vaccine import VaccineApplication
 from datetime import datetime
 from datetime import date
+import pytest
 
 
 
-def test_criar_animal():
-    animal = Animal(1,"cow", "23/04/2024", 250)
-
-    assert animal.codigo == 1
+def test_create_animal():
+    animal = Animal("cow", '23/04/2024', 250)
 
     assert animal.especie == "cow"
 
-    assert animal.data_nascimento == "23/04/2024"
+    assert animal.birth_date == datetime.strptime('23/04/2024', r"%d/%m/%Y").date()
 
-    assert animal.peso == 250
+    assert animal.weight == 250
 
+    assert animal.id == None
 
-def test_vacinar_animal():
-    animal = Animal(1,"cow", "23/04/2024", 250)
+# Validate species
+def test_cannot_be_none():
+    with pytest.raises(ValueError) as exc_info:
 
-    vacina = VaccineApplication(
-        1,
-        "Brucelose",
-        "26/01/2026"
-    )
+        Animal(None, "24/03/2025", 480)
 
-    animal.vacinar(vacina)
+    assert str(exc_info.value) == "Precisa digitar uma espécie."
 
-    assert len(animal.historico_vacinacao) == 1
+def test_must_be_string():
+    with pytest.raises(TypeError) as exc_info:
 
-def test_obter_historico_vacinacao():
-    animal = Animal(1,"cow", "23/04/2024", 250)
+        animal2 = Animal(23, "24/03/2025", 480)
 
-    vacina = VaccineApplication(
-        1,
-        "Brucelose",
-        "26/01/2026"
-    )
+    assert str(exc_info.value) == "O campo precisa ser uma string!"
 
-    animal.vacinar(vacina)
+def test_cannot_be_empty():
+    with pytest.raises(ValueError) as exc_info:
 
-    historico = animal.obter_historico("Vacinação")
+        animal3 = Animal(" ", "24/03/2025", 480)
 
-    assert len(historico) == 1
+    assert str(exc_info.value) == "O campo não pode estar vazio!"
 
-    assert historico[0].vaccine_name == "Brucelose"
+# Validate weight
+def test_weight_cannot_be_zero_or_negative():
+    with pytest.raises(ValueError) as exc_info:
+        animal4 = Animal("bovine", "20/03/2024", -4)
 
-    assert historico[0].apply_date == date(2026, 1, 26)
+    assert str(exc_info.value) == "Peso não pode ser menor ou igual a 0. Digite um peso válido!"
 
-    assert historico[0].animal_id == 1
+def test_weight_cannot_be_empty():
+    with pytest.raises(ValueError) as exc_info:
+        animal5 = Animal("bovine", "12/12/2023", None)
 
-    print(type(historico[0].apply_date))
+    assert str(exc_info.value) == "Precisa digitar um peso."
 
-    def test_alimentar():
-        animal = Animal(1, 
-                  "cow",
-                  "12/06/2024",
-                  270
-                  )
-        
+def test_must_be_int():
+    with pytest.raises(TypeError) as exc_info:
+        animal6 = Animal("bovine", "12/12/2023", "oi")
 
-        alimento =
+    assert str(exc_info.value) == "O campo precisa ser um número real!"
+
+# Validate birthdate
+
+def test_validate_birthdate():
+    pass
+
+def test_calcular_idade():
+    pass
