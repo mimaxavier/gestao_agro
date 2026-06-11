@@ -4,6 +4,7 @@ from models.plantation import Plantation
 from models.vaccine import VaccineApplication
 from models.productionrecord import ProductionRecord
 from repositories.animal_repository import AnimalRepository
+from models.feedingrecord import FeedingRecord
 
 '''#Criando um animal
 #animalzinho = Animal(2, "cow", "18/02/2025", 100)
@@ -20,6 +21,8 @@ repository.save(discoteca)
 
 producao1 = ProductionRecord("eggs", "kg", 15, "22/03/2026")'''
 
-animal5 = Animal("bovine", "20/03/2023", 450)
+#animal5 = Animal("bovine", "20/03/2023", 450)
 
-animal5.verificar_abate()
+#animal5.verificar_abate()
+
+feedingrecord = FeedingRecord(2, "Pastagem", 45, "25/03/2024")

@@ -10,6 +10,7 @@ class FeedingRecord:
 
     def __init__(self, animal_id, type_feeding, quantity_feeding, date_feeding):
         self._validate_types(type_feeding)
+        self._validate_quantityfeeding(quantity_feeding)
 
         self.animal_id = animal_id
         self.typefeeding = type_feeding
@@ -22,14 +23,12 @@ class FeedingRecord:
             
             
     def _validate_quantityfeeding(self, quantity_feeding):
-            if not isinstance(quantity_feeding, int):
-                  raise TypeError("Quantidade deve ter valor inteiro")
-            
             if quantity_feeding is None:
                   raise ValueError("A quantidade não pode estar vazia!")
             
-            if not quantity_feeding.strip():
-                  raise ValueError("Quantidade nao pode estar vazia")
+            if not isinstance(quantity_feeding, (int, float)):
+                  raise TypeError("Quantidade deve ter valor real! Digite um número real.")
+            
             
     
             
