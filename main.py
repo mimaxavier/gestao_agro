@@ -20,5 +20,6 @@ repository.save(discoteca)
 
 producao1 = ProductionRecord("eggs", "kg", 15, "22/03/2026")'''
 
-animal5 = Animal("bovine", "20/03/2023", -4.5)
+animal5 = Animal("bovine", "20/03/2023", 450)
 
+animal5.verificar_abate()

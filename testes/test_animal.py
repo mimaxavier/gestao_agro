@@ -60,8 +60,37 @@ def test_must_be_int():
 
 # Validate birthdate
 
-def test_validate_birthdate():
-    pass
+def test_birthdate_cannot_before_today():
+    today = date.today()
+    
+    with pytest.raises(ValueError) as exc_info:
+        animal7 = Animal("bovine", today.strftime(r"%d/%m/%Y"), 250)
 
-def test_calcular_idade():
-    pass
+    assert str(exc_info.value) ==  "Data superior a data de hoje! Entre como uma data válida!"
+
+def test_birthdate_cannot_be_none():
+    with pytest.raises(ValueError) as exc_info:
+        animal8 = Animal("bovine", None, 250)
+
+        assert str(exc_info.value) == "A data não pode estar vazia!"
+
+def test_birthdate_must_be_date():
+    with pytest.raises(TypeError) as exc_info:
+        animal9 = Animal("bovine", 23092026, 250)
+
+        assert str(exc_info.value) == "Não é um tipo date válido!"
+
+#Calcular idade
+def test_calculate_age():
+    animal10 = Animal("bovine", "26/01/1992", 250)
+    
+    reference_date = date(2026, 6, 11)
+
+    assert (
+        animal10.calculate_age() == "34 anos, 4 meses e 16 dias"
+    )
+
+def test_verify_slaughterEvent():
+    animal11 = Animal("bovine", "24/03/2025", 200)
+
+    assert animal11.verificar_abate() == False
