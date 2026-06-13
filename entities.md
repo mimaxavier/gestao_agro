@@ -1,0 +1,9 @@
+Animal
+↓
+FeedingRecord
+↓
+MilkProductionRecord
+↓
+VaccineApplication
+↓
+WeighingRecord
