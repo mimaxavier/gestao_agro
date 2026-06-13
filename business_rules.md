@@ -13,3 +13,9 @@
 - Animal em periodo seco não pode registrar produção
 - Animal com mastite não pode registrar produção
 - Animal que esta fazendo uso de antibiotico não pode registrar produção
+- Animal filhote não pode registrar producão
+        filhote = menor que 13 meses e 60 a 65% do peso adulto
+
+• VaccineApplicationRecord
+- 
+
