@@ -24,6 +24,6 @@
 - Data não pode ser superior a atual 
 
 • FeedingRecordService
-- Quantidade de alimento para animais nas primeiras lactações devem ser maiores 
+- Quantidade de alimento para animais nas primeiras lactações deve ser maior 
 - 
 
