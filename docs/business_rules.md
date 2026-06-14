@@ -20,5 +20,10 @@
 - 
 
 • FeedingRecord
+- Quantidade deve ser maior que zero
+- Data não pode ser superior a atual 
+
+• FeedingRecordService
+- Quantidade de alimento para animais nas primeiras lactações devem ser maiores 
 - 
 
