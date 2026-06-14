@@ -28,9 +28,3 @@ class FeedingRecord:
             
             if not isinstance(quantity_feeding, (int, float)):
                   raise TypeError("Quantidade deve ter valor real! Digite um número real.")
-            
-    
-            
-    
-
-

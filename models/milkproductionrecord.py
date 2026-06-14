@@ -12,30 +12,25 @@ class MilkProductionRecord:
 
     # Validate animal_id
     def _validate_animalid(self, animalid):
-        if not isinstance(animalid, int):
-            raise TypeError("Animal ID precisa ser um número inteiro!")
-        
         if animalid is None:
             raise ValueError("ID do animal não pode estar vazio!")
 
+        if not isinstance(animalid, int):
+            raise TypeError("Animal ID precisa ser um número inteiro!")
+        
     # Validate quantity
     def _validate_quantity_production(self, quantity_production):
-        if quantity_production <= 0:
-            raise ValueError("A quantidade não pode ser menor ou igual a 0!")
-        
-        if not isinstance(quantity_production, (int, float)):
-            raise TypeError("A unidade precisa ser um inteiro!")
-        
         if quantity_production is None:
             raise ValueError("A quantidade não pode estar vazia!")
         
+        if not isinstance(quantity_production, (int, float)):
+            raise TypeError("A unidade precisa ser um inteiro!")
+
+        if quantity_production <= 0:
+            raise ValueError("A quantidade não pode ser menor ou igual a 0!")
+        
     # Validate production date
     def _validate_date_production(self, date_production):
-        pass
-    
-       
-      
-
-
-
-  
+        
+        if not isinstance(date_production, datetime):
+            raise TypeError("A data precisa ser informada em dia, mês, ano e horário!")

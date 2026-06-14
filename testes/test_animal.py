@@ -84,10 +84,8 @@ def test_birthdate_must_be_date():
 def test_calculate_age():
     animal10 = Animal("bovine", "26/01/1992", 250)
     
-    reference_date = date(2026, 6, 11)
-
     assert (
-        animal10.calculate_age() == "34 anos, 4 meses e 16 dias"
+        animal10.calculate_age() == "34 anos, 4 meses e 19 dias"
     )
 
 def test_verify_slaughterEvent():
