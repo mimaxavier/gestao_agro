@@ -5,9 +5,10 @@
 ### Concluído
 - [x] Animal
 - [x] FeedingRecord
+- [x] MilkProductionRecord
+- [x] VaccineApplicationRecord
 
 ### Em andamento
-- [ ] MilkProductionRecord
 - [ ] VaccineApplication
 
 ### Próximos
