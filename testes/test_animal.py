@@ -1,5 +1,5 @@
 from models.animal import Animal
-from models.vaccine import VaccineApplication
+from models.vaccineapplicationrecord import VaccineApplication
 from datetime import datetime
 from datetime import date
 import pytest

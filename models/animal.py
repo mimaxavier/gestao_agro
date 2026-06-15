@@ -2,7 +2,7 @@ from datetime import datetime
 from datetime import date
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from models.vaccine import VaccineApplication
+from models.vaccineapplicationrecord import VaccineApplication
 
 class Animal:
     def __init__(self, especie, birth_date, weight, id = None):
