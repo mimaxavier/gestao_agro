@@ -28,6 +28,7 @@ def test_calculate_next_dose():
 
     vaccine004 = VaccineApplication(3, "Raiva", "26/06/2025")
 
-    assert vaccine004.calculate_next_dose == date(2025, 11, 23)
+    assert vaccine004.calculate_next_dose() == date(2025, 11, 23)
+
 
 

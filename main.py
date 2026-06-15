@@ -31,6 +31,6 @@ producao1 = ProductionRecord("eggs", "kg", 15, "22/03/2026")'''
 print(production001)
 '''
 
-vaccine001 = VaccineApplication(3, "Brucelose", "26/06/2025")
+vaccine001 = VaccineApplication(3, "Raiva", "26/06/2025")
 
 print(vaccine001.calculate_next_dose())
