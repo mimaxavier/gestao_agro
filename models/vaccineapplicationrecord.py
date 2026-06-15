@@ -43,7 +43,4 @@ class VaccineApplication:
 
         return next_dose
 
-
-    def is_overdue(self):
-       return date.today() > self.next_dose
     
