@@ -1,4 +1,5 @@
 import sqlite3
+from models.animal import Animal
 
 class AnimalRepository:
 
@@ -23,4 +24,10 @@ class AnimalRepository:
 
         conn.commit()
         conn.close()
+
+    def get_by_id():
+        pass
+
+    def update():
+        pass
 
