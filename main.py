@@ -31,6 +31,31 @@ producao1 = ProductionRecord("eggs", "kg", 15, "22/03/2026")'''
 print(production001)
 '''
 
-vaccine001 = VaccineApplication(3, "Raiva", "26/06/2025")
+'''vaccine001 = VaccineApplication(3, "Raiva", "26/06/2025")
 
-print(vaccine001.calculate_next_dose())
+print(vaccine001.calculate_next_dose())'''
+
+animal001 = Animal("bovine", "25/09/2021", 280)
+animal002 = Animal("bovine", "24/08/2023", 350)
+animal003 = Animal("suine", "25/05/2024", 300)
+animal004 = Animal("caprine", "10/02/2025",  150)
+animal005 = Animal("caprine", "23/02/2025", 98)
+
+repositorioanimais = AnimalRepository()
+
+'''repositorioanimais.save(animal001)
+repositorioanimais.save(animal002)
+repositorioanimais.save(animal003)
+repositorioanimais.save(animal004)
+repositorioanimais.save(animal005)
+
+animal002 = Animal("caprine", "24/08/2023", 350, 4)
+
+repositorioanimais.update(animal002)
+
+repositorioanimais.delete(7)'''
+
+print(repositorioanimais.get_by_id(6))
+
+
+
