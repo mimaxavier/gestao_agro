@@ -8,10 +8,10 @@ class Animal:
     def __init__(self, especie, birth_date, weight, id = None):
         self._validate_species(especie)
         self._validate_weight(weight)
-        self._validate_birthdate(birth_date)
+        
+        birth_date = self._validate_birthdate(birth_date)
 
         self.especie = especie
-        self.birth_date = datetime.strptime(birth_date, r"%d/%m/%Y").date()
         self.weight = weight
         self.id = id
      
@@ -39,18 +39,24 @@ class Animal:
         
     def _validate_birthdate(self, birthdate):
 
+        # Validate if birthdate is none
         if birthdate is None:
             raise ValueError("A data não pode estar vazia!")
         
-        birthdate = datetime.strptime(birthdate, r"%d/%m/%Y").date()
+        # Transform string for date
+        if isinstance(birthdate, str):
+         birthdate = datetime.strptime(birthdate, r"%d/%m/%Y").date()
+        
+        # Validate types
+        if not isinstance(birthdate, date):
+            raise TypeError("Não é um tipo date válido!")
         
         if birthdate >= date.today():
             raise ValueError(
-                "Data superior a data de hoje! Entre como uma data válida!"
-                )
-        
-        if not isinstance(birthdate, date):
-            raise TypeError("Não é um tipo date válido!")
+            "Data superior à data de hoje! Entre com uma data válida!"
+        )
+
+        return birthdate
 
     def calculate_age(self, current_date=None):
         if current_date is None:

@@ -55,7 +55,7 @@ repositorioanimais.update(animal002)
 
 repositorioanimais.delete(7)'''
 
-print(repositorioanimais.get_by_id(6))
+repositorioanimais.get_by_id(6)
 
 
 

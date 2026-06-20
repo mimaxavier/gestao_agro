@@ -28,7 +28,7 @@ class AnimalRepository:
         conn.commit()
         conn.close()
 
-    def get_by_id(self, animal_id: int) -> Optional[Animal]:
+    def get_by_id(self, animal_id: int):
         query = "SELECT especie, birth_date, weight, id FROM animals WHERE id = ?"
 
         conn = sqlite3.connect("database/farm.db")
@@ -36,25 +36,22 @@ class AnimalRepository:
         cursor = conn.cursor()
 
         cursor.execute(query, (animal_id,))
-        resultado = cursor.fetchone
+        resultado = cursor.fetchone()
+
+        cursor.close()
         conn.close()
 
         if not resultado:
             return None
         
-        birth_date = date.fromisoformat(resultado[1]) if resultado[2] else None
+        converted_date = date.fromisoformat(resultado[1]) if resultado[1] else None
 
         return Animal(
+            id=resultado[3],
             especie = resultado[0],
-            birth_date = birth_date,
+            birth_date = converted_date,
             weight = resultado[2],
-            id = resultado[0]
         )
-
-
-        conn.close()
-
-        return resultado
 
     def update(self, animal):
         conn = sqlite3.connect("database/farm.db")
