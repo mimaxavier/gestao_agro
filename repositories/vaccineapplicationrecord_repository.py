@@ -1,3 +1,9 @@
+import sqlite3
+from datetime import date
+from datetime import datetime
+from models.animal import Animal
+from typing import Optional
+
 class VaccineApplication:
 
     def save(self, animal):

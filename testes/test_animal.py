@@ -5,7 +5,6 @@ from datetime import date
 import pytest
 
 
-
 def test_create_animal():
     animal = Animal("cow", '23/04/2024', 250)
 
@@ -66,7 +65,7 @@ def test_birthdate_cannot_before_today():
     with pytest.raises(ValueError) as exc_info:
         animal7 = Animal("bovine", today.strftime(r"%d/%m/%Y"), 250)
 
-    assert str(exc_info.value) ==  "Data superior a data de hoje! Entre como uma data válida!"
+    assert str(exc_info.value) ==  "Data superior à data de hoje! Entre com uma data válida!"
 
 def test_birthdate_cannot_be_none():
     with pytest.raises(ValueError) as exc_info:
@@ -85,7 +84,7 @@ def test_calculate_age():
     animal10 = Animal("bovine", "26/01/1992", 250)
     
     assert (
-        animal10.calculate_age() == "34 anos, 4 meses e 19 dias"
+        animal10.calculate_age() == "34 anos, 4 meses e 28 dias"
     )
 
 def test_verify_slaughterEvent():

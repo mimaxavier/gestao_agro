@@ -47,15 +47,18 @@ repositorioanimais = AnimalRepository()
 repositorioanimais.save(animal002)
 repositorioanimais.save(animal003)
 repositorioanimais.save(animal004)
-repositorioanimais.save(animal005)
+repositorioanimais.save(animal005)'''
 
-animal002 = Animal("caprine", "24/08/2023", 350, 4)
+animalqualquer = Animal("doido", "24/08/2023", 350, 4)
 
-repositorioanimais.update(animal002)
+repositorioanimais.update(animalqualquer)
 
-repositorioanimais.delete(7)'''
+repositorioanimais.delete(4)
+
+'''repositorioanimais.delete(7)
 
 repositorioanimais.get_by_id(6)
 
+print(type(animal001.birth_date))'''
 
 

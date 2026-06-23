@@ -1,3 +1,10 @@
+import sqlite3
+from datetime import date
+from datetime import datetime
+from models.animal import Animal
+from models.feedingrecord import FeedingRecord
+from typing import Optional
+
 class FeedingRecord:
 
     def save(self, animal):
@@ -5,7 +12,14 @@ class FeedingRecord:
 
         cursor = conn.cursor()
 
-        cursor.execute()
+        cursor.execute(
+            '''INSERT INTO feedingrecord (
+            animal_id, 
+            type_feeding, 
+            quantity_feeding, 
+            date_feeding)
+            )'''
+        )
 
         conn.commit()
         conn.close()
