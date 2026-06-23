@@ -9,7 +9,7 @@
 - [x] VaccineApplicationRecord
 
 ### Em andamento
-- [ ] VaccineApplication
+- [ ] Repositories tests
 
 ### Próximos
 - [ ] WeighingRecord
@@ -18,7 +18,6 @@
 - [ ] SlaughterRecord
 
 ### Infraestrutura
-- [ ] Repositories
 - [ ] Services
 - [ ] API
 
