@@ -4,6 +4,7 @@ from models.vaccineapplicationrecord import VaccineApplication
 from models.milkproductionrecord import MilkProductionRecord
 from repositories.animal_repository import AnimalRepository
 from models.feedingrecord import FeedingRecord
+from repositories.feedingrecord_repository import FeedingRecordRepository
 
 '''#Criando um animal
 #animalzinho = Animal(2, "cow", "18/02/2025", 100)
@@ -33,7 +34,7 @@ print(production001)
 
 '''vaccine001 = VaccineApplication(3, "Raiva", "26/06/2025")
 
-print(vaccine001.calculate_next_dose())'''
+print(vaccine001.calculate_next_dose())
 
 animal001 = Animal("bovine", "25/09/2021", 280)
 animal002 = Animal("bovine", "24/08/2023", 350)
@@ -43,11 +44,11 @@ animal005 = Animal("caprine", "23/02/2025", 98)
 
 repositorioanimais = AnimalRepository()
 
-'''repositorioanimais.save(animal001)
+''''''repositorioanimais.save(animal001)
 repositorioanimais.save(animal002)
 repositorioanimais.save(animal003)
 repositorioanimais.save(animal004)
-repositorioanimais.save(animal005)'''
+repositorioanimais.save(animal005)
 
 animalqualquer = Animal("doido", "24/08/2023", 350, 4)
 
@@ -55,10 +56,21 @@ repositorioanimais.update(animalqualquer)
 
 repositorioanimais.delete(4)
 
-'''repositorioanimais.delete(7)
+repositorioanimais.delete(7)
 
 repositorioanimais.get_by_id(6)
 
 print(type(animal001.birth_date))'''
+
+feed = FeedingRecord(1, "Silagem", 40, "26/03/2026")
+
+repositoriofeed = FeedingRecordRepository()
+
+'''repositoriofeed.save(feed)'''
+
+print(repositoriofeed.get_by_id(1))
+
+
+
 
 

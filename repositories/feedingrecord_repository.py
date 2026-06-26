@@ -4,35 +4,63 @@ from datetime import datetime
 from models.animal import Animal
 from models.feedingrecord import FeedingRecord
 from typing import Optional
+import logging
 
-class FeedingRecord:
+logger = logging.getLogger(__name__)
 
-    def save(self, animal):
+class FeedingRecordRepository:
+
+    def save(self, feedingrecord):
+
+        logger.info(
+            f"Salvando Feeding: {feedingrecord.animal_id}, "
+            f"{feedingrecord.type_feeding}, "
+            f"{feedingrecord.quantity_feeding}, "
+            f"{feedingrecord.date_feeding}"
+        )
+
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
 
         cursor.execute(
-            '''INSERT INTO feedingrecord (
+            """INSERT INTO feedingrecord (
             animal_id, 
             type_feeding, 
             quantity_feeding, 
-            date_feeding)
-            )'''
+            date_feeding
+            )
+            VALUES (?, ?, ?, ?)""",
+                (
+                    feedingrecord.animal_id, 
+                    feedingrecord.type_feeding,
+                    feedingrecord.quantity_feeding,
+                    feedingrecord.date_feeding.isoformat()
+                 )
         )
+
+        logger.info(f"ID gerado: {cursor.lastrowid}")
+
+        feedingrecord_id = cursor.lastrowid
 
         conn.commit()
         conn.close()
 
+        return feedingrecord_id
+
     def get_by_id(self, animal_id: int):
-        query = "SELECT especie, birth_date, weight, id FROM animals WHERE id = ?"
+        query = "SELECT animal_id, type_feeding, quantity_feeding, date_feeding FROM feedingrecord WHERE id = ?"
 
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
 
+        logger.info(f"Buscando feeding Record do animal {animal_id}")
+
         cursor.execute(query, (animal_id,))
         resultado = cursor.fetchone()
+
+        logger.info(f"Resultado do banco: {resultado}")
 
         cursor.close()
         conn.close()
@@ -43,10 +71,10 @@ class FeedingRecord:
         converted_date = date.fromisoformat(resultado[1]) if resultado[1] else None
 
         return Animal(
-            id=resultado[3],
-            especie = resultado[0],
-            birth_date = converted_date,
-            weight = resultado[2],
+            animal_id=resultado[3],
+            type_feeding = resultado[0],
+            date_feeding = converted_date,
+            quantity_feeding = resultado[2],
         )
 
     def update(self, animal):
