@@ -82,7 +82,18 @@ class FeedingRecordRepository:
 
         cursor = conn.cursor()
 
-        cursor.execute()
+        cursor.execute(
+                       '''UPDATE FROM feedingrecord
+                          SET animal_id,
+                              type_feeding, 
+                              quantity_feeding, 
+                              date_feeding'''
+        ) VALUES (?, ?, ?, ?)''', 
+                  ( feedingrecord.animal_id, 
+                    feedingrecord.type_feeding,
+                    feedingrecord.quantity_feeding,
+                    feedingrecord.date_feeding)
+        )
 
         conn.commit()
         conn.close()
