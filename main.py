@@ -68,7 +68,9 @@ repositoriofeed = FeedingRecordRepository()
 
 '''repositoriofeed.save(feed)'''
 
-print(repositoriofeed.get_by_id(1))
+feed = repositoriofeed.get_by_id(3)
+
+print(feed)
 
 
 

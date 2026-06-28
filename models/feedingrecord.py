@@ -16,7 +16,7 @@ class FeedingRecord:
         self.animal_id = animal_id
         self.type_feeding = type_feeding
         self.quantity_feeding = quantity_feeding
-        self.date_feeding = datetime.strptime(date_feeding, r"%d/%m/%Y")
+        self.date_feeding = date_feeding
 
     def _validate_types(self, feedingtype):
             if feedingtype not in self.valid_feed_types:
@@ -33,3 +33,12 @@ class FeedingRecord:
     def _validate_feeddate(self, datefeeding):
             if isinstance(datefeeding, str):
                 datefeeding = datetime.strptime(datefeeding, r"%d/%m/%Y").date()
+
+    def __repr__(self):
+        return (
+            f"FeedingRecord("
+            f"animal_id={self.animal_id}, "
+            f"type_feeding='{self.type_feeding}', "
+            f"quantity_feeding={self.quantity_feeding}, "
+            f"date_feeding={self.date_feeding})"
+        )

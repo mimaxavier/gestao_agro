@@ -68,16 +68,16 @@ class FeedingRecordRepository:
         if not resultado:
             return None
         
-        converted_date = date.fromisoformat(resultado[1]) if resultado[1] else None
+        converted_date = date.fromisoformat(resultado[3]) if resultado[3] else None
 
-        return Animal(
-            animal_id=resultado[3],
-            type_feeding = resultado[0],
+        return FeedingRecord(
+            animal_id=resultado[0],
+            type_feeding = resultado[1],
             date_feeding = converted_date,
             quantity_feeding = resultado[2],
         )
 
-    def update(self, animal):
+    def update(self, feedingrecord):
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
@@ -87,13 +87,16 @@ class FeedingRecordRepository:
                           SET animal_id,
                               type_feeding, 
                               quantity_feeding, 
-                              date_feeding'''
-        ) VALUES (?, ?, ?, ?)''', 
+                              date_feeding
+                    ) VALUES (?, ?, ?, ?)''', 
                   ( feedingrecord.animal_id, 
                     feedingrecord.type_feeding,
                     feedingrecord.quantity_feeding,
                     feedingrecord.date_feeding)
         )
+        logger.info(f"Atualizando feedrecord id = {feedingrecord.id}")
+
+        cursor.execute()
 
         conn.commit()
         conn.close()
