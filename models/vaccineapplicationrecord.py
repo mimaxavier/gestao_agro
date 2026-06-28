@@ -13,11 +13,11 @@ class VaccineApplication:
     def __init__(self, animal_id, vaccine_name, apply_date):
         self._validate_animalid(animal_id)
         self._validate_names_vaccines(vaccine_name)
-
+        self._validate_apply_date(apply_date)
 
         self.animal_id = animal_id
         self.vaccine_name = vaccine_name
-        self.apply_date = datetime.strptime(apply_date, r"%d/%m/%Y").date()
+        self.apply_date = apply_date
         self.next_dose = self.calculate_next_dose()
 
     def _validate_animalid(self, animalid):
@@ -30,6 +30,13 @@ class VaccineApplication:
     def _validate_names_vaccines(self, vaccine):
         if vaccine not in self.valid_names_vaccine:
             raise ValueError("Digite um nome de vacina válido!")
+
+    def _validate_apply_date(self, applydate):
+        if not isinstance(applydate, str):
+           raise ValueError("Não é um texto!")
+
+        if isinstance(applydate, str)
+           applydate = datetime.strptime(applydate, r"%d/%m/%Y")
 
     def calculate_next_dose(self):
         interval_days = {
