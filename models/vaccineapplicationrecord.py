@@ -17,7 +17,7 @@ class VaccineApplication:
 
         self.animal_id = animal_id
         self.vaccine_name = vaccine_name
-        self.apply_date = apply_date
+        self.apply_date = datetime.strptime(apply_date, r"%d/%m/%Y")
         self.next_dose = self.calculate_next_dose()
 
     def _validate_animalid(self, animalid):
@@ -35,7 +35,7 @@ class VaccineApplication:
         if not isinstance(applydate, str):
            raise ValueError("Não é um texto!")
 
-        if isinstance(applydate, str)
+        if isinstance(applydate, str):
            applydate = datetime.strptime(applydate, r"%d/%m/%Y")
 
     def calculate_next_dose(self):
@@ -48,6 +48,6 @@ class VaccineApplication:
 
         next_dose = self.apply_date + timedelta(days=interval)
 
-        return next_dose
+        return next_dose.date()
 
     

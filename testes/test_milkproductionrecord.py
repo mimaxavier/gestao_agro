@@ -45,7 +45,7 @@ def test_quantity_cannot_be_empty():
 def test_dateproduction_must_be_datetime():
     with pytest.raises(TypeError) as exc_info:
         
-        production005 = MilkProductionRecord(2, 50, "lala")
+        production005 = MilkProductionRecord(2, 50, 249839)
 
     assert str(exc_info.value) == "A data precisa ser informada em dia, mês, ano e horário!"
     

@@ -17,6 +17,7 @@ class FeedingRecordRepository:
             f"{feedingrecord.type_feeding}, "
             f"{feedingrecord.quantity_feeding}, "
             f"{feedingrecord.date_feeding}"
+            f"{feedingrecord.id}"
         )
 
         conn = sqlite3.connect("database/farm.db")
@@ -77,22 +78,22 @@ class FeedingRecordRepository:
             quantity_feeding = resultado[2],
         )
 
-    def update(self, feedingrecord):
+    def update(self, feedingrecord: FeedingRecord):
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
 
         cursor.execute(
-                       '''UPDATE FROM feedingrecord
-                          SET animal_id,
-                              type_feeding, 
-                              quantity_feeding, 
-                              date_feeding
-                    ) VALUES (?, ?, ?, ?)''', 
-                  ( feedingrecord.animal_id, 
-                    feedingrecord.type_feeding,
-                    feedingrecord.quantity_feeding,
-                    feedingrecord.date_feeding)
+            '''UPDATE feedingrecord
+                SET animal_id = ?,
+                    type_feeding = ?, 
+                    quantity_feeding = ?, 
+                    date_feeding = ?
+                WHERE id = ?
+                ''', 
+                (
+                    feedingrecord.animal_id, feedingrecord.type_feeding, feedingrecord.quantity_feeding, feedingrecord.date_feeding
+                )
         )
         logger.info(f"Atualizando feedrecord id = {feedingrecord.id}")
 

@@ -72,6 +72,14 @@ feed = repositoriofeed.get_by_id(3)
 
 print(feed)
 
+feed2 = FeedingRecord(1, "Silagem", 38, "22/01/2026")
+
+repositoriofeed.update(feed)
+
+feed = repositoriofeed.get_by_id(1)
+
+print(feed)
+
 
 
 

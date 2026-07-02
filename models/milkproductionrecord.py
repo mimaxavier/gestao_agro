@@ -8,7 +8,8 @@ class MilkProductionRecord:
         self._validate_date_production(date_production)
 
         self.quantity_production = quantity_production
-        self.date_production = date_production
+        self.date_production = datetime.strptime(date_production, r"%d/%m/%Y")
+    
        
     # Validate animal_id
     def _validate_animalid(self, animalid):
@@ -34,8 +35,5 @@ class MilkProductionRecord:
         
         if not isinstance(date_production, str):
             raise TypeError("A data precisa ser informada em dia, mês, ano e horário!")
-
-        if isinstance(date_production, str):
-            date_production = datetime.strptime(date_production, r"%d/%m/%Y")
     
         
