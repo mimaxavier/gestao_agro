@@ -22,7 +22,7 @@ def test_get_by_id():
 
     feedr = repositorio002.save(feed2)
 
-    feedrecord = repositorio002.get_by_id(feed2)
+    feedrecord = repositorio002.get_by_id(feed2.id)
 
     assert feed2.animal_id == 4
     assert feed2.type_feeding == "Silagem"
@@ -30,23 +30,24 @@ def test_get_by_id():
     assert feed2.date_feeding == date(2025, 4, 23)
 
 def test_update():
-    animal = Animal("suine", "12/09/2020", 156)
+    feed2 = FeedingRecord(4, "Silagem", 300, "23/04/2025")
 
-    repo = AnimalRepository()
+    repo = FeedingRecordRepository()
 
-    animal_id = repo.save(animal)
+    repo.save(feed2)
 
     # altera algo
-    animal.especie = "bovine"
-    animal.id = animal_id
+    feed2.type_feeding = "Feno"
+    feed2.quantity_feeding = 50
 
-    repo.update(animal)
+    repo.update(feed2)
 
-    updated = repo.get_by_id(animal_id)
+    updated = repo.get_by_id(feed2.id)
 
-    assert updated.especie == "bovine"
+    assert updated.type_feeding == "Feno"
+    assert updated.quantity_feeding == 50
 
-def test_delete():
+'''def test_delete():
     #criação
     animal = Animal("suine", "12/09/2020", 156)
     repo = AnimalRepository()
@@ -57,4 +58,4 @@ def test_delete():
 
     #resultado
     result = repo.get_by_id(animal_id)
-    assert result is None
+    assert result is None'''

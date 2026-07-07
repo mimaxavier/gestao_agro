@@ -40,25 +40,25 @@ class FeedingRecordRepository:
                  )
         )
 
-        logger.info(f"ID gerado: {cursor.lastrowid}")
-
         feedingrecord_id = cursor.lastrowid
+
+        logger.info(f"ID gerado: {cursor.lastrowid}")
 
         conn.commit()
         conn.close()
 
         return feedingrecord_id
 
-    def get_by_id(self, animal_id: int):
-        query = "SELECT animal_id, type_feeding, quantity_feeding, date_feeding FROM feedingrecord WHERE id = ?"
+    def get_by_id(self, id: int):
+        query = "SELECT id, animal_id, type_feeding, quantity_feeding, date_feeding FROM feedingrecord WHERE id = ?"
 
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
 
-        logger.info(f"Buscando feeding Record do animal {animal_id}")
+        logger.info(f"Buscando feeding Record de ID: {id}")
 
-        cursor.execute(query, (animal_id,))
+        cursor.execute(query, (id,))
         resultado = cursor.fetchone()
 
         logger.info(f"Resultado do banco: {resultado}")
@@ -72,10 +72,11 @@ class FeedingRecordRepository:
         converted_date = date.fromisoformat(resultado[3]) if resultado[3] else None
 
         return FeedingRecord(
-            animal_id=resultado[0],
-            type_feeding = resultado[1],
+            id = resultado[0],
+            animal_id=resultado[1],
+            type_feeding = resultado[2],
             date_feeding = converted_date,
-            quantity_feeding = resultado[2],
+            quantity_feeding = resultado[3],
         )
 
     def update(self, feedingrecord: FeedingRecord):
@@ -92,12 +93,10 @@ class FeedingRecordRepository:
                 WHERE id = ?
                 ''', 
                 (
-                    feedingrecord.animal_id, feedingrecord.type_feeding, feedingrecord.quantity_feeding, feedingrecord.date_feeding
+                    feedingrecord.animal_id, feedingrecord.type_feeding, feedingrecord.quantity_feeding, feedingrecord.date_feeding, feedingrecord.id
                 )
         )
         logger.info(f"Atualizando feedrecord id = {feedingrecord.id}")
-
-        cursor.execute()
 
         conn.commit()
         conn.close()
