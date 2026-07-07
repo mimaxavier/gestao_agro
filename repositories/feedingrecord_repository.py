@@ -40,14 +40,14 @@ class FeedingRecordRepository:
                  )
         )
 
-        feedingrecord_id = cursor.lastrowid
+        feedingrecord.id = cursor.lastrowid
 
         logger.info(f"ID gerado: {cursor.lastrowid}")
 
         conn.commit()
         conn.close()
 
-        return feedingrecord_id
+        return feedingrecord
 
     def get_by_id(self, id: int):
         query = "SELECT id, animal_id, type_feeding, quantity_feeding, date_feeding FROM feedingrecord WHERE id = ?"
@@ -69,14 +69,14 @@ class FeedingRecordRepository:
         if not resultado:
             return None
         
-        converted_date = date.fromisoformat(resultado[3]) if resultado[3] else None
+        converted_date = date.fromisoformat(resultado[4]) if resultado[4] else None
 
         return FeedingRecord(
             id = resultado[0],
             animal_id=resultado[1],
             type_feeding = resultado[2],
-            date_feeding = converted_date,
             quantity_feeding = resultado[3],
+            date_feeding = converted_date,
         )
 
     def update(self, feedingrecord: FeedingRecord):
@@ -85,7 +85,7 @@ class FeedingRecordRepository:
         cursor = conn.cursor()
 
         cursor.execute(
-            '''UPDATE feedingrecord
+                '''UPDATE feedingrecord
                 SET animal_id = ?,
                     type_feeding = ?, 
                     quantity_feeding = ?, 

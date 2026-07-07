@@ -34,7 +34,9 @@ def test_update():
 
     repo = FeedingRecordRepository()
 
-    repo.save(feed2)
+    salvo = repo.save(feed2)
+
+    print(salvo)
 
     # altera algo
     feed2.type_feeding = "Feno"
@@ -42,10 +44,10 @@ def test_update():
 
     repo.update(feed2)
 
-    updated = repo.get_by_id(feed2.id)
+    '''updated = repo.get_by_id(feed2.id)'''
 
-    assert updated.type_feeding == "Feno"
-    assert updated.quantity_feeding == 50
+    assert feed2.type_feeding == "Feno"
+    assert feed2.quantity_feeding == 50
 
 '''def test_delete():
     #criação

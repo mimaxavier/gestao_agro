@@ -6,81 +6,28 @@ from repositories.animal_repository import AnimalRepository
 from models.feedingrecord import FeedingRecord
 from repositories.feedingrecord_repository import FeedingRecordRepository
 
-'''#Criando um animal
-#animalzinho = Animal(2, "cow", "18/02/2025", 100)
-pingo = Animal("horse", "02/12/2023", 250)
-discoteca = Animal("cow", "03/02/2022", 356)
 
-#Criando um repositório
-repository = AnimalRepository()
+# Criação dos Objetos 
+feed001 = FeedingRecord(1, "Silagem", 40, "25/03/2026")
+repositorio001 = FeedingRecordRepository()
 
-#Usando o repositório pra salvar
-#repository.save(animalzinho)
-repository.save(pingo)
-repository.save(discoteca)
+# Salvar o Objeto no banco
+repositorio001.save(feed001)
 
-producao1 = ProductionRecord("eggs", "kg", 15, "22/03/2026")'''
+print(feed001.id)
 
-#animal5 = Animal("bovine", "20/03/2023", 450)
+# Trazer o Objeto do banco
+repositorio001.get_by_id(feed001.id)
 
-#animal5.verificar_abate()
+# Criação da atualização do objeto
+feed001.type_feeding = "Feno"
+feed001.quantity_feeding = 500
 
-#feedingrecord = FeedingRecord(2, "Pastagem", 45, "25/03/2024")
+print(feed001.id)
+# Atualização do Objeto no banco
+repositorio001.update(feed001)
 
-'''production001 = MilkProductionRecord(1, 52, "01/01/2025 05:25:01")
-
-print(production001)
-'''
-
-'''vaccine001 = VaccineApplication(3, "Raiva", "26/06/2025")
-
-print(vaccine001.calculate_next_dose())
-
-animal001 = Animal("bovine", "25/09/2021", 280)
-animal002 = Animal("bovine", "24/08/2023", 350)
-animal003 = Animal("suine", "25/05/2024", 300)
-animal004 = Animal("caprine", "10/02/2025",  150)
-animal005 = Animal("caprine", "23/02/2025", 98)
-
-repositorioanimais = AnimalRepository()
-
-''''''repositorioanimais.save(animal001)
-repositorioanimais.save(animal002)
-repositorioanimais.save(animal003)
-repositorioanimais.save(animal004)
-repositorioanimais.save(animal005)
-
-animalqualquer = Animal("doido", "24/08/2023", 350, 4)
-
-repositorioanimais.update(animalqualquer)
-
-repositorioanimais.delete(4)
-
-repositorioanimais.delete(7)
-
-repositorioanimais.get_by_id(6)
-
-print(type(animal001.birth_date))'''
-
-feed = FeedingRecord(1, "Silagem", 40, "26/03/2026")
-
-repositoriofeed = FeedingRecordRepository()
-
-'''repositoriofeed.save(feed)'''
-
-feed = repositoriofeed.get_by_id(3)
-
-print(feed)
-
-feed2 = FeedingRecord(1, "Silagem", 38, "22/01/2026")
-
-repositoriofeed.update(feed)
-
-feed = repositoriofeed.get_by_id(1)
-
-print(feed)
-
-
-
+# Trazer o Objeto atualizado do banco
+repositorio001.get_by_id(feed001.id)
 
 

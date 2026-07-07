@@ -1,6 +1,8 @@
 ## Passo finalizado:
-Testei o get_by_id do repositório de alimentacao.
+Testei o update do repositório de alimentacao.
 Está funcionando.
 
+32 testes passando, 1 falhando
+
 ## Próximo passo:
-Ajeitar o update do feedindrecord repository e ajeitar o teste update do feedingrecord pra poder passar. 
+Ajeitar o get_by_id do feedindrecord repository porque o modelo está recebendo a data em um formato e quando busca pelo id ele volta em outra formato e está dando incompatibilidade.

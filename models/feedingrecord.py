@@ -1,5 +1,5 @@
 from models.animal import Animal
-from datetime import datetime
+from datetime import datetime, date
 
 class FeedingRecord:
     valid_feed_types = [
@@ -29,10 +29,19 @@ class FeedingRecord:
             
             if not isinstance(quantity_feeding, (int, float)):
                   raise TypeError("Quantidade deve ter valor real! Digite um número real.")
-            
-    #def _validate_feeddate(self, datefeeding):
-    #        if isinstance(datefeeding, str):
-    #            datefeeding = datetime.strptime(datefeeding, #r"%d/%m/%Y").date()
+    
+    def validate_date_feeding(self, date_feeding):
+        if isinstance(date_feeding, str):
+            self.date_feeding = datetime.strptime(
+            date_feeding,
+            "%d/%m/%Y"
+            ).date()
+        elif isinstance(date_feeding, date):
+            self.date_feeding = date_feeding
+        else: 
+            raise TypeError(
+        "date_feeding deve ser uma string ou um objeto date."
+        )
 
     def __repr__(self):
         return (
