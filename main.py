@@ -8,26 +8,28 @@ from repositories.feedingrecord_repository import FeedingRecordRepository
 
 
 # Criação dos Objetos 
-feed001 = FeedingRecord(1, "Silagem", 40, "25/03/2026")
+feed002 = FeedingRecord(35, "Capim", 40, "10/03/2026")
 repositorio001 = FeedingRecordRepository()
 
 # Salvar o Objeto no banco
-repositorio001.save(feed001)
+repositorio001.save(feed002)
 
-print(feed001.id)
+print(feed002.id)
+
+repositorio001 = FeedingRecordRepository()
 
 # Trazer o Objeto do banco
-repositorio001.get_by_id(feed001.id)
+repositorio001.get_by_id(feed002.id)
 
 # Criação da atualização do objeto
-feed001.type_feeding = "Feno"
-feed001.quantity_feeding = 500
+feed002.type_feeding = "Feno"
+feed002.quantity_feeding = 38
 
-print(feed001.id)
+print(feed002.id)
 # Atualização do Objeto no banco
-repositorio001.update(feed001)
+repositorio001.update(feed002)
 
 # Trazer o Objeto atualizado do banco
-repositorio001.get_by_id(feed001.id)
+repositorio001.get_by_id(feed002.id)
 
 

@@ -1,8 +1,32 @@
-## Passo finalizado:
-Testei o update do repositório de alimentacao.
-Está funcionando.
+# Next
 
-32 testes passando, 1 falhando
+## ✅ Passo finalizado
 
-## Próximo passo:
-Ajeitar o get_by_id do feedindrecord repository porque o modelo está recebendo a data em um formato e quando busca pelo id ele volta em outra formato e está dando incompatibilidade.
+- Finalizado o `FeedingRecordRepository`.
+- Implementados os métodos:
+  - [x] save()
+  - [x] get_by_id()
+  - [x] update()
+- Todos os testes passando (`33 passed`).
+- Refatorada a validação de datas do `FeedingRecord`.
+- Definida a responsabilidade das conversões de data:
+  - Model trabalha com objetos `date`.
+  - Repository salva com `.isoformat()`.
+  - Repository recupera usando `date.fromisoformat()`.
+
+---
+
+## ▶ Próximo passo
+
+- Implementar o método `delete()` do `FeedingRecordRepository`.
+- Criar os testes do `delete()`.
+- Validar funcionamento diretamente no banco SQLite.
+- Fazer commit da implementação.
+
+---
+
+## 📝 Observações
+
+- O objeto precisa receber o `id` gerado após o `save()`.
+- Não criar um novo objeto para fazer `update`; atualizar o objeto que possui o `id`.
+- Em caso de `database is locked`, verificar conexões abertas e fechar o SQLite.
