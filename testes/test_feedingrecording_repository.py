@@ -31,11 +31,10 @@ def test_get_by_id():
 
 def test_update():
     feed2 = FeedingRecord(4, "Silagem", 300, "23/04/2025")
-
     repo = FeedingRecordRepository()
 
     salvo = repo.save(feed2)
-
+    
     print(salvo)
 
     # altera algo
