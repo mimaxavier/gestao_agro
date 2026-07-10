@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import datetime, date
 
 class MilkProductionRecord:
 
-    def __init__(self, animal_id, quantity_production, date_production):
+    def __init__(self, animal_id, quantity_production, date_production, id = None):
         self._validate_animalid(animal_id)
         self._validate_quantity_production(quantity_production)
         self._validate_date_production(date_production)
@@ -33,7 +33,15 @@ class MilkProductionRecord:
     # Validate production date
     def _validate_date_production(self, date_production):
         
-        if not isinstance(date_production, str):
-            raise TypeError("A data precisa ser informada em dia, mês, ano e horário!")
+        if isinstance(date_production, str):
+            date_production = datetime.strptime(date_production, r"%d/%m/%Y").date()
+
+        elif isinstance(date_production, date):
+            date_production = date_production
+
+        else:
+            raise ValueError("Insira um tipo válido! Date ou String")
+        
+        return date_production
     
         
