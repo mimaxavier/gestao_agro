@@ -101,12 +101,21 @@ class FeedingRecordRepository:
         conn.commit()
         conn.close()
 
-    def delete(self, animal_id):
+    def delete(self, id:int):
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
 
-        cursor.execute()
+        logger.info(f"Deletar feedrecord id = {id}")
+
+        cursor.execute(
+                """DELETE FROM feedingrecord
+                WHERE id = ?""",
+                (id,)
+                
+        )
+
+        logger.info(f" id = {id} excluído com sucesso!")
 
         conn.commit()
         conn.close()

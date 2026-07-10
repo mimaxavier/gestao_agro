@@ -48,15 +48,16 @@ def test_update():
     assert feed2.type_feeding == "Feno"
     assert feed2.quantity_feeding == 50
 
-'''def test_delete():
+def test_delete():
     #criação
-    animal = Animal("suine", "12/09/2020", 156)
-    repo = AnimalRepository()
+    feed4 = FeedingRecord(2, "Silagem", 100, "10/02/2024")
+    repo = FeedingRecordRepository()
 
     #ação
-    animal_id = repo.save(animal)
-    repo.delete(animal_id)
+    repo.save(feed4)
+    repo.delete(feed4.id)
 
     #resultado
-    result = repo.get_by_id(animal_id)
-    assert result is None'''
+    result = repo.get_by_id(feed4.id)
+
+    assert result is None
