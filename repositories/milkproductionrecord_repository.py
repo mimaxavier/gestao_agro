@@ -13,7 +13,7 @@ class MilkProductionRecordRepository:
     def save(self, milkproductionrecord):
 
         logger.info(
-            f"Salvando Feeding: {milkproductionrecord.animal_id}, "
+            f"Salvando MilkProductionRecord:  {milkproductionrecord.animal_id}, "
             f"{milkproductionrecord.quantity_production}, "
             f"{milkproductionrecord.date_production}, "
             f"{milkproductionrecord.id}"
@@ -24,22 +24,20 @@ class MilkProductionRecordRepository:
         cursor = conn.cursor()
 
         cursor.execute(
-                 """INSERT INTO milkproductionrecord (
+            """INSERT INTO milkproductionrecord (
             animal_id, 
             quantity_production, 
-            date_production, 
-            id
+            date_production
             )
-            VALUES (?, ?, ?, ?)""",
+            VALUES (?, ?, ?)""",
                 (
                     milkproductionrecord.animal_id, 
-                    milkproductionrecord.quantity_feeding,
-                    milkproductionrecord.date_production,
-                    milkproductionrecord.date_production.isoformat()
-                 )
+                    milkproductionrecord.quantity_production,
+                    milkproductionrecord.date_production.isoformat(),
+                ),
         )
 
-        milkproductionrecord.id = cursor.latrowid
+        milkproductionrecord.id = cursor.lastrowid
 
         logger.info(f"ID gerado: {cursor.lastrowid}")
         
@@ -65,13 +63,13 @@ class MilkProductionRecordRepository:
         if not resultado:
             return None
         
-        converted_date = date.fromisoformat(resultado[3]) if resultado[3] else None
+        converted_date = datetime.fromisoformat(resultado[3]) if resultado[3] else None
 
         return MilkProductionRecord(
             id = resultado[0],
             animal_id=resultado[1],
             quantity_production = resultado[2],
-            date_production = converted_date,
+            date_production = converted_date
         )
 
     def update(self, milkproductionrecord: MilkProductionRecord):
@@ -83,17 +81,17 @@ class MilkProductionRecordRepository:
              '''UPDATE milkproductionrecord
                 SET animal_id = ?,
                     quantity_production = ?, 
-                    date_production = ?,
+                    date_production = ?
                 WHERE id = ?
                 ''', 
                 (
                     milkproductionrecord.animal_id, 
-                    milkproductionrecord.quantity_feeding,
+                    milkproductionrecord.quantity_production,
                     milkproductionrecord.date_production,
                     milkproductionrecord.id
                 )
         )
-        logger.info(f"Atualizando feedrecord id = {milkproductionrecord.id}")
+        logger.info(f"Atualizando milkrecord id = {milkproductionrecord.id}")
 
         conn.commit()
         conn.close()
@@ -106,7 +104,7 @@ class MilkProductionRecordRepository:
         logger.info(f"Deletando MilkProductionId {id}")
 
         cursor.execute(
-            """DELETE FROM feedingrecord
+            """DELETE FROM milkproductionrecord
                 WHERE id = ?""",
                 (id,)
         )

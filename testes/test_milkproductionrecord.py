@@ -47,6 +47,5 @@ def test_dateproduction_must_be_datetime():
         
         production005 = MilkProductionRecord(2, 50, 249839)
 
-    assert str(exc_info.value) == "A data precisa ser informada em dia, mês, ano e horário!"
-    
+    assert str(exc_info.value) == "Insira um tipo válido! Date ou String"
 

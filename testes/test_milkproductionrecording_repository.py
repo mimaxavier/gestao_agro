@@ -15,3 +15,20 @@ def test_save_milkproductionrecord():
     # Result
     assert milkproduction001 is not None
 
+
+def test_getbyid_milkproductionrepository():
+    # Create objects
+    milkproduction002 = MilkProductionRecord(2, 26, "13/03/2025")
+
+    repositorio002 = MilkProductionRecordRepository()
+
+    # Saving
+    repositorio002.save(milkproduction002)
+
+    # Get by id
+    repositorio002.get_by_id(milkproduction002.id)
+
+    # Result
+    assert milkproduction002.animal_id == 2
+    assert milkproduction002.quantity_production == 26
+    assert milkproduction002.date_production == datetime(2025, 3, 13)

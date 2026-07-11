@@ -3,12 +3,11 @@ from datetime import datetime, date
 class MilkProductionRecord:
 
     def __init__(self, animal_id, quantity_production, date_production, id = None):
-        self._validate_animalid(animal_id)
-        self._validate_quantity_production(quantity_production)
-        self._validate_date_production(date_production)
 
-        self.quantity_production = quantity_production
-        self.date_production = datetime.strptime(date_production, r"%d/%m/%Y")
+        self.animal_id = self._validate_animalid(animal_id)
+        self.quantity_production = self._validate_quantity_production(quantity_production)
+        self.date_production = self._validate_date_production(date_production)
+        self.id = id
     
        
     # Validate animal_id
@@ -18,6 +17,8 @@ class MilkProductionRecord:
 
         if not isinstance(animalid, int):
             raise TypeError("Animal ID precisa ser um número inteiro!")
+        
+        return animalid
         
     # Validate quantity
     def _validate_quantity_production(self, quantity_production):
@@ -30,18 +31,18 @@ class MilkProductionRecord:
         if quantity_production <= 0:
             raise ValueError("A quantidade não pode ser menor ou igual a 0!")
         
+        return quantity_production
+        
     # Validate production date
     def _validate_date_production(self, date_production):
         
         if isinstance(date_production, str):
-            date_production = datetime.strptime(date_production, r"%d/%m/%Y").date()
+            date_production = datetime.strptime(date_production, r"%d/%m/%Y")
 
-        elif isinstance(date_production, date):
-            date_production = date_production
+            return date_production
+
+        elif isinstance(date_production, datetime):
+            return date_production
 
         else:
-            raise ValueError("Insira um tipo válido! Date ou String")
-        
-        return date_production
-    
-        
+            raise TypeError("Insira um tipo válido! Date ou String")
