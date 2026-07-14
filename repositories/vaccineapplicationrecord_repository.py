@@ -1,29 +1,56 @@
 import sqlite3
 from datetime import date
 from datetime import datetime
-from models.animal import Animal
+from models.vaccineapplicationrecord import VaccineApplication
 from typing import Optional
+import logging
 
-class VaccineApplication:
+logger = logging.getLogger(__name__)
 
-    def save(self, animal):
+class VaccineApplicationRepository:
+
+    def save(self, vaccineapplication):
+
+        logger.info(
+            f"Salvando VaccineApplication: {vaccineapplication.animal_id}, "
+            f"{vaccineapplication.vaccine_name}, "
+            f"{vaccineapplication.apply_date}, "
+            f"{vaccineapplication.id}"
+        )
+
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
 
-        cursor.execute()
+        cursor.execute(
+            """INSERT INTO vaccinesapplication (
+            animal_id,
+            vaccine_name,
+            apply_date
+            )
+            VALUES (?, ?, ?)""",
+            (
+                vaccineapplication.animal_id,
+                vaccineapplication.vaccine_name,
+                vaccineapplication.apply_date.isoformat(),
+            )
+        )
+
+        vaccineapplication.id = cursor.lastrowid
+
+        logger.info(f"ID gerado: {cursor.lastrowid}")
 
         conn.commit()
         conn.close()
 
-    def get_by_id(self, animal_id: int):
-        query = "SELECT especie, birth_date, weight, id FROM animals WHERE id = ?"
+    def get_by_id(self, id: int):
+        query = "SELECT animal_id, vaccine_name, apply_date, id FROM vaccinesapplication WHERE id = ?"
 
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
 
-        cursor.execute(query, (animal_id,))
+        cursor.execute(query, (id,))
         resultado = cursor.fetchone()
 
         cursor.close()
@@ -32,22 +59,35 @@ class VaccineApplication:
         if not resultado:
             return None
         
-        converted_date = date.fromisoformat(resultado[1]) if resultado[1] else None
+        converted_date = date.fromisoformat(resultado[2]) if resultado[2] else None
 
-        return Animal(
+        return VaccineApplication(
             id=resultado[3],
-            especie = resultado[0],
-            birth_date = converted_date,
-            weight = resultado[2],
+            animal_id = resultado[0],
+            apply_date = converted_date,
+            vaccine_name = resultado[1],
         )
 
-    def update(self, animal):
+    def update(self, vaccineapplication: VaccineApplication):
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
 
-        cursor.execute()
-
+        cursor.execute(
+            ''' UPDATE vaccinesapplication
+            SET animal_id = ?,
+            vaccine_name = ?,
+            apply_date = ?
+            WHERE id = ?
+            ''',
+            (
+                vaccineapplication.animal_id,
+                vaccineapplication.vaccine_name,
+                vaccineapplication.apply_date,
+                vaccineapplication.id
+            )
+        )
+        logger # parei aqui
         conn.commit()
         conn.close()
 
@@ -59,4 +99,4 @@ class VaccineApplication:
         cursor.execute()
 
         conn.commit()
-        conn.close()
+        conn.close()'''
