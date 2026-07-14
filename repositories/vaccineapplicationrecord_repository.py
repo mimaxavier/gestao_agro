@@ -87,7 +87,8 @@ class VaccineApplicationRepository:
                 vaccineapplication.id
             )
         )
-        logger # parei aqui
+        logger.info(f"Atualizando vaccineapplication id = {vaccineapplication.id}")
+
         conn.commit()
         conn.close()
 

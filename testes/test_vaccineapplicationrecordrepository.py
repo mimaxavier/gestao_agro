@@ -32,5 +32,5 @@ def test_getbyid():
     assert vaccine002.vaccine_name == "Raiva"
     assert vaccine002.apply_date == date(2025, 7, 31)
 
-
-
+def test_update():
+    # parei aqui
