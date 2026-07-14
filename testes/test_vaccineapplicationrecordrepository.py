@@ -33,4 +33,37 @@ def test_getbyid():
     assert vaccine002.apply_date == date(2025, 7, 31)
 
 def test_update():
-    # parei aqui
+    # Create objects
+    vaccine003 = VaccineApplication(3, "Brucelose", "01/08/2025")
+    repository003 = VaccineApplicationRepository()
+
+    # Saving object
+    repository003.save(vaccine003)
+
+    # new values attributs
+    vaccine003.vaccine_name = "Raiva"
+    vaccine003.apply_date = "02/08/2025"
+    
+    # Updating
+    repository003.update(vaccine003)
+
+    # Result
+    assert vaccine003.vaccine_name == "Raiva"
+    assert vaccine003.apply_date == "02/08/2025"
+
+def test_delete():
+    # Create objects
+    vaccine004 = VaccineApplication(1, "Raiva", "23/03/2026")
+    repository004 = VaccineApplicationRepository()
+
+    # Saving Objects
+    repository004.save(vaccine004)
+
+    # Deleting
+    repository004.delete(vaccine004.id)
+
+    # Get by id
+    result = repository004.get_by_id(vaccine004.id)
+
+    # Result
+    assert result is None

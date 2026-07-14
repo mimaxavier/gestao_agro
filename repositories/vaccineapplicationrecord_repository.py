@@ -74,10 +74,10 @@ class VaccineApplicationRepository:
         cursor = conn.cursor()
 
         cursor.execute(
-            ''' UPDATE vaccinesapplication
+        '''UPDATE vaccinesapplication
             SET animal_id = ?,
-            vaccine_name = ?,
-            apply_date = ?
+                vaccine_name = ?,
+                apply_date = ?
             WHERE id = ?
             ''',
             (
@@ -92,12 +92,20 @@ class VaccineApplicationRepository:
         conn.commit()
         conn.close()
 
-    def delete(self, animal_id):
+    def delete(self, id: int):
         conn = sqlite3.connect("database/farm.db")
 
         cursor = conn.cursor()
 
-        cursor.execute()
+        logger.info(f"Deletando VaccineApplication de ID = {id}")
+
+        cursor.execute(
+            """DELETE FROM vaccinesapplication
+                WHERE id = ?""",
+                (id,)
+        )
+
+        logger.info(f" id = {id} excluído com sucesso!")
 
         conn.commit()
-        conn.close()'''
+        conn.close()
