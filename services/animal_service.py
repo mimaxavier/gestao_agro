@@ -1,19 +1,22 @@
+from models.animal import Animal
+from repositories.animal_repository import AnimalRepository
 from datetime import datetime
 
-class Gerenciador:
-     def mostrar_registro(self, codigo, tipo):
-            mapa = {
-                "Alimentação": self.historico_alimentacao,
-                "Vacinação": self.historico_vacinacao,
-                "Produção": self.historico_producao
-            }
+class AnimalService:
 
-            historico = mapa.get(tipo)
+    def __init__(self, repository = None):
+        self.repository = repository or AnimalRepository()
 
-            
+    def register(self, animal):
+        self.repository.save(animal)
 
-            for registro in historico:
-                print(registro)
+    def update(self, animal):
+        self.repository.update(animal)
 
+    def remove(self, id):
+        self.repository.delete(id)
+
+    def get_by_id(self, id):
+        return self.repository.get_by_id(id)
 
 

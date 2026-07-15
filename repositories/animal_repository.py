@@ -95,7 +95,7 @@ class AnimalRepository:
         conn.commit()
 
         logger.info(f"Animal atualizado com sucesso id={animal.id}")
-        logger.info(f"Dados novos: especie={animal.especie}, weight={animal.weight}")
+        logger.info(f"Dados novos: especie={animal.especie}, birth_date={animal.birth_date}, weight={animal.weight}")
 
         conn.close()
 

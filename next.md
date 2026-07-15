@@ -53,15 +53,7 @@ Cada Service será responsável por:
 - [ ] Facilitar a criação da API futuramente
 
 
-# Diário de Bordo
+# Próximo passo
 
-## Marco alcançado 🎉
-
-Hoje concluí toda a camada de persistência do Gestão Agro.
-
-✔ Todos os repositories implementados.
-✔ CRUD completo.
-✔ Logging.
-✔ 42 testes passando.
-
-Esse foi um dos maiores marcos do projeto. A partir daqui, as próximas funcionalidades poderão ser construídas sobre uma base estável e testada.
+* test_animalservice
+consertar o "getbyid"
