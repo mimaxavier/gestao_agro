@@ -1,6 +1,8 @@
 from models.animal import Animal
 from services.animal_service import AnimalService
+from repositories.animal_repository import AnimalRepository
 from datetime import date, datetime
+import pytest
 
 def test_register_animal():
       # Create a new object
@@ -11,8 +13,6 @@ def test_register_animal():
 
     # Saving new object with service
     service001.register(animal001)
-
-    print(animal001.id)
 
     # Result
     assert animal001 is not None
@@ -35,6 +35,25 @@ def test_getbyid_animal():
     assert animal.birth_date == date(2026, 3, 28)
     assert animal.weight == 81
 
+def test_findall_animals():
+     # Create objects
+    animal014 = Animal("Suine", "24/01/2026", 100)
+    animal017 = Animal("Caprine", "10/12/2025", 250)
+
+    # Create services
+    service012 = AnimalService()
+
+    # Saving objects
+    service012.register(animal014)
+    service012.register(animal017)
+
+     # Find all objects
+    animals = service012.findall()
+
+     # Results
+    assert animals[0].especie == "Suine"
+    assert animals[1].birth_date == date(2025, 12, 10)
+
 def test_update_animal():
         # Create a new object
         animal002 = Animal("Suine", "25/03/2026", 80)
@@ -47,7 +66,7 @@ def test_update_animal():
 
         # Create new attributes
         animal002.especie = "Caprine"
-        animal002.birth_date = "27/03/2026"
+        animal002.birth_date = date(2026, 3, 27)
 
         # Updating
         service002.update(animal002)
@@ -56,8 +75,8 @@ def test_update_animal():
         animal = service002.get_by_id(animal002.id)
 
         # Result
-        assert animal002.especie == "Caprine"
-        assert animal002.birth_date == "27/03/2026"
+        assert animal.especie == "Caprine"
+        assert animal.birth_date == date(2026, 3, 27)
 
 
 

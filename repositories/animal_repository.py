@@ -37,12 +37,12 @@ class AnimalRepository:
 
         logger.info(f"ID gerado: {cursor.lastrowid}")
 
-        animal_id = cursor.lastrowid
+        animal.id = cursor.lastrowid
 
         conn.commit()
         conn.close()
 
-        return animal_id
+        return animal.id
 
     def get_by_id(self, animal_id: int):
         query = "SELECT especie, birth_date, weight, id FROM animals WHERE id = ?"
@@ -72,6 +72,46 @@ class AnimalRepository:
             birth_date = converted_date,
             weight = resultado[2],
         )
+    
+    def find_all(self):
+        conn = sqlite3.connect("database/farm.db")
+
+        cursor = conn.cursor()
+
+        logger.info(f"Preparando todos os registros da tabela Animal!")
+
+        cursor.execute(
+            """SELECT * FROM animals"""
+        )
+
+        rows = cursor.fetchall()
+
+        animals = []
+
+        for row in rows:
+            logger.info("Linha do banco: %s", row)
+
+            converted_birthdate = date.fromisoformat(row[2] if row[2] else None)
+
+            logger.info("Data convertida fica %s",converted_birthdate)
+
+            animal = Animal(
+
+                id = row[0],
+                especie = row[1],
+                birth_date = converted_birthdate,
+                weight = row[3]
+
+            )
+
+            
+
+            animals.append(animal)
+
+        conn.close()
+
+        return animals
+
 
     def update(self, animal):
         conn = sqlite3.connect("database/farm.db")
@@ -79,6 +119,10 @@ class AnimalRepository:
         cursor = conn.cursor()
 
         logger.info(f"Atualizando animal id={animal.id}")
+        logger.info(r"birth_date=%s tipo=%s",
+                    animal.birth_date,
+                    type(animal.birth_date)
+                    )
 
         cursor.execute(
             """ UPDATE animals

@@ -53,7 +53,9 @@ Cada Service será responsável por:
 - [ ] Facilitar a criação da API futuramente
 
 
+# Passo finalizado
+Implementado o findall no animal repository
+
 # Próximo passo
 
-* test_animalservice
-consertar o "getbyid"
+* testar o findall dentro do animal service

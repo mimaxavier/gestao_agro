@@ -16,12 +16,6 @@ FOREIGN KEY (animal_id)
     REFERENCES animals(id)
 );
 
-CREATE TABLE plantations (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-crop_type TEXT NOT NULL,
-planting_date TEXT NOT NULL
-);
-
 CREATE TABLE feedingrecord (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 animal_id INTEGER NOT NULL,

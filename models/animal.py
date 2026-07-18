@@ -9,8 +9,6 @@ class Animal:
         self._validate_species(especie)
         self._validate_weight(weight)
         
-        
-
         self.especie = especie
         self.birth_date = self._validate_birthdate(birth_date)
         self.weight = weight
