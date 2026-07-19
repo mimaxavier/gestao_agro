@@ -68,7 +68,7 @@ class AnimalRepository:
 
         return Animal(
             id=resultado[3],
-            especie = resultado[0],
+            species = resultado[0],
             birth_date = converted_date,
             weight = resultado[2],
         )
@@ -98,17 +98,16 @@ class AnimalRepository:
             animal = Animal(
 
                 id = row[0],
-                especie = row[1],
+                species = row[1],
                 birth_date = converted_birthdate,
                 weight = row[3]
 
             )
 
-            
-
             animals.append(animal)
 
         conn.close()
+
 
         return animals
 

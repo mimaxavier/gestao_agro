@@ -54,8 +54,8 @@ Cada Service será responsável por:
 
 
 # Passo finalizado
-Implementado o findall no animal repository
+48 tests passing
 
 # Próximo passo
 
-* testar o findall dentro do animal service
+* Começar a implementar as primeiras regras de negócio no animalservice

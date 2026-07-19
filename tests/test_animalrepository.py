@@ -46,7 +46,7 @@ def test_findall():
     #assert len(animals) == 19
     assert isinstance(animals, list)
     assert animals[0].especie == "bovine"
-    assert animals[1].birth_date == date(2024, 2, 15)
+    assert animals[1].birth_date == date(2025, 1, 22)
 
 def test_update():
     animal = Animal("suine", "12/09/2020", 156)

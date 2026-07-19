@@ -5,11 +5,11 @@ from dateutil.relativedelta import relativedelta
 from models.vaccineapplicationrecord import VaccineApplication
 
 class Animal:
-    def __init__(self, especie, birth_date, weight, id = None):
-        self._validate_species(especie)
+    def __init__(self, species, birth_date, weight, id = None):
+        self._validate_species(species)
         self._validate_weight(weight)
         
-        self.especie = especie
+        self.especie = species
         self.birth_date = self._validate_birthdate(birth_date)
         self.weight = weight
         self.id = id

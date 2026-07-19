@@ -1,7 +1,7 @@
 
 CREATE TABLE animals (
 id INTEGER PRIMARY KEY AUTOINCREMENT, 
-especie TEXT NOT NULL, 
+species TEXT NOT NULL, 
 birth_date TEXT, 
 weight REAL CHECK(weight>0)
 );
@@ -20,8 +20,8 @@ CREATE TABLE feedingrecord (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 animal_id INTEGER NOT NULL,
 type_feeding TEXT NOT NULL,
-quantity REAL NOT NULL,
-feeding_date TEXT NOT NULL,
+quantity_feeding REAL NOT NULL,
+date_feeding TEXT NOT NULL,
 
 FOREIGN KEY (animal_id)
     REFERENCES animals(id)
