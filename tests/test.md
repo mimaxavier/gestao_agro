@@ -1,0 +1,1 @@
+python -m pytest -sv tests/test_animalservice.py::test_updating_weight

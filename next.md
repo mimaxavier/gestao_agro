@@ -54,8 +54,9 @@ Cada Service será responsável por:
 
 
 # Passo finalizado
-48 tests passing
+
+* Teste de atualização finalizado
 
 # Próximo passo
 
-* Começar a implementar as primeiras regras de negócio no animalservice
+* Testar o validate if exists

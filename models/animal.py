@@ -9,7 +9,7 @@ class Animal:
         self._validate_species(species)
         self._validate_weight(weight)
         
-        self.especie = species
+        self.species = species
         self.birth_date = self._validate_birthdate(birth_date)
         self.weight = weight
         self.id = id
@@ -68,8 +68,5 @@ class Animal:
             f"{difference.months} meses e "
             f"{difference.days} dias"
         )
-
-    def verificar_abate(self):
-        return self.weight>450
         
         

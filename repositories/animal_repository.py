@@ -12,7 +12,7 @@ class AnimalRepository:
     def save(self, animal):
 
         logger.info(
-            f"Salvando animal: {animal.especie}, "
+            f"Salvando animal: {animal.species}, "
             f"{animal.birth_date}, "
             f"{animal.weight}"
         )
@@ -23,13 +23,13 @@ class AnimalRepository:
 
         cursor.execute(
             """ INSERT INTO animals (
-                especie,
+                species,
                 birth_date,
                 weight
             )
             VALUES (?, ?, ?)""",
                     (
-                    animal.especie,
+                    animal.species,
                     animal.birth_date.isoformat(), 
                     animal.weight
                      )
@@ -45,7 +45,7 @@ class AnimalRepository:
         return animal.id
 
     def get_by_id(self, animal_id: int):
-        query = "SELECT especie, birth_date, weight, id FROM animals WHERE id = ?"
+        query = "SELECT species, birth_date, weight, id FROM animals WHERE id = ?"
 
         conn = sqlite3.connect("database/farm.db")
 
@@ -125,10 +125,10 @@ class AnimalRepository:
 
         cursor.execute(
             """ UPDATE animals
-                    SET especie = ?, birth_date = ?, 
+                    SET species = ?, birth_date = ?, 
                     weight = ?
                 WHERE id = ? """,
-                (animal.especie,
+                (animal.species,
                  animal.birth_date,
                  animal.weight,
                  animal.id
@@ -138,7 +138,7 @@ class AnimalRepository:
         conn.commit()
 
         logger.info(f"Animal atualizado com sucesso id={animal.id}")
-        logger.info(f"Dados novos: especie={animal.especie}, birth_date={animal.birth_date}, weight={animal.weight}")
+        logger.info(f"Dados novos: especie={animal.species}, birth_date={animal.birth_date}, weight={animal.weight}")
 
         conn.close()
 

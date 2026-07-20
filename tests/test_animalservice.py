@@ -101,3 +101,25 @@ def test_remove_animal():
 
     # Result
     assert animal is None
+
+    # Updating Weight
+
+def test_updating_weight():
+    # Create Object
+        animal033 = Animal("bovine", "20/06/2024", 400)
+    
+    # Create Service
+        service033 = AnimalService()
+    
+    # Saving Object
+        service033.register(animal033)
+
+    # Updating weight
+        service033.update_weight(animal033, 450)
+    
+    # Getting by id
+        updated_animal = service033.get_by_id(animal033.id)
+    
+    # Result
+        assert updated_animal.weight == 450
+

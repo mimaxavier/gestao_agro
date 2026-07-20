@@ -40,5 +40,22 @@ class AnimalService:
 
         if animal_db is None:
             raise ValueError("O registro não existe!")
+        else:
+            return animal
+    
+    # Update Weight
+    
+    def update_weight(self, animal, current_weight):
         
+        animal.weight = current_weight
+
+        return self.update(animal)
+
+
+
+
+
+
+    
+    
     
