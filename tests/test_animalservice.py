@@ -123,3 +123,26 @@ def test_updating_weight():
     # Result
         assert updated_animal.weight == 450
 
+def test_update_with_validate():
+    # Create an object
+    animal022 = Animal("Bovine", "27/01/2026", 100)
+    service022 = AnimalService()
+    service022.register(animal022)
+    service022.remove(animal022.id)
+
+    # Results
+    with pytest.raises(ValueError) as exc_info:
+        service022.update(animal022)
+    assert str(exc_info.value) == "O registro não existe!"
+
+def test_if_object_is_ready_for_persistence():
+    animal024 = Animal("Bovine", "28/01/2026", 150, 1)
+    service023 = AnimalService()
+        
+    # Results
+    with pytest.raises(ValueError) as exc_info:
+        service023.register(animal024)
+    assert str(exc_info.value) == "O registro já existe."
+        
+
+
