@@ -22,7 +22,7 @@ def test_get_by_id():
 
     animal = repositorio002.get_by_id(animal_id)
 
-    assert animal.especie == "suine"
+    assert animal.species == "suine"
     assert animal.birth_date == date(2025, 1, 22)
     assert animal.weight == 100
     assert animal.id == animal_id
@@ -45,7 +45,7 @@ def test_findall():
     # Result
     #assert len(animals) == 19
     assert isinstance(animals, list)
-    assert animals[0].especie == "bovine"
+    assert animals[0].species == "bovine"
     assert animals[1].birth_date == date(2025, 1, 22)
 
 def test_update():
@@ -56,14 +56,14 @@ def test_update():
     animal_id = repo.save(animal)
 
     # altera algo
-    animal.especie = "bovine"
+    animal.species = "bovine"
     animal.id = animal_id
 
     repo.update(animal)
 
     updated = repo.get_by_id(animal_id)
 
-    assert updated.especie == "bovine"
+    assert updated.species == "bovine"
 
 def test_delete():
     #criação

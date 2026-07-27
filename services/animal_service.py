@@ -16,15 +16,20 @@ class AnimalService:
 
         if animal.id is not None:
             raise ValueError("O registro já existe.")
+
+        
+        if animal.weight>1500:
+            raise ValueError("O animal não pode ter peso superior a 1500kg")
         
 
-    def _validate_if_animal_exists(self, animal):
-        animal_db = self.get_by_id(animal.id)
+    def _validate_if_animal_exists(self, id):
+        animal_db = self.get_by_id(id)
 
         if animal_db is None:
             raise ValueError("O registro não existe!")
         else:
-            return animal
+            return id
+
         
     # CRUD methods
 
@@ -40,7 +45,7 @@ class AnimalService:
         return self.repository.find_all()
 
     def update(self, animal):
-        self._validate_if_animal_exists(animal)
+        self._validate_if_animal_exists(animal.id)
         self.repository.update(animal)
 
         logger.info(f"Atualizando animal de ID = {animal.id}")
@@ -62,6 +67,13 @@ class AnimalService:
         animal.weight = current_weight
 
         return self.update(animal)
+
+    # Business Rules
+
+    def is_a_calf(self, animal):
+        return animal.age_inmonths() < 13
+
+        
 
 
 

@@ -2,13 +2,15 @@ from models.animal import Animal
 from models.vaccineapplicationrecord import VaccineApplication
 from datetime import datetime
 from datetime import date
+from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 import pytest
 
 
 def test_create_animal():
     animal = Animal("cow", '23/04/2024', 250)
 
-    assert animal.especie == "cow"
+    assert animal.species == "cow"
 
     assert animal.birth_date == datetime.strptime('23/04/2024', r"%d/%m/%Y").date()
 
@@ -59,11 +61,11 @@ def test_must_be_int():
 
 # Validate birthdate
 
-def test_birthdate_cannot_before_today():
-    today = date.today()
-    
+def test_birthdate_cannot_after_today():
+    tomorrow = date.today() + timedelta(days=1)
+
     with pytest.raises(ValueError) as exc_info:
-        animal7 = Animal("bovine", today.strftime(r"%d/%m/%Y"), 250)
+        Animal("bovine", tomorrow.strftime("%d/%m/%Y"), 250)
 
     assert str(exc_info.value) ==  "Data superior à data de hoje! Entre com uma data válida!"
 
@@ -80,14 +82,20 @@ def test_birthdate_must_be_date():
         assert str(exc_info.value) == "Não é um tipo date válido!"
 
 #Calcular idade
-def test_calculate_age():
+'''def test_calculate_age():
     animal10 = Animal("bovine", "26/01/1992", 250)
     
     assert (
         animal10.calculate_age() == "34 anos, 4 meses e 28 dias"
-    )
+    )'''
 
-def test_verify_slaughterEvent():
-    animal11 = Animal("bovine", "24/03/2025", 200)
+def test_calculate_age():
+    animal = Animal("bovine", "23/01/2025", 200)
 
-    assert animal11.verificar_abate() == False
+    age = animal.calculate_age()
+    age_in_months = animal.age_inmonths()
+    age_formatted = animal.age_formatted()
+
+    assert age == relativedelta(years=1, months=5, days=0)
+    assert age_in_months == 17
+    assert age_formatted == "1 anos, 5 meses e 0 dias"

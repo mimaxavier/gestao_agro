@@ -31,7 +31,7 @@ def test_getbyid_animal():
     animal = service003.get_by_id(animal003.id)
 
     # Result
-    assert animal.especie == "Bubaline"
+    assert animal.species == "Bubaline"
     assert animal.birth_date == date(2026, 3, 28)
     assert animal.weight == 81
 
@@ -68,7 +68,7 @@ def test_update_animal():
         service002.register(animal002)
 
         # Create new attributes
-        animal002.especie = "Caprine"
+        animal002.species = "Caprine"
         animal002.birth_date = date(2026, 3, 27)
 
         # Updating
@@ -78,7 +78,7 @@ def test_update_animal():
         animal = service002.get_by_id(animal002.id)
 
         # Result
-        assert animal.especie == "Caprine"
+        assert animal.species == "Caprine"
         assert animal.birth_date == date(2026, 3, 27)
 
 
@@ -143,6 +143,23 @@ def test_if_object_is_ready_for_persistence():
     with pytest.raises(ValueError) as exc_info:
         service023.register(animal024)
     assert str(exc_info.value) == "O registro já existe."
+
+def test_if_weight_is_less_than_1500():
+    animal025 = Animal("Bovine", "28/01/2026", 1502)
+    service025 = AnimalService()
+
+     # Results
+    with pytest.raises(ValueError) as exc_info:
+          service025.register(animal025)
+    assert str(exc_info.value) == "O animal não pode ter peso superior a 1500kg"
         
 
+def test_is_a_calf():
+    animal = Animal("bovine", "23/01/2025", 200)
+    service = AnimalService()
 
+    service.register(animal)
+
+    isacalf = service.is_a_calf(animal)
+
+    assert isacalf == False

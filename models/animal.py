@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import date
 from datetime import date
+from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from models.vaccineapplicationrecord import VaccineApplication
 
@@ -49,24 +50,25 @@ class Animal:
         # Validate types
         if not isinstance(birthdate, date):
             raise TypeError("Não é um tipo date válido!")
-        
-        if birthdate >= date.today():
+
+    
+        if birthdate > date.today():
             raise ValueError(
             "Data superior à data de hoje! Entre com uma data válida!"
         )
 
         return birthdate
 
-    def calculate_age(self, current_date=None):
-        if current_date is None:
-            current_date = date.today()
+    def calculate_age(self):
+        current_date = date.today()
+        return relativedelta(current_date, self.birth_date)
 
-        difference = relativedelta(current_date, self.birth_date)
+    def age_inmonths(self):
+        age = self.calculate_age()
+        return age.years * 12 + age.months
 
-        return (
-            f"{difference.years} anos, "
-            f"{difference.months} meses e "
-            f"{difference.days} dias"
-        )
+    def age_formatted(self):
+        age = self.calculate_age()
+        return f"{age.years} anos, {age.months} meses e {age.days} dias"
         
         
