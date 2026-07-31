@@ -154,12 +154,6 @@ def test_if_weight_is_less_than_1500():
     assert str(exc_info.value) == "O animal não pode ter peso superior a 1500kg"
         
 
-def test_is_a_calf():
-    animal = Animal("bovine", "23/01/2025", 200)
-    service = AnimalService()
 
-    service.register(animal)
 
-    isacalf = service.is_a_calf(animal)
 
-    assert isacalf == False

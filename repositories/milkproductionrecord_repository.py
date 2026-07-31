@@ -72,6 +72,44 @@ class MilkProductionRecordRepository:
             date_production = converted_date
         )
 
+    def find_all(self):
+            conn = sqlite3.connect("database/farm.db")
+    
+            cursor = conn.cursor()
+    
+            logger.info(f"Preparando todos os registros da tabela de produção!")
+    
+            cursor.execute(
+                """SELECT * FROM milkproductionrecord"""
+            )
+    
+            rows = cursor.fetchall()
+    
+            milkproductionrecord = []
+    
+            for row in rows:
+                logger.info("Linha do banco: %s", row)
+    
+                converted_birthdate = datetime.fromisoformat(row[3] if row[3] else None)
+    
+                logger.info("Data convertida fica %s",converted_birthdate)
+    
+                milkproduction = MilkProductionRecord(
+    
+                    id = row[0],
+                    animal_id= row[1],
+                    quantity_production= row[2],
+                    date_production= converted_birthdate
+    
+                )
+    
+                milkproductionrecord.append(milkproduction)
+    
+            conn.close()
+    
+    
+            return milkproductionrecord
+
     def update(self, milkproductionrecord: MilkProductionRecord):
         conn = sqlite3.connect("database/farm.db")
 

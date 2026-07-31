@@ -20,6 +20,11 @@ python -m pytest -sv tests/test_animal.py::test_calculate_age
 
 python -m pytest -sv tests/test_animalservice.py::test_is_a_calf
 
+# Testes MilkProductionRecord_Service
+python -m pytest -sv tests/test_milkproductionrecord_service.py
+
+python -m pytest -sv tests/test_milkproductionrecord_service.py::test_findall
+
 
 
 

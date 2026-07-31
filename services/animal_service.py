@@ -30,11 +30,16 @@ class AnimalService:
         else:
             return id
 
+    def _validate_weight(self, animal):
+        if animal.weight>1500:
+            raise ValueError("O animal não pode ter mais de 1500kg")
+
         
     # CRUD methods
 
     def register(self, animal):
         self._validate_object_is_ready_for_register(animal)
+        self._validate_weight(animal)
         self.repository.save(animal)
 
         logger.info(f"Registrando animal de ID = {animal.id}.")
@@ -46,6 +51,7 @@ class AnimalService:
 
     def update(self, animal):
         self._validate_if_animal_exists(animal.id)
+        self._validate_weight(animal)
         self.repository.update(animal)
 
         logger.info(f"Atualizando animal de ID = {animal.id}")
@@ -70,8 +76,12 @@ class AnimalService:
 
     # Business Rules
 
-    def is_a_calf(self, animal):
-        return animal.age_inmonths() < 13
+    
+
+    '''def calf_not_production(self, animal):
+        if self.is_a_calf(animal):
+            raise ValueError("Este animal não está pronto pra produzir")'''
+
 
         
 

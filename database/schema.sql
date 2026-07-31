@@ -27,19 +27,6 @@ FOREIGN KEY (animal_id)
     REFERENCES animals(id)
 );
 
-CREATE TABLE productionrecord (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-animal_id INTEGER NOT NULL,
-production_type TEXT NOT NULL,
-unit TEXT NOT NULL,
-quantity_production INTEGER NOT NULL,
-date_production TEXT NOT NULL,
-
-FOREIGN KEY (animal_id)
-    REFERENCES animals(id)
-
-);
-
 CREATE TABLE milkproductionrecord (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 animal_id INTEGER NOT NULL,

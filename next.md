@@ -53,10 +53,3 @@ Cada Service será responsável por:
 - [ ] Facilitar a criação da API futuramente
 
 
-# Passo finalizado
-
-* Teste de atualização finalizado
-
-# Próximo passo
-
-* Testar o validate if exists

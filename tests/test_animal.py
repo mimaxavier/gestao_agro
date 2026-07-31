@@ -99,3 +99,5 @@ def test_calculate_age():
     assert age == relativedelta(years=1, months=5, days=0)
     assert age_in_months == 17
     assert age_formatted == "1 anos, 5 meses e 0 dias"
+
+

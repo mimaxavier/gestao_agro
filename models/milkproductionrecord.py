@@ -37,7 +37,7 @@ class MilkProductionRecord:
     def _validate_date_production(self, date_production):
         
         if isinstance(date_production, str):
-            date_production = datetime.strptime(date_production, r"%d/%m/%Y")
+            date_production = datetime.strptime(date_production, r"%d/%m/%Y %H:%M")
 
             return date_production
 
