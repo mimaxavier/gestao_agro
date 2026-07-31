@@ -100,4 +100,9 @@ def test_calculate_age():
     assert age_in_months == 17
     assert age_formatted == "1 anos, 5 meses e 0 dias"
 
+def test_ifanimal_isacalf():
+    animal = Animal("bovine", "22/12/2025", 90)
 
+    age = animal.is_a_calf(animal)
+
+    assert age == True

@@ -2,11 +2,11 @@ from datetime import datetime, date
 
 class MilkProductionRecord:
 
-    def __init__(self, animal_id, quantity_production, date_production, id = None):
+    def __init__(self, animal_id, quantity_production, production_date, id = None):
 
         self.animal_id = self._validate_animalid(animal_id)
         self.quantity_production = self._validate_quantity_production(quantity_production)
-        self.date_production = self._validate_date_production(date_production)
+        self.production_date = self._validate_production_date(production_date)
         self.id = id
     
        
@@ -34,15 +34,15 @@ class MilkProductionRecord:
         return quantity_production
         
     # Validate production date
-    def _validate_date_production(self, date_production):
+    def _validate_production_date(self, production_date):
         
-        if isinstance(date_production, str):
-            date_production = datetime.strptime(date_production, r"%d/%m/%Y %H:%M")
+        if isinstance(production_date, str):
+            production_date = datetime.strptime(production_date, r"%d/%m/%Y %H:%M")
 
-            return date_production
+            return production_date
 
-        elif isinstance(date_production, datetime):
-            return date_production
+        elif isinstance(production_date, datetime):
+            return production_date
 
         else:
-            raise TypeError("Insira um tipo válido! Date ou String")
+            raise TypeError("Insira um tipo válido!")

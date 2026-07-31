@@ -3,7 +3,7 @@ from models.milkproductionrecord import MilkProductionRecord
 from datetime import date, datetime
 
 def test_register_milkproduction():
-    milkproductionrecord001 = MilkProductionRecord(1, 30, "24/02/2026")
+    milkproductionrecord001 = MilkProductionRecord(1, 30, "24/02/2026 12:30")
     service = MilkProductionService()
 
     service.register(milkproductionrecord001)

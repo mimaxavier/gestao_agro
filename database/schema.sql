@@ -31,7 +31,7 @@ CREATE TABLE milkproductionrecord (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 animal_id INTEGER NOT NULL,
 quantity_production NUMBER NOT NULL,
-date_production TEXT NOT NULL,
+production_date TEXT NOT NULL,
 
 FOREIGN KEY (animal_id)
     REFERENCES animals(id)

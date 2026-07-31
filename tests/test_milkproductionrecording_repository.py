@@ -5,7 +5,7 @@ import pytest
 
 def test_save_milkproductionrecord():
     # Create objects
-    milkproduction001 = MilkProductionRecord(1, 25, "12/03/2025")
+    milkproduction001 = MilkProductionRecord(1, 25, "12/03/2025 12:30")
 
     repositorio001 = MilkProductionRecordRepository()
 
@@ -18,7 +18,7 @@ def test_save_milkproductionrecord():
 
 def test_getbyid_milkproductionrepository():
     # Create objects
-    milkproduction002 = MilkProductionRecord(2, 26, "13/03/2025")
+    milkproduction002 = MilkProductionRecord(2, 26, "13/03/2025 12:30")
 
     repositorio002 = MilkProductionRecordRepository()
 
@@ -31,11 +31,11 @@ def test_getbyid_milkproductionrepository():
     # Result
     assert milkproduction002.animal_id == 2
     assert milkproduction002.quantity_production == 26
-    assert milkproduction002.date_production == datetime(2025, 3, 13)
+    assert milkproduction002.production_date == datetime(2025, 3, 13, 12, 30)
 
 def test_update_milkproductionrepository():
     # Create objects
-    milkproduction003 = MilkProductionRecord(3, 27, "14/03/2025")
+    milkproduction003 = MilkProductionRecord(3, 27, "14/03/2025 12:30")
     repositorio003 = MilkProductionRecordRepository()
 
     # Saving
@@ -43,18 +43,18 @@ def test_update_milkproductionrepository():
 
     # Creating new attributes
     milkproduction003.quantity_production = 28
-    milkproduction003.date_production = "28/04/2025"
+    milkproduction003.production_date = datetime(2025, 4, 28, 13, 50)
 
     # Updating 
     repositorio003.update(milkproduction003)
 
     # Result
     assert milkproduction003.quantity_production == 28
-    assert milkproduction003.date_production == "28/04/2025"
+    assert milkproduction003.production_date == datetime(2025, 4, 28, 13, 50 )
 
 def test_delete_milkproductionrepository():
     # Create objects
-    milkproduction004 = MilkProductionRecord(4, 28, "15/03/2025")
+    milkproduction004 = MilkProductionRecord(4, 28, "15/03/2025 12:30")
     repositorio004 = MilkProductionRecordRepository()
 
     # Saving objects

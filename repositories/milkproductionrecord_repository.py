@@ -15,7 +15,7 @@ class MilkProductionRecordRepository:
         logger.info(
             f"Salvando MilkProductionRecord:  {milkproductionrecord.animal_id}, "
             f"{milkproductionrecord.quantity_production}, "
-            f"{milkproductionrecord.date_production}, "
+            f"{milkproductionrecord.production_date}, "
             f"{milkproductionrecord.id}"
         )
 
@@ -27,13 +27,13 @@ class MilkProductionRecordRepository:
             """INSERT INTO milkproductionrecord (
             animal_id, 
             quantity_production, 
-            date_production
+            production_date
             )
             VALUES (?, ?, ?)""",
                 (
                     milkproductionrecord.animal_id, 
                     milkproductionrecord.quantity_production,
-                    milkproductionrecord.date_production.isoformat(),
+                    milkproductionrecord.production_date.isoformat(),
                 ),
         )
 
@@ -48,7 +48,7 @@ class MilkProductionRecordRepository:
         return milkproductionrecord
 
     def get_by_id(self, id: int):
-        query = "SELECT id, animal_id, quantity_production, date_production FROM milkproductionrecord WHERE id = ?"
+        query = "SELECT id, animal_id, quantity_production, production_date FROM milkproductionrecord WHERE id = ?"
 
         conn = sqlite3.connect("database/farm.db")
 
@@ -69,7 +69,7 @@ class MilkProductionRecordRepository:
             id = resultado[0],
             animal_id=resultado[1],
             quantity_production = resultado[2],
-            date_production = converted_date
+            production_date = converted_date
         )
 
     def find_all(self):
@@ -99,7 +99,7 @@ class MilkProductionRecordRepository:
                     id = row[0],
                     animal_id= row[1],
                     quantity_production= row[2],
-                    date_production= converted_birthdate
+                    production_date= converted_birthdate
     
                 )
     
@@ -119,13 +119,13 @@ class MilkProductionRecordRepository:
              '''UPDATE milkproductionrecord
                 SET animal_id = ?,
                     quantity_production = ?, 
-                    date_production = ?
+                    production_date = ?
                 WHERE id = ?
                 ''', 
                 (
                     milkproductionrecord.animal_id, 
                     milkproductionrecord.quantity_production,
-                    milkproductionrecord.date_production,
+                    milkproductionrecord.production_date,
                     milkproductionrecord.id
                 )
         )
