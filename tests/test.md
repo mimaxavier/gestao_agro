@@ -25,6 +25,12 @@ python -m pytest -sv tests/test_milkproductionrecord_service.py
 
 python -m pytest -sv tests/test_milkproductionrecord_service.py::test_findall
 
+python -m pytest -sv tests/test_milkproductionrecord_service.py::test_get_by_id
+
+python -m pytest -sv tests/test_milkproductionrecord_service.py::test_update_milkproduction
+
+python -m pytest -sv tests/test_milkproductionrecord_service.py::test_remove_milkproduction
+
 
 
 
