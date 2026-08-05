@@ -14,9 +14,9 @@ class FeedingRecordRepository:
 
         logger.info(
             f"Salvando Feeding: {feedingrecord.animal_id}, "
-            f"{feedingrecord.type_feeding}, "
-            f"{feedingrecord.quantity_feeding}, "
-            f"{feedingrecord.date_feeding}"
+            f"{feedingrecord.feeding_type}, "
+            f"{feedingrecord.feeding_quantity}, "
+            f"{feedingrecord.feeding_date}"
             f"{feedingrecord.id}"
         )
 
@@ -27,16 +27,16 @@ class FeedingRecordRepository:
         cursor.execute(
             """INSERT INTO feedingrecord (
             animal_id, 
-            type_feeding, 
-            quantity_feeding, 
-            date_feeding
+            feeding_type, 
+            feeding_quantity, 
+            feeding_date
             )
             VALUES (?, ?, ?, ?)""",
                 (
                     feedingrecord.animal_id, 
-                    feedingrecord.type_feeding,
-                    feedingrecord.quantity_feeding,
-                    feedingrecord.date_feeding.isoformat()
+                    feedingrecord.feeding_type,
+                    feedingrecord.feeding_quantity,
+                    feedingrecord.feeding_date.isoformat()
                  )
         )
 
@@ -50,7 +50,7 @@ class FeedingRecordRepository:
         return feedingrecord
 
     def get_by_id(self, id: int):
-        query = "SELECT id, animal_id, type_feeding, quantity_feeding, date_feeding FROM feedingrecord WHERE id = ?"
+        query = "SELECT id, animal_id, feeding_type, feeding_quantity, feeding_date FROM feedingrecord WHERE id = ?"
 
         conn = sqlite3.connect("database/farm.db")
 
@@ -74,9 +74,9 @@ class FeedingRecordRepository:
         return FeedingRecord(
             id = resultado[0],
             animal_id=resultado[1],
-            type_feeding = resultado[2],
-            quantity_feeding = resultado[3],
-            date_feeding = converted_date,
+            feeding_type = resultado[2],
+            feeding_quantity = resultado[3],
+            feeding_date = converted_date,
         )
 
     def update(self, feedingrecord: FeedingRecord):
@@ -87,13 +87,13 @@ class FeedingRecordRepository:
         cursor.execute(
                 '''UPDATE feedingrecord
                 SET animal_id = ?,
-                    type_feeding = ?, 
-                    quantity_feeding = ?, 
-                    date_feeding = ?
+                    feeding_type = ?, 
+                    feeding_quantity = ?, 
+                    feeding_date = ?
                 WHERE id = ?
                 ''', 
                 (
-                    feedingrecord.animal_id, feedingrecord.type_feeding, feedingrecord.quantity_feeding, feedingrecord.date_feeding, feedingrecord.id
+                    feedingrecord.animal_id, feedingrecord.feeding_type, feedingrecord.feeding_quantity, feedingrecord.feeding_date, feedingrecord.id
                 )
         )
         logger.info(f"Atualizando feedrecord id = {feedingrecord.id}")

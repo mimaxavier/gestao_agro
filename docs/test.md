@@ -31,6 +31,11 @@ python -m pytest -sv tests/test_milkproductionrecord_service.py::test_update_mil
 
 python -m pytest -sv tests/test_milkproductionrecord_service.py::test_remove_milkproduction
 
+# Testes FeedingRecord Model
+
+python -m pytest -sv tests/test_feedingrecord.py
+
+python -m pytest -sv test/test_feedingrecord.py::test_date_must_be_string_or_date
 
 
 
