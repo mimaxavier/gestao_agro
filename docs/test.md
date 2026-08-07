@@ -37,5 +37,9 @@ python -m pytest -sv tests/test_feedingrecord.py
 
 python -m pytest -sv test/test_feedingrecord.py::test_date_must_be_string_or_date
 
+# Testes FeedingRecord Service
+
+python -m pytest -sv tests/test_feedingrecord_service.py::test_should_accept_valid_feeding_type
+
 
 

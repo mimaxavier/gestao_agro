@@ -47,5 +47,5 @@ def test_dateproduction_must_be_datetime():
         
         production005 = MilkProductionRecord(2, 50, 249839)
 
-    assert str(exc_info.value) == "Insira um tipo válido! Date ou String"
+    assert str(exc_info.value) == "Insira um tipo válido!"
 
