@@ -44,9 +44,9 @@ python -m pytest -sv tests/test_feedingrecord_service.py::test_should_accept_val
 python -m pytest -sv
 python -m pytest -s
 
-python -m pytest -sv tests/test_milkproductionrecord_service.py::test_findall
+python -m pytest -sv tests/test_feedingrecord_service.py::test_feedingdate_must_be_datetime_or_str
 
-python -m pytest -sv tests/test_milkproductionrecord_service.py::test_update_milkproduction
+python -m pytest -sv tests/test_feedingrecord.py
 
 
 

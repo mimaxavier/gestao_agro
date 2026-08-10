@@ -5,7 +5,7 @@ import conftest
 import pytest
 
 def test_create_feedingrecord():
-    feedingrecord = FeedingRecord(2, "Silagem", 45, "25/03/2024", None)
+    feedingrecord = FeedingRecord(2, "Silagem", 45, "25/03/2024 12:03", None)
 
     assert feedingrecord.animal_id == 2
 
@@ -13,7 +13,7 @@ def test_create_feedingrecord():
 
     assert feedingrecord.feeding_quantity == 45
 
-    assert feedingrecord.feeding_date == date(2024, 3, 25)
+    assert feedingrecord.feeding_date == datetime(2024, 3, 25, 12, 3)
 
 def test_type_out_of_validtypes():
     with pytest.raises(ValueError) as exc_info:
@@ -36,8 +36,8 @@ def test_quantityfeeding_cannot_be_none():
     assert str(exc_info.value) == "A quantidade não pode estar vazia!"
 
 def test_date_must_be_string_or_date():
-    with pytest.raises(TypeError) as exc_info:
+    with pytest.raises(ValueError) as exc_info:
 
-        feedingrecord4 = FeedingRecord(3, "Silagem", 100, 23/5/30)
+        feedingrecord4 = FeedingRecord(3, "Silagem", 100, "23/5/30")
 
-    assert str(exc_info.value) == "A data de alimentação deve ser uma string ou um objeto date."
+    assert str(exc_info.value) == "Feeding datetime must contain date and time"

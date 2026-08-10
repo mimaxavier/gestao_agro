@@ -69,7 +69,7 @@ class FeedingRecordRepository:
         if not resultado:
             return None
         
-        converted_date = date.fromisoformat(resultado[4]) if resultado[4] else None
+        converted_date = datetime.fromisoformat(resultado[4]) if resultado[4] else None
 
         return FeedingRecord(
             id = resultado[0],

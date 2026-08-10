@@ -9,6 +9,7 @@ class FeedingRecordService:
     def __init__(self, repository = None):
         self.repository = repository or FeedingRecordRepository()
 
+# Validações
     def _validate_if_feedingrecord_exists(self, id):
         feedingrecord_db = self.repository.get_by_id(id)
 
@@ -17,22 +18,30 @@ class FeedingRecordService:
         else:
             return id
 
-    def _validate_feeding_date(self, feeding_date):
-        if isinstance(feeding_date_date, str):
-            feeding_date_date = datetime.strptime(feeding_date_date, r"%d/%m/%Y %H:%M")
-            return feeding_date_date
-                
-        elif isinstance(feeding_date_date, datetime):
-            return feeding_date_date
-        
-        elif isinstance(feeding_date_date, date):
-            raise TypeError(
-                "Insira um datetime com data e hora."
-            )
-        
-        else:
-            raise TypeError("A data de produção deve ser uma string ou datetime")
-
     def _validate_object_is_ready_for_register(self, feedingrecord):
         if feedingrecord.id is not None:
             raise ValueError("O registro já existe!")
+
+#CRUD
+
+    def register(self, feedingrecord):
+        self._validate_object_is_ready_for_register(feedingrecord)
+
+        self.repository.save(feedingrecord)
+
+        logger.info = {"Alimentação registrada!"}
+
+    def findall(self):
+        return self.repository.find_all()
+        
+    def get_by_id(self, id):
+        return self.repository.get_by_id(id)
+
+    def update(self, feedingrecord):
+        self._validate_if_feedingrecord_exists(feedingrecord.id)
+
+        self.repository.update(feedingrecord)
+
+    def remove(self, id):
+        self._validate_if_feedingrecord_exists(id)
+        self.repository.delete(id)
