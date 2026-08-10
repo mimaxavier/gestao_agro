@@ -54,7 +54,7 @@ class MilkProductionService:
 
     def update(self, milkproductionrecord):
         self._validate_if_milkproductionrecord_exists(milkproductionrecord.id)
-        self._validate_production_date(milkproductionrecord.production_date)
+        milkproductionrecord.production_date = self._validate_production_date(milkproductionrecord.production_date)
 
         self.repository.update(milkproductionrecord)
 
