@@ -49,4 +49,6 @@ python -m pytest -sv tests/test_feedingrecord_service.py::test_feedingdate_must_
 python -m pytest -sv tests/test_feedingrecord.py
 
 
+python -m pytest -sv tests/test_feedingrecord.py::test_create_feedingrecord
+
 

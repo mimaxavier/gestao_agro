@@ -5,7 +5,7 @@ import pytest
 
 def test_save_feedingrecord():
 
-    feed = FeedingRecord(4, "Silagem", 300, "23/04/2025")
+    feed = FeedingRecord(4, "Silagem", 300, "23/04/2025 08:30")
 
     repositorio001 = FeedingRecordRepository()
 
@@ -16,7 +16,7 @@ def test_save_feedingrecord():
 
 def test_get_by_id():
    
-    feed2 = FeedingRecord(4, "Silagem", 300, "23/04/2025")
+    feed2 = FeedingRecord(4, "Silagem", 300, "23/04/2025 08:30")
 
     repositorio002 = FeedingRecordRepository()
 
@@ -27,10 +27,10 @@ def test_get_by_id():
     assert feed2.animal_id == 4
     assert feed2.feeding_type == "Silagem"
     assert feed2.feeding_quantity == 300
-    assert feed2.feeding_date == date(2025, 4, 23)
+    assert feed2.feeding_date == date(2025, 4, 23, 8, 30)
 
 def test_update():
-    feed2 = FeedingRecord(4, "Silagem", 300, "23/04/2025")
+    feed2 = FeedingRecord(4, "Silagem", 300, "23/04/2025 08:30")
     repo = FeedingRecordRepository()
 
     salvo = repo.save(feed2)
@@ -50,7 +50,7 @@ def test_update():
 
 def test_delete():
     #criação
-    feed4 = FeedingRecord(2, "Silagem", 100, "10/02/2024")
+    feed4 = FeedingRecord(2, "Silagem", 100, "10/02/2024 12:10")
     repo = FeedingRecordRepository()
 
     #ação

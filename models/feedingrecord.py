@@ -1,12 +1,8 @@
 from models.animal import Animal
 from datetime import datetime, date
+from enums.FeedType import FeedType
 
 class FeedingRecord:
-    valid_feed_types = [
-            "Silagem",
-            "Feno",
-            "Capim"
-            ]
 
     def __init__(self, animal_id, feeding_type, feeding_quantity, feeding_date, id = None):
 
@@ -16,12 +12,11 @@ class FeedingRecord:
         self.feeding_date = self._validate_feeding_date(feeding_date)
         self.id = id
 
-    def _validate_types(self, feedingtype):
-            if feedingtype not in self.valid_feed_types:
-                raise ValueError("Tipo de alimentação inválido!")
-            
-            return feedingtype
-            
+    def _validate_types(self, feed_type):
+            if not isinstance(feed_type, FeedType):
+                raise TypeError("Tipo de alimentação inválido!")
+            else:
+                 return feed_type
             
     def _validate_feedingquantity(self, feeding_quantity):
             if feeding_quantity is None:

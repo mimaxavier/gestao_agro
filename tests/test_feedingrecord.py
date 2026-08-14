@@ -1,15 +1,16 @@
 from models.feedingrecord import FeedingRecord
 from datetime import datetime
 from datetime import date
+from enums.FeedType import FeedType
 import conftest
 import pytest
 
 def test_create_feedingrecord():
-    feedingrecord = FeedingRecord(2, "Silagem", 45, "25/03/2024 12:03", None)
+    feedingrecord = FeedingRecord(2, FeedType.SILAGE, 45, "25/03/2024 12:03", None)
 
     assert feedingrecord.animal_id == 2
 
-    assert feedingrecord.feeding_type == "Silagem"
+    assert feedingrecord.feeding_type == FeedType.SILAGE
 
     assert feedingrecord.feeding_quantity == 45
 
@@ -17,7 +18,7 @@ def test_create_feedingrecord():
 
 def test_type_out_of_validtypes():
     with pytest.raises(ValueError) as exc_info:
-        feedingrecord = FeedingRecord(2, "Pastagem", 45, "25/03/2024")
+        feedingrecord = FeedingRecord(2, "Capim", 45, "25/03/2024")
 
     assert str(exc_info.value) == "Tipo de alimentação inválido!"
 

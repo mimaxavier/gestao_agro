@@ -1,6 +1,6 @@
 from enum import Enum
 
-class feeding_types(Enum):
+class FeedType(Enum):
     SILAGE = "silagem"
     HAY = "feno"
     PASTURE = "pasto"
