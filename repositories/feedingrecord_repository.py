@@ -3,6 +3,7 @@ from datetime import date
 from datetime import datetime
 from models.animal import Animal
 from models.feedingrecord import FeedingRecord
+from enums.FeedType import FeedType
 from typing import Optional
 import logging
 
@@ -34,7 +35,7 @@ class FeedingRecordRepository:
             VALUES (?, ?, ?, ?)""",
                 (
                     feedingrecord.animal_id, 
-                    feedingrecord.feeding_type,
+                    feedingrecord.feeding_type.value,
                     feedingrecord.feeding_quantity,
                     feedingrecord.feeding_date.isoformat()
                  )
@@ -74,7 +75,7 @@ class FeedingRecordRepository:
         return FeedingRecord(
             id = resultado[0],
             animal_id=resultado[1],
-            feeding_type = resultado[2],
+            feeding_type = FeedType(resultado[2]),
             feeding_quantity = resultado[3],
             feeding_date = converted_date,
         )
@@ -93,7 +94,7 @@ class FeedingRecordRepository:
                 WHERE id = ?
                 ''', 
                 (
-                    feedingrecord.animal_id, feedingrecord.feeding_type, feedingrecord.feeding_quantity, feedingrecord.feeding_date, feedingrecord.id
+                    feedingrecord.animal_id, feedingrecord.feeding_type.value, feedingrecord.feeding_quantity, feedingrecord.feeding_date, feedingrecord.id
                 )
         )
         logger.info(f"Atualizando feedrecord id = {feedingrecord.id}")

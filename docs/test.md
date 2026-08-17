@@ -51,4 +51,10 @@ python -m pytest -sv tests/test_feedingrecord.py
 
 python -m pytest -sv tests/test_feedingrecord.py::test_create_feedingrecord
 
+python -m pytest -sv tests/test_feedingrecord_service.py::test_should_not_accept_object_already_registered
+
+python -m pytest -sv tests/test_feedingrecord_service.py::test_register_feed
+
+python -m pytest -sv tests/test_feedingrecord_service.py::test_findall
+
 
