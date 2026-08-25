@@ -57,4 +57,11 @@ python -m pytest -sv tests/test_feedingrecord_service.py::test_register_feed
 
 python -m pytest -sv tests/test_feedingrecord_service.py::test_findall
 
+python -m pytest -sv tests/test_feedingrecord_service.py::test_get_by_id
+
+# Testes FeedingRecord Repository
+
+python -m pytest -sv tests/test_feedingrecording_repository.py::test_findall
+
+
 

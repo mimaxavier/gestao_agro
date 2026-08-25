@@ -1,5 +1,6 @@
 from repositories.feedingrecord_repository import FeedingRecordRepository
 from models.feedingrecord import FeedingRecord
+from enums.FeedType import FeedType
 from datetime import date
 import pytest
 
@@ -28,6 +29,20 @@ def test_get_by_id():
     assert feed2.feeding_type == "Silagem"
     assert feed2.feeding_quantity == 300
     assert feed2.feeding_date == date(2025, 4, 23, 8, 30)
+
+def test_findall():
+    feed2 = FeedingRecord(4, FeedType.SILAGE, 300, "23/04/2025 08:30")
+    feed3 = FeedingRecord(2, FeedType.PASTURE, 150, "23/04/2025 06:30")
+
+    repositorio = FeedingRecordRepository()
+
+    repositorio.save(feed2)
+    repositorio.save(feed3)
+
+    feedingrecords = repositorio.find_all()
+
+    assert isinstance(feedingrecords, list)
+    '''assert feedingrecords[0].feeding_type == "silagem"'''
 
 def test_update():
     feed2 = FeedingRecord(4, "Silagem", 300, "23/04/2025 08:30")

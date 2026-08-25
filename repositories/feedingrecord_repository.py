@@ -80,6 +80,45 @@ class FeedingRecordRepository:
             feeding_date = converted_date,
         )
 
+    def find_all(self):
+                conn = sqlite3.connect("database/farm.db")
+        
+                cursor = conn.cursor()
+        
+                logger.info(f"Preparando todos os registros da tabela de alimentação!")
+        
+                cursor.execute(
+                    """SELECT * FROM feedingrecord"""
+                )
+        
+                rows = cursor.fetchall()
+        
+                feedingrecord = []
+        
+                for row in rows:
+                    logger.info("Linha do banco: %s", row)
+        
+                    feedingdate_converted = datetime.fromisoformat(row[4] if row[4] else None)
+        
+                    logger.info("Data convertida fica %s",feedingdate_converted)
+        
+                    feeding_record = FeedingRecord(
+                         
+                        id = row[0],
+                        animal_id= row[1],
+                        feeding_type= FeedType(row[2]),
+                        feeding_quantity = row[3],
+                        feeding_date= feedingdate_converted
+        
+                    )
+        
+                    feedingrecord.append(feeding_record)
+        
+                conn.close()
+        
+        
+                return feedingrecord
+
     def update(self, feedingrecord: FeedingRecord):
         conn = sqlite3.connect("database/farm.db")
 

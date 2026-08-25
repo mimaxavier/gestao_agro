@@ -28,13 +28,24 @@ class FeedingRecord:
             return feeding_quantity
     
     def _validate_feeding_date(self, feeding_date):
-        try:
-            return datetime.strptime(
-            feeding_date,
-            r"%d/%m/%Y %H:%M"
+
+        if isinstance(feeding_date, datetime):
+            return feeding_date
+
+        if isinstance(feeding_date, str):
+             try:
+                return datetime.strptime(
+                feeding_date,
+                "%d/%m/%Y %H:%M"
             )
-        except ValueError:
-             raise ValueError("Feeding datetime must contain date and time")
+             except ValueError:
+                raise TypeError(
+                "feeding_date deve estar no formato DD/MM/YYYY HH:MM"
+            )
+
+        raise TypeError(
+        "feeding_date deve ser uma string ou datetime"
+    )
 
     def __repr__(self):
         return (

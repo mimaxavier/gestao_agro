@@ -30,20 +30,50 @@ def test_register_feed():
     assert feed001.feeding_date == datetime(2026, 3, 12, 8, 30)
 
 def test_findall():
-    ''service = FeedingRecordService()
+    service = FeedingRecordService()
+    feed001 = FeedingRecord(2, FeedType.SILAGE, 50, "12/03/2026 08:30")
+    service.register(feed001)
 
-    service.findall()
+    feedrecords = service.findall()
 
-    assert isinstance(list, str)
-    assert len(list) == 9'''
+    assert isinstance(feedrecords, list)
+    assert len(feedrecords) == 1
 
 def test_get_by_id():
-    pass
+    #Arrange
+    feed04 = FeedingRecord(3, FeedType.PASTURE, 80, "16/06/2025 07:30")
+    service002 = FeedingRecordService()
+
+    # Act
+    service002.register(feed04)
+    gettingbyid = service002.get_by_id(feed04.id)
+
+    # Assert
+    assert gettingbyid.feeding_type == FeedType.PASTURE
+    assert gettingbyid.feeding_quantity == 80
+    assert gettingbyid.feeding_date == datetime(2025, 6, 16, 7, 30)
+    
 
 def test_update():
-    pass
+    # Arrange
+    feed04 = FeedingRecord(3, FeedType.PASTURE, 80, "16/06/2025 07:30")
+    service002 = FeedingRecordService()
+
+    feed04.feeding_quantity == 40
+    feed04.feeding_type == FeedType.HAY
+
+    # Act
+    service002.register(feed04)
+    service002.update(feed04)
+    gettinbyid = service002.get_by_id(feed04.id)
+
+    # Assert
 
 def test_remove():
-    pass
+    # Arrange
+    
+    # Act
+    
+    # Assert
 
     
