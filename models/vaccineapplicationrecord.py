@@ -1,14 +1,9 @@
 from datetime import datetime
 from datetime import timedelta
 from datetime import date
+from enums.VaccineName import VaccineName
 
 class VaccineApplication:
-    valid_names_vaccine = {
-        "Brucelose",
-        "Raiva",
-        "Febre Aftosa"
-        "Tuberculose Bovina"
-    }
 
     def __init__(self, animal_id, vaccine_name, apply_date, id = None):
 
@@ -27,11 +22,11 @@ class VaccineApplication:
         
         return animalid
 
-    def _validate_names_vaccines(self, vaccine):
-        if vaccine not in self.valid_names_vaccine:
-            raise ValueError("Digite um nome de vacina válido!")
+    def _validate_names_vaccines(self, vaccine_name):
+        if not isinstance(self.vaccine_name, VaccineName):
+            raise TypeError("Digite um nome de vacina válido!")
         
-        return vaccine
+        return vaccine_name
 
     def _validate_apply_date(self, applydate):
 

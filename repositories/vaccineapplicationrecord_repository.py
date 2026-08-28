@@ -2,6 +2,7 @@ import sqlite3
 from datetime import date
 from datetime import datetime
 from models.vaccineapplicationrecord import VaccineApplication
+from enums.VaccineName import VaccineName
 from typing import Optional
 import logging
 
@@ -65,8 +66,47 @@ class VaccineApplicationRepository:
             id=resultado[3],
             animal_id = resultado[0],
             apply_date = converted_date,
-            vaccine_name = resultado[1],
+            vaccine_name = VaccineName(resultado[1]),
         )
+
+    def find_all(self):
+        conn = sqlite3.connect("database/farm.db")
+            
+        cursor = conn.cursor()
+            
+        logger.info(f"Preparando todos os registros da tabela de vacinação!")
+            
+        cursor.execute(
+                        """SELECT * FROM vaccinesapplication"""
+                    )
+            
+        rows = cursor.fetchall()
+            
+        vaccineapplicationrecord = []
+            
+        for row in rows:
+            logger.info("Linha do banco: %s", row)
+            
+        applydate_converted = datetime.fromisoformat(row[4] if row[4] else None)
+            
+        logger.info("Data convertida fica %s",applydate_converted)
+            
+        vaccineapplication_record = VaccineApplication(
+                             
+            id = row[0],
+            animal_id= row[1],
+            vaccine_name = VaccineName(row[2]),
+            feeding_quantity = row[3],
+            feeding_date= applydate_converted
+            
+                        )
+            
+        vaccineapplicationrecord.append(vaccineapplication_record)
+            
+        conn.close()
+            
+            
+        return vaccineapplicationrecord
 
     def update(self, vaccineapplication: VaccineApplication):
         conn = sqlite3.connect("database/farm.db")
