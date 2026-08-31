@@ -32,7 +32,7 @@ class VaccineApplicationRepository:
             VALUES (?, ?, ?)""",
             (
                 vaccineapplication.animal_id,
-                vaccineapplication.vaccine_name,
+                vaccineapplication.vaccine_name.value,
                 vaccineapplication.apply_date.isoformat(),
             )
         )
@@ -87,21 +87,20 @@ class VaccineApplicationRepository:
         for row in rows:
             logger.info("Linha do banco: %s", row)
             
-        applydate_converted = datetime.fromisoformat(row[4] if row[4] else None)
-            
-        logger.info("Data convertida fica %s",applydate_converted)
-            
-        vaccineapplication_record = VaccineApplication(
-                             
-            id = row[0],
-            animal_id= row[1],
-            vaccine_name = VaccineName(row[2]),
-            feeding_quantity = row[3],
-            feeding_date= applydate_converted
-            
-                        )
-            
-        vaccineapplicationrecord.append(vaccineapplication_record)
+            applydate_converted = date.fromisoformat(row[3] if row[3] else None)
+                
+            logger.info("Data convertida fica %s",applydate_converted)
+                
+            vaccineapplication_record = VaccineApplication(
+                                
+                id = row[0],
+                animal_id= row[1],
+                vaccine_name = VaccineName(row[2]),
+                apply_date= applydate_converted
+                
+                            )
+                
+            vaccineapplicationrecord.append(vaccineapplication_record)
             
         conn.close()
             
@@ -122,7 +121,7 @@ class VaccineApplicationRepository:
             ''',
             (
                 vaccineapplication.animal_id,
-                vaccineapplication.vaccine_name,
+                vaccineapplication.vaccine_name.value,
                 vaccineapplication.apply_date,
                 vaccineapplication.id
             )

@@ -2,6 +2,7 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import date
 from enums.VaccineName import VaccineName
+from enums.IntervalVaccines import IntervalVaccines
 
 class VaccineApplication:
 
@@ -23,7 +24,7 @@ class VaccineApplication:
         return animalid
 
     def _validate_names_vaccines(self, vaccine_name):
-        if not isinstance(self.vaccine_name, VaccineName):
+        if not isinstance(vaccine_name, VaccineName):
             raise TypeError("Digite um nome de vacina válido!")
         
         return vaccine_name
@@ -43,11 +44,11 @@ class VaccineApplication:
 
     def calculate_next_dose(self):
         interval_days = {
-            "Brucelose": 100,
-            "Raiva": 150,
+            "brucelose": 100,
+            "raiva": 150,
         }
 
-        interval = interval_days[self.vaccine_name]
+        interval = interval_days[self.vaccine_name.value]
 
         next_dose = self.apply_date + timedelta(days=interval)
 

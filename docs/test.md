@@ -66,7 +66,12 @@ python -m pytest -sv tests/test_feedingrecord_service.py::test_remove
 
 # Testes FeedingRecord Repository
 
-python -m pytest -sv tests/test_feedingrecording_repository.py
+python -m pytest -sv tests/test_feedingrecording_repository.
+
+# Testes VaccineApplication Service
+
+python -m pytest -sv tests/test_vaccineapplication_service.py
+python -m pytest -sv tests/test_vaccineapplication_service.py::test_register_vaccine_application
 
 
 

@@ -33,7 +33,7 @@ class VaccineApplicationService:
         logger.info = {"Alimentação registrada!"}
 
     def findall(self):
-        return self.repository.findall()
+        return self.repository.find_all()
 
     def get_by_id(self, id):
         return self.repository.get_by_id(id)
