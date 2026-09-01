@@ -16,10 +16,6 @@ class AnimalService:
 
         if animal.id is not None:
             raise ValueError("O registro já existe.")
-
-        
-        if animal.weight>1500:
-            raise ValueError("O animal não pode ter peso superior a 1500kg")
         
 
     def _validate_if_animal_exists(self, id):
@@ -32,7 +28,7 @@ class AnimalService:
 
     def _validate_weight(self, animal):
         if animal.weight>1500:
-            raise ValueError("O animal não pode ter mais de 1500kg")
+            raise ValueError("O animal não pode ter peso superior a 1500kg")
 
         
     # CRUD methods
@@ -69,7 +65,16 @@ class AnimalService:
     # Update Weight
     
     def update_weight(self, animal, current_weight):
-        
+        if current_weight <= 0:
+            raise ValueError(
+            "Peso não pode ser menor ou igual a 0. Digite um peso válido!"
+        )
+
+        if current_weight > 1500:
+            raise ValueError(
+            "O animal não pode ter peso superior a 1500kg"
+        )
+
         animal.weight = current_weight
 
         return self.update(animal)

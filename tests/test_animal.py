@@ -73,7 +73,7 @@ def test_birthdate_cannot_be_none():
     with pytest.raises(ValueError) as exc_info:
         animal8 = Animal("bovine", None, 250)
 
-        assert str(exc_info.value) == "A data não pode estar vazia!"
+    assert str(exc_info.value) == "A data não pode estar vazia!"
 
 def test_birthdate_must_be_date():
     with pytest.raises(TypeError) as exc_info:

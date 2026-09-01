@@ -28,25 +28,25 @@ def test_get_by_id():
     assert animal.id == animal_id
 
 def test_findall():
-    # Create objects
     animal015 = Animal("bovine", "25/04/2022", 300)
     animal016 = Animal("caprine", "15/02/2024", 250)
 
-    # Create a repository
     repository015 = AnimalRepository()
 
-    # Save objects
     repository015.save(animal015)
     repository015.save(animal016)
 
-    # Find all
     animals = repository015.find_all()
 
-    # Result
-    #assert len(animals) == 19
     assert isinstance(animals, list)
-    assert animals[0].species == "bovine"
-    assert animals[1].birth_date == date(2025, 1, 22)
+
+    animals_by_id = {animal.id: animal for animal in animals}
+
+    assert animals_by_id[animal015.id].species == "bovine"
+    assert animals_by_id[animal015.id].birth_date == date(2022, 4, 25)
+
+    assert animals_by_id[animal016.id].species == "caprine"
+    assert animals_by_id[animal016.id].birth_date == date(2024, 2, 15)
 
 def test_update():
     animal = Animal("suine", "12/09/2020", 156)

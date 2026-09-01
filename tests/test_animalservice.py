@@ -36,26 +36,28 @@ def test_getbyid_animal():
     assert animal.weight == 81
 
 def test_findall_animals():
-     # Create objects
+    # Arrange
     animal014 = Animal("Suine", "24/01/2026", 100)
     animal017 = Animal("Caprine", "10/12/2025", 250)
 
-    # Create services
     service012 = AnimalService()
 
-    # Saving objects
     service012.register(animal014)
     service012.register(animal017)
 
-    print(service012.get_by_id(animal014.id))
-    print(service012.get_by_id(animal017.id))
-
-     # Find all objects
+    # Act
     animals = service012.findall()
 
-     # Results
-    #assert len(animals) == 2
+    # Assert
     assert isinstance(animals, list)
+
+    animals_by_id = {animal.id: animal for animal in animals}
+
+    assert animals_by_id[animal014.id].species == "Suine"
+    assert animals_by_id[animal014.id].birth_date == date(2026, 1, 24)
+
+    assert animals_by_id[animal017.id].species == "Caprine"
+    assert animals_by_id[animal017.id].birth_date == date(2025, 12, 10)
 
 def test_update_animal():
         # Create a new object
@@ -122,6 +124,24 @@ def test_updating_weight():
     
     # Result
         assert updated_animal.weight == 450
+
+def test_update_weight_cannot_be_zero_or_negative():
+    animal = Animal("bovine", "20/06/2024", 400)
+    service = AnimalService()
+
+    service.register(animal)
+
+    with pytest.raises(ValueError):
+        service.update_weight(animal, 0)
+
+def test_update_weight_cannot_be_negative():
+    animal = Animal("bovine", "20/06/2024", 400)
+    service = AnimalService()
+
+    service.register(animal)
+
+    with pytest.raises(ValueError):
+        service.update_weight(animal, -10)
 
 def test_update_with_validate():
     # Create an object

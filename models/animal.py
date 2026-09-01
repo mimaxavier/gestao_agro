@@ -71,7 +71,7 @@ class Animal:
         age = self.calculate_age()
         return f"{age.years} anos, {age.months} meses e {age.days} dias"
 
-    def is_a_calf(self, animal):
-            return animal.age_inmonths()<13
+    def is_a_calf(self):
+            return self.age_inmonths()<13
            
         
