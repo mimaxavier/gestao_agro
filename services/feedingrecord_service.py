@@ -22,6 +22,10 @@ class FeedingRecordService:
         if feedingrecord.id is not None:
             raise ValueError("O registro já existe!")
 
+    def _validate_feeding_quantity(self, feeding_quantity):
+        if feeding_quantity.feeding_quantity<=0:
+            raise ValueError("A quantidade de alimento não pode ser menor ou igual a 0. Digite um valor válido.")
+
 #CRUD
 
     def register(self, feedingrecord):
@@ -39,6 +43,7 @@ class FeedingRecordService:
 
     def update(self, feedingrecord):
         self._validate_if_feedingrecord_exists(feedingrecord.id)
+        self._validate_feeding_quantity(feedingrecord)
 
         self.repository.update(feedingrecord)
 

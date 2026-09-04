@@ -19,6 +19,42 @@ def test_should_not_accept_object_already_registered():
         service.register(feed001)
     assert str(exc_info.value) == "O registro já existe!"
 
+def test_update_should_not_accept_zero_quantity():
+    feed04 = FeedingRecord(
+        3, FeedType.PASTURE, 80, "16/06/2025 07:30"
+    )
+    service = FeedingRecordService()
+
+    service.register(feed04)
+
+    feed04.feeding_quantity = 0
+
+    with pytest.raises(ValueError) as exc_info:
+        service.update(feed04)
+
+    assert str(exc_info.value) == (
+        "A quantidade de alimento não pode ser menor ou igual a 0. "
+        "Digite um valor válido."
+    )
+
+def test_update_should_not_accept_negative_quantity():
+    feed04 = FeedingRecord(
+        3, FeedType.PASTURE, 80, "16/06/2025 07:30"
+    )
+    service = FeedingRecordService()
+
+    service.register(feed04)
+
+    feed04.feeding_quantity = -10
+
+    with pytest.raises(ValueError) as exc_info:
+        service.update(feed04)
+
+    assert str(exc_info.value) == (
+        "A quantidade de alimento não pode ser menor ou igual a 0. "
+        "Digite um valor válido."
+    )
+
 def test_register_feed():
     service = FeedingRecordService()
     feed001 = FeedingRecord(2, FeedType.SILAGE, 50, "12/03/2026 08:30")
