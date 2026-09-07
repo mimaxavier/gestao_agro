@@ -23,12 +23,12 @@ def test_get_by_id():
 
     feedr = repositorio002.save(feed2)
 
-    feedrecord = repositorio002.get_by_id(feed2.id)
+    feedrecord = repositorio002.get_by_id(feedr.id)
 
-    assert feed2.animal_id == 4
-    assert feed2.feeding_type == FeedType.PASTURE
-    assert feed2.feeding_quantity == 300
-    assert feed2.feeding_date == datetime(2025, 4, 23, 8, 30)
+    assert feedrecord.animal_id == 4
+    assert feedrecord.feeding_type == FeedType.PASTURE
+    assert feedrecord.feeding_quantity == 300
+    assert feedrecord.feeding_date == datetime(2025, 4, 23, 8, 30)
 
 def test_findall():
     feed2 = FeedingRecord(4, FeedType.SILAGE, 300, "23/04/2025 08:30")
@@ -41,27 +41,36 @@ def test_findall():
 
     feedingrecords = repositorio.find_all()
 
+    feeds_by_id = {feed.id: feed for feed in feedingrecords}
+
+    assert feeds_by_id[feed2.id].feeding_type == FeedType.SILAGE
+    assert feeds_by_id[feed2.id].feeding_date == datetime(2025, 4, 23, 8, 30)
+    
+    assert feeds_by_id[feed3.id].feeding_type == FeedType.PASTURE
+    assert feeds_by_id[feed3.id].feeding_date == datetime(2025, 4, 23, 6, 30)
+
+    assert feeds_by_id[feed2.id].feeding_quantity == 300
+    assert feeds_by_id[feed3.id].feeding_quantity == 150
+
     assert isinstance(feedingrecords, list)
-    '''assert feedingrecords[0].feeding_type == "silagem"'''
+    
 
 def test_update():
     feed2 = FeedingRecord(4, FeedType.PASTURE, 300, "23/04/2025 08:30")
     repo = FeedingRecordRepository()
 
-    salvo = repo.save(feed2)
+    repo.save(feed2)
     
-    print(salvo)
-
     # altera algo
-    feed2.type_feeding = FeedType.HAY
-    feed2.quantity_feeding = 50
+    feed2.feeding_type = FeedType.HAY
+    feed2.feeding_quantity = 50
 
     repo.update(feed2)
 
-    '''updated = repo.get_by_id(feed2.id)'''
+    updated = repo.get_by_id(feed2.id)
 
-    assert feed2.type_feeding == FeedType.HAY
-    assert feed2.quantity_feeding == 50
+    assert updated.feeding_type == FeedType.HAY
+    assert updated.feeding_quantity == 50
 
 def test_delete():
     #criação
