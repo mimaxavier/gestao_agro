@@ -42,3 +42,21 @@ def test_date_must_be_string_or_date():
         feedingrecord4 = FeedingRecord(3, FeedType.PASTURE, 100, "23/05/25")
 
     assert str(exc_info.value) == "feeding_date deve estar no formato DD/MM/YYYY HH:MM"
+
+def test_quantityfeeding_cannot_be_zero():
+    with pytest.raises(ValueError) as exc_info:
+        FeedingRecord(2, FeedType.PASTURE, 0, "25/03/2024 08:30")
+
+    assert str(exc_info.value) == (
+        "A quantidade de alimento não pode ser menor ou igual a 0. "
+        "Digite um valor válido."
+    )
+
+def test_quantityfeeding_cannot_be_negative():
+    with pytest.raises(ValueError) as exc_info:
+        FeedingRecord(2, FeedType.PASTURE, -10, "25/03/2024 08:30")
+
+    assert str(exc_info.value) == (
+        "A quantidade de alimento não pode ser menor ou igual a 0. "
+        "Digite um valor válido."
+    )

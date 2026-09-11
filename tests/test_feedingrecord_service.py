@@ -68,12 +68,25 @@ def test_register_feed():
 def test_findall():
     service = FeedingRecordService()
     feed001 = FeedingRecord(2, FeedType.SILAGE, 50, "12/03/2026 08:30")
+    feed002 = FeedingRecord(3, FeedType.HAY, 80, "16/03/2026 09:00")
+
     service.register(feed001)
+    service.register(feed002)
 
     feedrecords = service.findall()
 
+    feeds_by_id = {feed.id: feed for feed in feedrecords}
+
+    assert feeds_by_id[feed001.id].feeding_type == FeedType.SILAGE
+    assert feeds_by_id[feed001.id].feeding_quantity == 50
+    assert feeds_by_id[feed001.id].feeding_date == datetime(2026, 3, 12, 8, 30)
+
+    assert feeds_by_id[feed002.id].feeding_type == FeedType.HAY
+    assert feeds_by_id[feed002.id].feeding_quantity == 80
+    assert feeds_by_id[feed002.id].feeding_date == datetime(2026, 3, 16, 9, 0)
+
     assert isinstance(feedrecords, list)
-    '''assert len(feedrecords) == 1'''
+    
 
 def test_get_by_id():
     #Arrange
@@ -103,11 +116,36 @@ def test_update():
     # Act
     service002.update(feed04)
 
-    # Assert
-    assert feed04.feeding_quantity == 40
-    assert feed04.feeding_type == FeedType.HAY
+    getting_by_id = service002.get_by_id(feed04.id)
 
-    print(feed04.feeding_type)
+    # Assert
+    assert getting_by_id.feeding_quantity == 40
+    assert getting_by_id.feeding_type == FeedType.HAY
+
+def test_update_should_not_change_quantity_when_invalid():
+    # Arrange
+    feed04 = FeedingRecord(
+        3, FeedType.PASTURE, 80, "16/06/2025 07:30"
+    )
+    service = FeedingRecordService()
+
+    service.register(feed04)
+
+    feed04.feeding_quantity = -10
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        service.update(feed04)
+
+    # Assert
+    assert str(exc_info.value) == (
+        "A quantidade de alimento não pode ser menor ou igual a 0. "
+        "Digite um valor válido."
+    )
+
+    getting_by_id = service.get_by_id(feed04.id)
+
+    assert getting_by_id.feeding_quantity == 80
 
 def test_remove():
     # Arrange
@@ -121,3 +159,13 @@ def test_remove():
     
     # Assert
     assert gettingbyid is None
+
+def test_remove_should_not_accept_nonexistent_id():
+    service = FeedingRecordService()
+
+    with pytest.raises(ValueError) as exc_info:
+        service.remove(109)
+
+    assert str(exc_info.value) == (
+        "O registro não existe! Forneça um ID válido!"
+    )

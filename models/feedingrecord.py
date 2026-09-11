@@ -19,13 +19,21 @@ class FeedingRecord:
                  return feed_type
             
     def _validate_feedingquantity(self, feeding_quantity):
-            if feeding_quantity is None:
-                  raise ValueError("A quantidade não pode estar vazia!")
-            
-            if not isinstance(feeding_quantity, (int, float)):
-                  raise TypeError("Quantidade deve ter valor real! Digite um número real.")
-            
-            return feeding_quantity
+        if feeding_quantity is None:
+            raise ValueError("A quantidade não pode estar vazia!")
+
+        if not isinstance(feeding_quantity, (int, float)):
+            raise TypeError(
+                "Quantidade deve ter valor real! Digite um número real."
+            )
+
+        if feeding_quantity <= 0:
+            raise ValueError(
+                "A quantidade de alimento não pode ser menor ou igual a 0. "
+                "Digite um valor válido."
+            )
+
+        return feeding_quantity
     
     def _validate_feeding_date(self, feeding_date):
 

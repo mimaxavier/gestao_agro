@@ -103,6 +103,6 @@ def test_calculate_age():
 def test_ifanimal_isacalf():
     animal = Animal("bovine", "22/12/2025", 90)
 
-    age = animal.is_a_calf(animal)
+    age = animal.is_a_calf()
 
     assert age == True
