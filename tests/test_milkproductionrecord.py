@@ -1,6 +1,5 @@
 from models.milkproductionrecord import MilkProductionRecord
 from datetime import datetime
-from datetime import date
 import pytest
 
 #Validate animal_id
@@ -31,7 +30,7 @@ def test_quantity_must_be_int_or_float():
 
         production003 = MilkProductionRecord(3, "cinco", "24/05/2024 05:25:01")
 
-    assert str(exc_info.value) == "A unidade precisa ser um inteiro!"
+    assert str(exc_info.value) == "A quantidade precisa ser um número inteiro ou decimal!"
 
 def test_quantity_cannot_be_empty():
     with pytest.raises(ValueError) as exc_info:
@@ -48,4 +47,44 @@ def test_dateproduction_must_be_datetime():
         production005 = MilkProductionRecord(2, 50, 249839)
 
     assert str(exc_info.value) == "Insira um tipo válido!"
+
+def test_dateproduction_should_accept_valid_string():
+    production = MilkProductionRecord(
+        2,
+        50,
+        "24/05/2024 05:25"
+    )
+
+    assert production.production_date == datetime(2024, 5, 24, 5, 25)
+
+def test_dateproduction_should_accept_datetime():
+    production_date = datetime(2024, 5, 24, 5, 25)
+
+    production = MilkProductionRecord(
+        2,
+        50,
+        production_date
+    )
+
+    assert production.production_date == production_date
+
+def test_dateproduction_should_reject_invalid_format():
+    with pytest.raises(ValueError):
+        MilkProductionRecord(
+            2,
+            50,
+            "24/05/2024"
+        )
+
+def test_quantityproduction_cannot_be_zero():
+    with pytest.raises(ValueError) as exc_info:
+        MilkProductionRecord(
+            2,
+            0,
+            "24/05/2024 05:25"
+        )
+
+    assert str(exc_info.value) == (
+        "A quantidade não pode ser menor ou igual a 0!"
+    )
 

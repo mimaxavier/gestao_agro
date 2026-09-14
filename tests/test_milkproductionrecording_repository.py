@@ -4,53 +4,85 @@ from datetime import datetime, date
 import pytest
 
 def test_save_milkproductionrecord():
-    # Create objects
-    milkproduction001 = MilkProductionRecord(1, 25, "12/03/2025 12:30")
+    milkproduction001 = MilkProductionRecord(
+        1, 25, "12/03/2025 12:30"
+    )
 
-    repositorio001 = MilkProductionRecordRepository()
+    repository = MilkProductionRecordRepository()
+    saved = repository.save(milkproduction001)
 
-    # Saving
-    repositorio001.save(milkproduction001)
+    assert saved.id is not None
 
-    # Result
-    assert milkproduction001 is not None
+    result = repository.get_by_id(saved.id)
+
+    assert result.animal_id == 1
+    assert result.quantity_production == 25
+    assert result.production_date == datetime(2025, 3, 12, 12, 30)
 
 
 def test_getbyid_milkproductionrepository():
-    # Create objects
-    milkproduction002 = MilkProductionRecord(2, 26, "13/03/2025 12:30")
+    milkproduction002 = MilkProductionRecord(
+        2, 26, "13/03/2025 12:30"
+    )
 
-    repositorio002 = MilkProductionRecordRepository()
+    repository = MilkProductionRecordRepository()
+    repository.save(milkproduction002)
 
-    # Saving
-    repositorio002.save(milkproduction002)
+    result = repository.get_by_id(milkproduction002.id)
 
-    # Get by id
-    repositorio002.get_by_id(milkproduction002.id)
+    assert result is not None
+    assert result.animal_id == 2
+    assert result.quantity_production == 26
+    assert result.production_date == datetime(2025, 3, 13, 12, 30)
 
-    # Result
-    assert milkproduction002.animal_id == 2
-    assert milkproduction002.quantity_production == 26
-    assert milkproduction002.production_date == datetime(2025, 3, 13, 12, 30)
+def test_findall_milkproductionrepository():
+    milkproduction001 = MilkProductionRecord(
+        1, 25, "12/03/2025 12:30"
+    )
+    milkproduction002 = MilkProductionRecord(
+        2, 30, "13/03/2025 13:30"
+    )
+
+    repository = MilkProductionRecordRepository()
+
+    repository.save(milkproduction001)
+    repository.save(milkproduction002)
+
+    results = repository.find_all()
+
+    records_by_id = {record.id: record for record in results}
+
+    assert records_by_id[milkproduction001.id].animal_id == 1
+    assert records_by_id[milkproduction001.id].quantity_production == 25
+    assert records_by_id[milkproduction001.id].production_date == datetime(
+        2025, 3, 12, 12, 30
+    )
+
+    assert records_by_id[milkproduction002.id].animal_id == 2
+    assert records_by_id[milkproduction002.id].quantity_production == 30
+    assert records_by_id[milkproduction002.id].production_date == datetime(
+        2025, 3, 13, 13, 30
+    )
+
+    assert isinstance(results, list)
 
 def test_update_milkproductionrepository():
-    # Create objects
-    milkproduction003 = MilkProductionRecord(3, 27, "14/03/2025 12:30")
-    repositorio003 = MilkProductionRecordRepository()
+    milkproduction003 = MilkProductionRecord(
+        3, 27, "14/03/2025 12:30"
+    )
 
-    # Saving
-    repositorio003.save(milkproduction003)
+    repository = MilkProductionRecordRepository()
+    repository.save(milkproduction003)
 
-    # Creating new attributes
     milkproduction003.quantity_production = 28
     milkproduction003.production_date = datetime(2025, 4, 28, 13, 50)
 
-    # Updating 
-    repositorio003.update(milkproduction003)
+    repository.update(milkproduction003)
 
-    # Result
-    assert milkproduction003.quantity_production == 28
-    assert milkproduction003.production_date == datetime(2025, 4, 28, 13, 50 )
+    result = repository.get_by_id(milkproduction003.id)
+
+    assert result.quantity_production == 28
+    assert result.production_date == datetime(2025, 4, 28, 13, 50)
 
 def test_delete_milkproductionrepository():
     # Create objects

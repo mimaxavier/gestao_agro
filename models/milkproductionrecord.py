@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime
 
 class MilkProductionRecord:
 
@@ -26,7 +26,7 @@ class MilkProductionRecord:
             raise ValueError("A quantidade não pode estar vazia!")
         
         if not isinstance(quantity_production, (int, float)):
-            raise TypeError("A unidade precisa ser um inteiro!")
+            raise TypeError("A quantidade precisa ser um número inteiro ou decimal!")
 
         if quantity_production <= 0:
             raise ValueError("A quantidade não pode ser menor ou igual a 0!")

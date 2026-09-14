@@ -43,7 +43,7 @@ class MilkProductionService:
 
         self.repository.save(milkproductionrecord)
 
-        logger.info = {"Produção registrada!"}
+        logger.info("Produção registrada!")
 
     def findall(self):
         return self.repository.find_all()
