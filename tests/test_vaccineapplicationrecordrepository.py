@@ -5,52 +5,102 @@ from enums.VaccineName import VaccineName
 import pytest
 
 def test_save_vaccine():
-    # Create Objects
-    vaccine001 = VaccineApplication(1, VaccineName.BRUCELOSE, "30/07/2025")
+    vaccine001 = VaccineApplication(
+        1,
+        VaccineName.BRUCELOSE,
+        "30/07/2025"
+    )
 
-    repository001 = VaccineApplicationRepository()
+    repository = VaccineApplicationRepository()
 
-    # Saving Object
-    repository001.save(vaccine001)
+    repository.save(vaccine001)
 
-    # Result
-    assert vaccine001 is not None
+    assert vaccine001.id is not None
+
+    result = repository.get_by_id(vaccine001.id)
+
+    assert result is not None
+    assert result.animal_id == 1
+    assert result.vaccine_name == VaccineName.BRUCELOSE
+    assert result.apply_date == date(2025, 7, 30)
 
 def test_getbyid():
-    # Create Objects
-    vaccine002 = VaccineApplication(2, VaccineName.RAIVA, "31/07/2025")
+    vaccine002 = VaccineApplication(
+        2,
+        VaccineName.RAIVA,
+        "31/07/2025"
+    )
 
     repository002 = VaccineApplicationRepository()
 
-    # Saving Object
     repository002.save(vaccine002)
 
-    # Search for id
-    repository002.get_by_id(vaccine002.id)
+    result = repository002.get_by_id(vaccine002.id)
 
-    # Result
-    assert vaccine002.animal_id == 2
-    assert vaccine002.vaccine_name == VaccineName.RAIVA
-    assert vaccine002.apply_date == date(2025, 7, 31)
+    assert result is not None
+    assert result.id == vaccine002.id
+    assert result.animal_id == 2
+    assert result.vaccine_name == VaccineName.RAIVA
+    assert result.apply_date == date(2025, 7, 31)
+
+def test_find_all():
+    vaccine001 = VaccineApplication(
+        1,
+        VaccineName.BRUCELOSE,
+        "30/07/2025"
+    )
+
+    vaccine002 = VaccineApplication(
+        2,
+        VaccineName.RAIVA,
+        "31/07/2025"
+    )
+
+    repository = VaccineApplicationRepository()
+
+    repository.save(vaccine001)
+    repository.save(vaccine002)
+
+    result = repository.find_all()
+
+    vaccines_by_id = {
+        vaccine.id: vaccine
+        for vaccine in result
+    }
+
+    assert vaccines_by_id[vaccine001.id].animal_id == 1
+    assert vaccines_by_id[vaccine001.id].vaccine_name == VaccineName.BRUCELOSE
+    assert vaccines_by_id[vaccine001.id].apply_date == date(2025, 7, 30)
+
+    assert vaccines_by_id[vaccine002.id].animal_id == 2
+    assert vaccines_by_id[vaccine002.id].vaccine_name == VaccineName.RAIVA
+    assert vaccines_by_id[vaccine002.id].apply_date == date(2025, 7, 31)
+
+    assert isinstance(result, list)
 
 def test_update():
-    # Create objects
-    vaccine003 = VaccineApplication(3, VaccineName.BRUCELOSE, "01/08/2025")
+    vaccine003 = VaccineApplication(
+        3,
+        VaccineName.BRUCELOSE,
+        "01/08/2025"
+    )
+
     repository003 = VaccineApplicationRepository()
 
-    # Saving object
     repository003.save(vaccine003)
 
-    # new values attributs
     vaccine003.vaccine_name = VaccineName.RAIVA
-    vaccine003.apply_date = "02/08/2025"
-    
-    # Updating
+    vaccine003.apply_date = date(2025, 8, 2)
+
     repository003.update(vaccine003)
 
-    # Result
-    assert vaccine003.vaccine_name == VaccineName.RAIVA
-    assert vaccine003.apply_date == "02/08/2025"
+    result = repository003.get_by_id(vaccine003.id)
+
+    assert result is not None
+    assert result.id == vaccine003.id
+    assert result.animal_id == 3
+    assert result.vaccine_name == VaccineName.RAIVA
+    assert result.apply_date == date(2025, 8, 2)
 
 def test_delete():
     # Create objects

@@ -1,6 +1,7 @@
-from models.vaccineapplicationrecord import VaccineApplication
 from repositories.vaccineapplicationrecord_repository import VaccineApplicationRepository
-from datetime import date, datetime
+from enums.IntervalVaccines import IntervalVaccines
+from enums.VaccineName import VaccineName
+from datetime import timedelta
 import logging
 
 logger = logging.getLogger(__name__)
@@ -30,7 +31,7 @@ class VaccineApplicationService:
 
         self.repository.save(vaccineapplication)
 
-        logger.info = {"Alimentação registrada!"}
+        logger.info = ("Vacinação Registrada")
 
     def findall(self):
         return self.repository.find_all()
@@ -47,3 +48,9 @@ class VaccineApplicationService:
         self._validate_if_vaccineapplication_exists(id)
 
         self.repository.delete(id)
+
+    def calculate_next_dose(self, vaccineapplication):
+        interval = IntervalVaccines[vaccineapplication.vaccine_name.name].value
+
+        return vaccineapplication.apply_date + timedelta(days=interval)
+        

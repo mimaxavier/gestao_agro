@@ -122,7 +122,7 @@ class VaccineApplicationRepository:
             (
                 vaccineapplication.animal_id,
                 vaccineapplication.vaccine_name.value,
-                vaccineapplication.apply_date,
+                vaccineapplication.apply_date.isoformat(),
                 vaccineapplication.id
             )
         )

@@ -1,8 +1,6 @@
 from datetime import datetime
-from datetime import timedelta
 from datetime import date
 from enums.VaccineName import VaccineName
-from enums.IntervalVaccines import IntervalVaccines
 
 class VaccineApplication:
 
@@ -12,7 +10,6 @@ class VaccineApplication:
         self.vaccine_name = self._validate_names_vaccines(vaccine_name)
         self.apply_date = self._validate_apply_date(apply_date)
         self.id = id
-        self.next_dose = self.calculate_next_dose()
 
     def _validate_animalid(self, animalid):
         if animalid is None:
@@ -35,23 +32,13 @@ class VaccineApplication:
            applydate = datetime.strptime(applydate, r"%d/%m/%Y").date()
 
         elif isinstance(applydate, date):
-            self.apply_date = applydate
+            return applydate
 
         else:
             raise TypeError("Precisa informar no formato date ou string!")
 
         return applydate
 
-    def calculate_next_dose(self):
-        interval_days = {
-            "brucelose": 100,
-            "raiva": 150,
-        }
-
-        interval = interval_days[self.vaccine_name.value]
-
-        next_dose = self.apply_date + timedelta(days=interval)
-
-        return next_dose
+    
 
     

@@ -319,3 +319,44 @@ def test_validate_object_is_not_ready_when_id_exists():
     ):
         service._validate_object_is_ready_for_register(vaccine)
 
+def test_calculate_next_dose_for_raiva():
+    vaccine = VaccineApplication(
+        animal_id=1,
+        vaccine_name=VaccineName.RAIVA,
+        apply_date="26/06/2025"
+    )
+
+    repository = VaccineApplicationRepository()
+    service = VaccineApplicationService(repository)
+
+    result = service.calculate_next_dose(vaccine)
+
+    assert result == date(2025, 11, 23)
+
+def test_calculate_next_dose_for_brucelose():
+    vaccine = VaccineApplication(
+        animal_id=1,
+        vaccine_name=VaccineName.BRUCELOSE,
+        apply_date="20/08/2026"
+    )
+
+    repository = VaccineApplicationRepository()
+    service = VaccineApplicationService(repository)
+
+    result = service.calculate_next_dose(vaccine)
+
+    assert result == date(2026, 11, 28)
+
+def test_calculate_next_dose_for_febre_aftosa():
+    vaccine = VaccineApplication(
+        animal_id=1,
+        vaccine_name=VaccineName.FEBREAFTOSA,
+        apply_date="20/08/2026"
+    )
+
+    repository = VaccineApplicationRepository()
+    service = VaccineApplicationService(repository)
+
+    result = service.calculate_next_dose(vaccine)
+
+    assert result == date(2027, 3, 8)

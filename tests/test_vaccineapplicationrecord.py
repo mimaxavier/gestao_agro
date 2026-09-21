@@ -25,11 +25,46 @@ def test_name_vaccine_in_validnames():
 
     assert str(exc_info.value) == "Digite um nome de vacina válido!"
 
-def test_calculate_next_dose():
+def test_apply_date_should_accept_valid_string():
+    vaccine = VaccineApplication(
+        1,
+        VaccineName.RAIVA,
+        "20/08/2026"
+    )
 
-    vaccine004 = VaccineApplication(3, VaccineName.RAIVA, "26/06/2025")
-
-    assert vaccine004.calculate_next_dose() == date(2025, 11, 23)
+    assert vaccine.apply_date == date(2026, 8, 20)
 
 
+def test_apply_date_should_accept_date():
+    apply_date = date(2026, 8, 20)
+
+    vaccine = VaccineApplication(
+        1,
+        VaccineName.RAIVA,
+        apply_date
+    )
+
+    assert vaccine.apply_date == apply_date
+
+
+def test_apply_date_should_reject_invalid_type():
+    with pytest.raises(TypeError) as exc_info:
+        VaccineApplication(
+            1,
+            VaccineName.RAIVA,
+            12345
+        )
+
+    assert str(exc_info.value) == (
+        "Precisa informar no formato date ou string!"
+    )
+
+
+def test_apply_date_should_reject_invalid_format():
+    with pytest.raises(ValueError):
+        VaccineApplication(
+            1,
+            VaccineName.RAIVA,
+            "20/08/2026 10:30"
+        )
 
