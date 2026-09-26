@@ -62,7 +62,6 @@ def test_register_should_raise_error_when_vaccine_application_already_exists():
 
 def test_findall_should_return_vaccine_applications():
 
-    # Arrange
     vaccine1 = VaccineApplication(
         animal_id=1,
         vaccine_name=VaccineName.RAIVA,
@@ -81,18 +80,22 @@ def test_findall_should_return_vaccine_applications():
     service.register(vaccine1)
     service.register(vaccine2)
 
-    print(vaccine1)
-    print(vaccine2)
-
-    # Act
     result = service.findall()
 
-    print(result)
+    vaccines_by_id = {
+        vaccine.id: vaccine
+        for vaccine in result
+    }
 
-    # Assert
-    assert result is not None
-    assert len(result) >= 2
+    assert vaccines_by_id[vaccine1.id].animal_id == 1
+    assert vaccines_by_id[vaccine1.id].vaccine_name == VaccineName.RAIVA
+    assert vaccines_by_id[vaccine1.id].apply_date == date(2026, 8, 20)
 
+    assert vaccines_by_id[vaccine2.id].animal_id == 2
+    assert vaccines_by_id[vaccine2.id].vaccine_name == VaccineName.BRUCELOSE
+    assert vaccines_by_id[vaccine2.id].apply_date == date(2026, 8, 21)
+
+    assert isinstance(result, list)
 
 # ============================================================
 # GET BY ID
@@ -189,6 +192,61 @@ def test_update_should_raise_error_when_id_does_not_exist():
         ValueError,
         match="O registro não existe! Forneça um ID válido."
     ):
+        service.update(vaccine)
+
+def test_update_should_not_accept_invalid_date():
+
+    vaccine = VaccineApplication(
+        animal_id=1,
+        vaccine_name=VaccineName.RAIVA,
+        apply_date="20/08/2026"
+    )
+
+    repository = VaccineApplicationRepository()
+    service = VaccineApplicationService(repository)
+
+    service.register(vaccine)
+
+    vaccine.apply_date = "data inválida"
+
+    with pytest.raises(ValueError):
+        service.update(vaccine)
+
+
+def test_update_should_not_accept_invalid_animal_id():
+
+        vaccine = VaccineApplication(
+        animal_id=1,
+        vaccine_name=VaccineName.RAIVA,
+        apply_date="20/08/2026"
+    )
+
+        repository = VaccineApplicationRepository()
+        service = VaccineApplicationService(repository)
+
+        service.register(vaccine)
+
+        vaccine.animal_id = "abc"
+
+        with pytest.raises(TypeError):
+            service.update(vaccine)
+
+def test_update_should_not_accept_invalid_vaccine_name():
+
+    vaccine = VaccineApplication(
+        animal_id=1,
+        vaccine_name=VaccineName.RAIVA,
+        apply_date="20/08/2026"
+    )
+
+    repository = VaccineApplicationRepository()
+    service = VaccineApplicationService(repository)
+
+    service.register(vaccine)
+
+    vaccine.vaccine_name = "raiva"
+
+    with pytest.raises(TypeError):
         service.update(vaccine)
 
 

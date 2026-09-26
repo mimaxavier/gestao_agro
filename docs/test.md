@@ -74,6 +74,7 @@ python -m pytest -sv tests/test_feedingrecording_repository.
 # Testes VaccineApplication Service
 
 python -m pytest -sv tests/test_vaccineapplication_service.py
+
 python -m pytest -sv tests/test_vaccineapplication_service.py::test_register_vaccine_application
 
 
