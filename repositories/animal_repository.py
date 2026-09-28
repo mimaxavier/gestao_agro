@@ -1,4 +1,5 @@
 import sqlite3
+from database.connection import get_connection
 from datetime import date
 from datetime import datetime
 from models.animal import Animal
@@ -17,7 +18,7 @@ class AnimalRepository:
             f"{animal.weight}"
         )
 
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -47,7 +48,7 @@ class AnimalRepository:
     def get_by_id(self, animal_id: int):
         query = "SELECT species, birth_date, weight, id FROM animals WHERE id = ?"
 
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -74,7 +75,7 @@ class AnimalRepository:
         )
     
     def find_all(self):
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -113,7 +114,7 @@ class AnimalRepository:
 
 
     def update(self, animal):
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -143,7 +144,7 @@ class AnimalRepository:
         conn.close()
 
     def delete(self, animal_id):
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 

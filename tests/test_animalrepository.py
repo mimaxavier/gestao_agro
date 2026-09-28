@@ -1,7 +1,11 @@
 from repositories.animal_repository import AnimalRepository
 from models.animal import Animal
 from datetime import date
+from repositories.feedingrecord_repository import FeedingRecordRepository
+from models.feedingrecord import FeedingRecord
+from enums.FeedType import FeedType
 import pytest
+import sqlite3
 
 def test_save():
 
@@ -77,3 +81,28 @@ def test_delete():
     #resultado
     result = repo.get_by_id(animal_id)
     assert result is None
+
+def test_database_should_not_allow_delete_animal_with_feeding_record():
+
+    animal = Animal(
+        species="Bovino",
+        birth_date="20/01/2024",
+        weight=450
+    )
+
+    animal_repository = AnimalRepository()
+    feeding_repository = FeedingRecordRepository()
+
+    animal_repository.save(animal)
+
+    feeding = FeedingRecord(
+        animal.id,
+        FeedType.SILAGE,
+        50,
+        "28/09/2026 08:00"
+    )
+
+    feeding_repository.save(feeding)
+
+    with pytest.raises(sqlite3.IntegrityError):
+        animal_repository.delete(animal.id)

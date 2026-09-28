@@ -1,4 +1,4 @@
-import sqlite3
+from database.connection import get_connection
 from datetime import date
 from datetime import datetime
 from models.animal import Animal
@@ -21,7 +21,7 @@ class FeedingRecordRepository:
             f"{feedingrecord.id}"
         )
 
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -53,7 +53,7 @@ class FeedingRecordRepository:
     def get_by_id(self, id: int):
         query = "SELECT id, animal_id, feeding_type, feeding_quantity, feeding_date FROM feedingrecord WHERE id = ?"
 
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -81,7 +81,7 @@ class FeedingRecordRepository:
         )
 
     def find_all(self):
-                conn = sqlite3.connect("database/farm.db")
+                conn = get_connection()
         
                 cursor = conn.cursor()
         
@@ -120,7 +120,7 @@ class FeedingRecordRepository:
                 return feedingrecord
 
     def update(self, feedingrecord: FeedingRecord):
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -142,7 +142,7 @@ class FeedingRecordRepository:
         conn.close()
 
     def delete(self, id:int):
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 

@@ -1,6 +1,7 @@
 from repositories.milkproductionrecord_repository import MilkProductionRecordRepository
 from models.milkproductionrecord import MilkProductionRecord
 from datetime import datetime, date
+import sqlite3
 import pytest
 
 def test_save_milkproductionrecord():
@@ -100,3 +101,16 @@ def test_delete_milkproductionrepository():
 
     # Results
     assert result is None
+
+def test_database_should_reject_invalid_animal_id():
+
+    milkproduction = MilkProductionRecord(
+        999999,
+        50,
+        "28/09/2026 08:00"
+    )
+
+    repository = MilkProductionRecordRepository()
+
+    with pytest.raises(sqlite3.IntegrityError):
+        repository.save(milkproduction)

@@ -1,8 +1,9 @@
 from repositories.vaccineapplicationrecord_repository import VaccineApplicationRepository
 from models.vaccineapplicationrecord import VaccineApplication
-from datetime import datetime, date
+from datetime import date
 from enums.VaccineName import VaccineName
 import pytest
+import sqlite3
 
 def test_save_vaccine():
     vaccine001 = VaccineApplication(
@@ -118,3 +119,16 @@ def test_delete():
 
     # Result
     assert result is None
+
+def test_database_should_reject_invalid_animal_id():
+
+    vaccine = VaccineApplication(
+        999999,
+        VaccineName.RAIVA,
+        "28/09/2026"
+    )
+
+    repository = VaccineApplicationRepository()
+
+    with pytest.raises(sqlite3.IntegrityError):
+        repository.save(vaccine)

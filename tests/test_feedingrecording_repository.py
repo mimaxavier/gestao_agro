@@ -85,3 +85,19 @@ def test_delete():
     result = repo.get_by_id(feed4.id)
 
     assert result is None
+
+# Teste temporário
+
+def test_database_should_reject_invalid_animal_id():
+
+    repository = FeedingRecordRepository()
+
+    feeding = FeedingRecord(
+        animal_id=999999,
+        feeding_type=FeedType.SILAGE,
+        feeding_quantity=50,
+        feeding_date="28/09/2026 08:00"
+    )
+
+    with pytest.raises(Exception):
+        repository.save(feeding)

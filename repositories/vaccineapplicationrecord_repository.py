@@ -1,4 +1,4 @@
-import sqlite3
+from database.connection import get_connection
 from datetime import date
 from datetime import datetime
 from models.vaccineapplicationrecord import VaccineApplication
@@ -19,7 +19,7 @@ class VaccineApplicationRepository:
             f"{vaccineapplication.id}"
         )
 
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -47,7 +47,7 @@ class VaccineApplicationRepository:
     def get_by_id(self, id: int):
         query = "SELECT animal_id, vaccine_name, apply_date, id FROM vaccinesapplication WHERE id = ?"
 
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -70,7 +70,7 @@ class VaccineApplicationRepository:
         )
 
     def find_all(self):
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
             
         cursor = conn.cursor()
             
@@ -108,7 +108,7 @@ class VaccineApplicationRepository:
         return vaccineapplicationrecord
 
     def update(self, vaccineapplication: VaccineApplication):
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
@@ -132,7 +132,7 @@ class VaccineApplicationRepository:
         conn.close()
 
     def delete(self, id: int):
-        conn = sqlite3.connect("database/farm.db")
+        conn = get_connection()
 
         cursor = conn.cursor()
 
