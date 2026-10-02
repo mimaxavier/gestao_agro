@@ -3,6 +3,7 @@ from models.feedingrecord import FeedingRecord
 from enums.FeedType import FeedType
 from datetime import date, datetime
 import pytest
+import sqlite3
 
 def test_save_feedingrecord():
 
@@ -101,3 +102,38 @@ def test_database_should_reject_invalid_animal_id():
 
     with pytest.raises(Exception):
         repository.save(feeding)
+
+def test_database_should_reject_zero_feeding_quantity():
+
+    feeding = FeedingRecord(
+        1,
+        FeedType.SILAGE,
+        0,
+        "28/09/2026 08:00"
+    )
+
+    repository = FeedingRecordRepository()
+
+    with pytest.raises(sqlite3.IntegrityError):
+        repository.save(feeding)
+
+def test_database_should_reject_zero_feeding_quantity():
+
+    conn = sqlite3.connect("database/farm.db")
+    conn.execute("PRAGMA foreign_keys = ON")
+
+    with pytest.raises(sqlite3.IntegrityError):
+        conn.execute(
+            """
+            INSERT INTO feedingrecord (
+                animal_id,
+                feeding_type,
+                feeding_quantity,
+                feeding_date
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            (1, "silagem", 0, "2026-09-28T08:00:00")
+        )
+
+    conn.close()

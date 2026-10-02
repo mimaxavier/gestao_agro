@@ -114,3 +114,35 @@ def test_database_should_reject_invalid_animal_id():
 
     with pytest.raises(sqlite3.IntegrityError):
         repository.save(milkproduction)
+
+def test_database_should_reject_zero_milk_production():
+
+    conn = sqlite3.connect("database/farm.db")
+    conn.execute("PRAGMA foreign_keys = ON")
+
+    conn.execute(
+        """
+        INSERT INTO animals (species, birth_date, weight)
+        VALUES (?, ?, ?)
+        """,
+        ("Bovino", "2024-01-20", 450)
+    )
+
+    animal_id = conn.execute(
+        "SELECT last_insert_rowid()"
+    ).fetchone()[0]
+
+    with pytest.raises(sqlite3.IntegrityError):
+        conn.execute(
+            """
+            INSERT INTO milkproductionrecord (
+                animal_id,
+                quantity_production,
+                production_date
+            )
+            VALUES (?, ?, ?)
+            """,
+            (animal_id, 0, "2026-09-28T08:00:00")
+        )
+
+    conn.close()   

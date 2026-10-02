@@ -20,7 +20,7 @@ CREATE TABLE feedingrecord (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 animal_id INTEGER NOT NULL,
 feeding_type TEXT NOT NULL,
-feeding_quantity REAL NOT NULL,
+feeding_quantity REAL NOT NULL CHECK(feeding_quantity > 0),
 feeding_date TEXT NOT NULL,
 
 FOREIGN KEY (animal_id)
@@ -30,7 +30,7 @@ FOREIGN KEY (animal_id)
 CREATE TABLE milkproductionrecord (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 animal_id INTEGER NOT NULL,
-quantity_production NUMBER NOT NULL,
+quantity_production REAL NOT NULL CHECK(quantity_production > 0),
 production_date TEXT NOT NULL,
 
 FOREIGN KEY (animal_id)

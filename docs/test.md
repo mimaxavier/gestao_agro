@@ -71,6 +71,8 @@ python -m pytest -sv tests/test_feedingrecord_service.py::test_remove
 
 python -m pytest -sv tests/test_feedingrecording_repository.
 
+python -m pytest -sv tests/test_feedingrecording_repository.py::test_database_should_reject_zero_feeding_quantity
+
 # Testes VaccineApplication Service
 
 python -m pytest -sv tests/test_vaccineapplication_service.py
