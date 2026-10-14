@@ -80,4 +80,9 @@ python -m pytest -sv tests/test_vaccineapplication_service.py
 python -m pytest -sv tests/test_vaccineapplication_service.py::test_register_vaccine_application
 
 
+python -m pytest -sv tests/test_milkproductionrecording_repository.py::test_database_should_reject_negative_milk_production
+
+python -m pytest -sv tests/test_feedingrecording_repository.py::test_database_should_reject_null_feeding_quantity
+
+
 

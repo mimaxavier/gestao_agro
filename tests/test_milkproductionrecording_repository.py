@@ -145,4 +145,135 @@ def test_database_should_reject_zero_milk_production():
             (animal_id, 0, "2026-09-28T08:00:00")
         )
 
-    conn.close()   
+    conn.close()
+
+def test_database_should_reject_negative_milk_production():
+
+    conn = sqlite3.connect("database/farm.db")
+    conn.execute("PRAGMA foreign_keys = ON")
+
+    conn.execute(
+        """
+        INSERT INTO animals (species, birth_date, weight)
+        VALUES (?, ?, ?)
+        """,
+        ("Bovino", "2024-01-20", 450)
+    )
+
+    animal_id = conn.execute(
+        "SELECT last_insert_rowid()"
+    ).fetchone()[0]
+
+    with pytest.raises(sqlite3.IntegrityError):
+        conn.execute(
+            """
+            INSERT INTO milkproductionrecord (
+                animal_id,
+                quantity_production,
+                production_date
+            )
+            VALUES (?, ?, ?)
+            """,
+            (animal_id, -10, "2024-03-25T08:30:00")
+        )
+
+    conn.close()
+
+def test_database_should_reject_null_feeding_quantity():
+
+    conn = sqlite3.connect("database/farm.db")
+    conn.execute("PRAGMA foreign_keys = ON")
+
+    conn.execute(
+        """
+        INSERT INTO animals (species, birth_date, weight)
+        VALUES (?, ?, ?)
+        """,
+        ("Bovino", "2024-01-20", 450)
+    )
+
+    animal_id = conn.execute(
+        "SELECT last_insert_rowid()"
+    ).fetchone()[0]
+
+    with pytest.raises(sqlite3.IntegrityError):
+        conn.execute(
+            """
+            INSERT INTO feedingrecord (
+                animal_id,
+                feeding_type,
+                feeding_quantity,
+                feeding_date
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            (animal_id, "pasture", None, "2024-03-25T08:30:00")
+        )
+
+    conn.close()
+
+def test_database_should_reject_null_milk_production():
+
+    conn = sqlite3.connect("database/farm.db")
+    conn.execute("PRAGMA foreign_keys = ON")
+
+    conn.execute(
+        """
+        INSERT INTO animals (species, birth_date, weight)
+        VALUES (?, ?, ?)
+        """,
+        ("Bovino", "2024-01-20", 450)
+    )
+
+    animal_id = conn.execute(
+        "SELECT last_insert_rowid()"
+    ).fetchone()[0]
+
+    with pytest.raises(sqlite3.IntegrityError):
+        conn.execute(
+            """
+            INSERT INTO milkproductionrecord (
+                animal_id,
+                quantity_production,
+                production_date
+            )
+            VALUES (?, ?, ?)
+            """,
+            (animal_id, None, "2024-03-25T08:30:00")
+        )
+
+    conn.close()
+
+def test_database_should_reject_null_production_date():
+
+    conn = sqlite3.connect("database/farm.db")
+    conn.execute("PRAGMA foreign_keys = ON")
+
+    conn.execute(
+        """
+        INSERT INTO animals (species, birth_date, weight)
+        VALUES (?, ?, ?)
+        """,
+        ("Bovino", "2024-01-20", 450)
+    )
+
+    animal_id = conn.execute(
+        "SELECT last_insert_rowid()"
+    ).fetchone()[0]
+
+    with pytest.raises(sqlite3.IntegrityError):
+        conn.execute(
+            """
+            INSERT INTO milkproductionrecord (
+                animal_id,
+                quantity_production,
+                production_date
+            )
+            VALUES (?, ?, ?)
+            """,
+            (animal_id, 50, None)
+        )
+
+    conn.close()
+
+    

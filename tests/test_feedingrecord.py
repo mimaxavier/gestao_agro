@@ -3,6 +3,7 @@ from datetime import datetime
 from datetime import date
 from enums.FeedType import FeedType
 import conftest
+import sqlite3
 import pytest
 
 def test_create_feedingrecord():
@@ -60,3 +61,36 @@ def test_quantityfeeding_cannot_be_negative():
         "A quantidade de alimento não pode ser menor ou igual a 0. "
         "Digite um valor válido."
     )
+
+def test_database_should_reject_null_feeding_quantity():
+
+    conn = sqlite3.connect("database/farm.db")
+    conn.execute("PRAGMA foreign_keys = ON")
+
+    conn.execute(
+        """
+        INSERT INTO animals (species, birth_date, weight)
+        VALUES (?, ?, ?)
+        """,
+        ("Bovino", "2024-01-20", 450)
+    )
+
+    animal_id = conn.execute(
+        "SELECT last_insert_rowid()"
+    ).fetchone()[0]
+
+    with pytest.raises(sqlite3.IntegrityError):
+        conn.execute(
+            """
+            INSERT INTO feedingrecord (
+                animal_id,
+                feeding_type,
+                feeding_quantity,
+                feeding_date
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            (animal_id, "pasture", None, "2024-03-25T08:30:00")
+        )
+
+    conn.close()
