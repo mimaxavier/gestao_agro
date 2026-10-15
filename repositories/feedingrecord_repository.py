@@ -17,38 +17,41 @@ class FeedingRecordRepository:
             f"Salvando Feeding: {feedingrecord.animal_id}, "
             f"{feedingrecord.feeding_type}, "
             f"{feedingrecord.feeding_quantity}, "
-            f"{feedingrecord.feeding_date}"
+            f"{feedingrecord.feeding_date}, "
             f"{feedingrecord.id}"
         )
 
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        cursor.execute(
-            """INSERT INTO feedingrecord (
-            animal_id, 
-            feeding_type, 
-            feeding_quantity, 
-            feeding_date
-            )
-            VALUES (?, ?, ?, ?)""",
+            cursor.execute(
+                """INSERT INTO feedingrecord (
+                    animal_id,
+                    feeding_type,
+                    feeding_quantity,
+                    feeding_date
+                )
+                VALUES (?, ?, ?, ?)""",
                 (
-                    feedingrecord.animal_id, 
+                    feedingrecord.animal_id,
                     feedingrecord.feeding_type.value,
                     feedingrecord.feeding_quantity,
-                    feedingrecord.feeding_date.isoformat()
-                 )
-        )
+                    feedingrecord.feeding_date.isoformat(),
+                )
+            )
 
-        feedingrecord.id = cursor.lastrowid
+            feedingrecord.id = cursor.lastrowid
 
-        logger.info(f"ID gerado: {cursor.lastrowid}")
+            logger.info(f"ID gerado: {cursor.lastrowid}")
 
-        conn.commit()
-        conn.close()
+            conn.commit()
 
-        return feedingrecord
+            return feedingrecord
+
+        finally:
+            conn.close()
 
     def get_by_id(self, id: int):
         query = "SELECT id, animal_id, feeding_type, feeding_quantity, feeding_date FROM feedingrecord WHERE id = ?"

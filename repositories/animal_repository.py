@@ -20,30 +20,33 @@ class AnimalRepository:
 
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        cursor.execute(
-            """ INSERT INTO animals (
-                species,
-                birth_date,
-                weight
-            )
-            VALUES (?, ?, ?)""",
-                    (
+            cursor.execute(
+                """INSERT INTO animals (
+                    species,
+                    birth_date,
+                    weight
+                )
+                VALUES (?, ?, ?)""",
+                (
                     animal.species,
-                    animal.birth_date.isoformat(), 
+                    animal.birth_date.isoformat(),
                     animal.weight
-                     )
-        )
+                )
+            )
 
-        logger.info(f"ID gerado: {cursor.lastrowid}")
+            logger.info(f"ID gerado: {cursor.lastrowid}")
 
-        animal.id = cursor.lastrowid
+            animal.id = cursor.lastrowid
 
-        conn.commit()
-        conn.close()
+            conn.commit()
 
-        return animal.id
+            return animal.id
+
+        finally:
+            conn.close()
 
     def get_by_id(self, animal_id: int):
         query = "SELECT species, birth_date, weight, id FROM animals WHERE id = ?"
@@ -146,21 +149,26 @@ class AnimalRepository:
     def delete(self, animal_id):
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        logger.info(f"Deletando animal id={animal_id}")
+            logger.info(f"Deletando animal id={animal_id}")
 
-        cursor.execute(
-            """ DELETE FROM animals WHERE id = ? """,
-                (animal_id, )
+            cursor.execute(
+                "DELETE FROM animals WHERE id = ?",
+                (animal_id,)
+            )
 
-        )
+            conn.commit()
 
-        conn.commit()
+            if cursor.rowcount == 0:
+                logger.warning(
+                    f"Nenhum animal encontrado para deletar id={animal_id}"
+                )
+            else:
+                logger.info(
+                    f"Delete executado com sucesso id={animal_id}"
+                )
 
-        if cursor.rowcount == 0:
-            logger.warning(f"Nenhum animal encontrado para deletar id={animal_id}")
-        else:
-            logger.info(f"Delete executado com sucesso id={animal_id}")
-
-        conn.close()
+        finally:
+            conn.close()

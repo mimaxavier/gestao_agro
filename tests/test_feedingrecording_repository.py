@@ -103,19 +103,15 @@ def test_database_should_reject_invalid_animal_id():
     with pytest.raises(Exception):
         repository.save(feeding)
 
-def test_database_should_reject_zero_feeding_quantity():
+def test_repository_should_reject_zero_feeding_quantity():
 
-    feeding = FeedingRecord(
-        1,
-        FeedType.SILAGE,
-        0,
-        "28/09/2026 08:00"
-    )
-
-    repository = FeedingRecordRepository()
-
-    with pytest.raises(sqlite3.IntegrityError):
-        repository.save(feeding)
+       with pytest.raises(ValueError):
+        FeedingRecord(
+            1,
+            FeedType.SILAGE,
+            0,
+            "28/09/2026 08:00"
+        )
 
 def test_database_should_reject_zero_feeding_quantity():
 

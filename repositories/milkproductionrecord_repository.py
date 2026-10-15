@@ -10,7 +10,7 @@ class MilkProductionRecordRepository:
     def save(self, milkproductionrecord):
 
         logger.info(
-            f"Salvando MilkProductionRecord:  {milkproductionrecord.animal_id}, "
+            f"Salvando MilkProductionRecord: {milkproductionrecord.animal_id}, "
             f"{milkproductionrecord.quantity_production}, "
             f"{milkproductionrecord.production_date}, "
             f"{milkproductionrecord.id}"
@@ -18,31 +18,33 @@ class MilkProductionRecordRepository:
 
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        cursor.execute(
-            """INSERT INTO milkproductionrecord (
-            animal_id, 
-            quantity_production, 
-            production_date
-            )
-            VALUES (?, ?, ?)""",
+            cursor.execute(
+                """INSERT INTO milkproductionrecord (
+                    animal_id,
+                    quantity_production,
+                    production_date
+                )
+                VALUES (?, ?, ?)""",
                 (
-                    milkproductionrecord.animal_id, 
+                    milkproductionrecord.animal_id,
                     milkproductionrecord.quantity_production,
                     milkproductionrecord.production_date.isoformat(),
                 ),
-        )
+            )
 
-        milkproductionrecord.id = cursor.lastrowid
+            milkproductionrecord.id = cursor.lastrowid
 
-        logger.info(f"ID gerado: {cursor.lastrowid}")
-        
+            logger.info(f"ID gerado: {cursor.lastrowid}")
 
-        conn.commit()
-        conn.close()
+            conn.commit()
 
-        return milkproductionrecord
+            return milkproductionrecord
+
+        finally:
+            conn.close()
 
     def get_by_id(self, id: int):
         query = "SELECT id, animal_id, quantity_production, production_date FROM milkproductionrecord WHERE id = ?"
