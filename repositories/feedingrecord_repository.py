@@ -11,14 +11,12 @@ logger = logging.getLogger(__name__)
 
 class FeedingRecordRepository:
 
-    def save(self, feedingrecord):
 
+    def save(self, feedingrecord: FeedingRecord):
         logger.info(
-            f"Salvando Feeding: {feedingrecord.animal_id}, "
-            f"{feedingrecord.feeding_type}, "
-            f"{feedingrecord.feeding_quantity}, "
-            f"{feedingrecord.feeding_date}, "
-            f"{feedingrecord.id}"
+            "Salvando registro de alimentação: animal_id=%s, tipo=%s",
+            feedingrecord.animal_id,
+            feedingrecord.feeding_type.value,
         )
 
         conn = get_connection()
@@ -27,138 +25,181 @@ class FeedingRecordRepository:
             cursor = conn.cursor()
 
             cursor.execute(
-                """INSERT INTO feedingrecord (
+                """
+                INSERT INTO feedingrecord (
                     animal_id,
                     feeding_type,
                     feeding_quantity,
                     feeding_date
                 )
-                VALUES (?, ?, ?, ?)""",
+                VALUES (?, ?, ?, ?)
+                """,
                 (
                     feedingrecord.animal_id,
                     feedingrecord.feeding_type.value,
                     feedingrecord.feeding_quantity,
                     feedingrecord.feeding_date.isoformat(),
-                )
+                ),
             )
 
             feedingrecord.id = cursor.lastrowid
 
-            logger.info(f"ID gerado: {cursor.lastrowid}")
-
             conn.commit()
+
+            logger.info(
+                "Registro de alimentação salvo com ID: %s",
+                feedingrecord.id,
+            )
 
             return feedingrecord
 
         finally:
             conn.close()
 
+
     def get_by_id(self, id: int):
-        query = "SELECT id, animal_id, feeding_type, feeding_quantity, feeding_date FROM feedingrecord WHERE id = ?"
+        query = """
+            SELECT id, animal_id, feeding_type, feeding_quantity, feeding_date
+            FROM feedingrecord
+            WHERE id = ?
+        """
 
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        logger.info(f"Buscando feeding Record de ID: {id}")
+            logger.info(f"Buscando feeding Record de ID: {id}")
 
-        cursor.execute(query, (id,))
-        resultado = cursor.fetchone()
+            cursor.execute(query, (id,))
+            resultado = cursor.fetchone()
 
-        logger.info(f"Resultado do banco: {resultado}")
+            logger.info(f"Resultado do banco: {resultado}")
 
-        cursor.close()
-        conn.close()
+        finally:
+            conn.close()
 
-        if not resultado:
+        if resultado is None:
             return None
-        
-        converted_date = datetime.fromisoformat(resultado[4]) if resultado[4] else None
+
+        converted_date = datetime.fromisoformat(resultado[4])
 
         return FeedingRecord(
-            id = resultado[0],
+            id=resultado[0],
             animal_id=resultado[1],
-            feeding_type = FeedType(resultado[2]),
-            feeding_quantity = resultado[3],
-            feeding_date = converted_date,
+            feeding_type=FeedType(resultado[2]),
+            feeding_quantity=resultado[3],
+            feeding_date=converted_date,
         )
 
     def find_all(self):
-                conn = get_connection()
-        
-                cursor = conn.cursor()
-        
-                logger.info(f"Preparando todos os registros da tabela de alimentação!")
-        
-                cursor.execute(
-                    """SELECT * FROM feedingrecord"""
-                )
-        
-                rows = cursor.fetchall()
-        
-                feedingrecord = []
-        
-                for row in rows:
-                    logger.info("Linha do banco: %s", row)
-        
-                    feedingdate_converted = datetime.fromisoformat(row[4] if row[4] else None)
-        
-                    logger.info("Data convertida fica %s",feedingdate_converted)
-        
-                    feeding_record = FeedingRecord(
-                         
-                        id = row[0],
-                        animal_id= row[1],
-                        feeding_type= FeedType(row[2]),
-                        feeding_quantity = row[3],
-                        feeding_date= feedingdate_converted
-        
-                    )
-        
-                    feedingrecord.append(feeding_record)
-        
-                conn.close()
-        
-        
-                return feedingrecord
+        conn = get_connection()
 
+        try:
+            cursor = conn.cursor()
+
+            logger.info(
+                "Preparando todos os registros da tabela de alimentação!"
+            )
+
+            cursor.execute("SELECT * FROM feedingrecord")
+            rows = cursor.fetchall()
+
+            feedingrecords = []
+
+            for row in rows:
+                logger.info("Linha do banco: %s", row)
+
+                feedingdate_converted = datetime.fromisoformat(row[4])
+
+                feeding_record = FeedingRecord(
+                    id=row[0],
+                    animal_id=row[1],
+                    feeding_type=FeedType(row[2]),
+                    feeding_quantity=row[3],
+                    feeding_date=feedingdate_converted,
+                )
+
+                feedingrecords.append(feeding_record)
+
+            return feedingrecords
+
+        finally:
+            conn.close()
+
+    
     def update(self, feedingrecord: FeedingRecord):
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        cursor.execute(
-                '''UPDATE feedingrecord
+            query = """
+                UPDATE feedingrecord
                 SET animal_id = ?,
-                    feeding_type = ?, 
-                    feeding_quantity = ?, 
+                    feeding_type = ?,
+                    feeding_quantity = ?,
                     feeding_date = ?
                 WHERE id = ?
-                ''', 
+            """
+
+            cursor.execute(
+                query,
                 (
-                    feedingrecord.animal_id, feedingrecord.feeding_type.value, feedingrecord.feeding_quantity, feedingrecord.feeding_date, feedingrecord.id
+                    feedingrecord.animal_id,
+                    feedingrecord.feeding_type.value,
+                    feedingrecord.feeding_quantity,
+                    feedingrecord.feeding_date.isoformat(),
+                    feedingrecord.id,
+                ),
+            )
+
+            if cursor.rowcount == 0:
+                logger.warning(
+                    "Nenhum registro de alimentação encontrado para atualizar. "
+                    "ID: %s",
+                    feedingrecord.id,
                 )
-        )
-        logger.info(f"Atualizando feedrecord id = {feedingrecord.id}")
+            else:
+                conn.commit()
+                logger.info(
+                    "Registro de alimentação atualizado. ID: %s",
+                    feedingrecord.id,
+                )
 
-        conn.commit()
-        conn.close()
+        finally:
+            conn.close()
 
-    def delete(self, id:int):
+
+    
+    def delete(self, id: int):
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        logger.info(f"Deletar feedrecord id = {id}")
+            logger.info("Excluindo registro de alimentação. ID: %s", id)
 
-        cursor.execute(
-                """DELETE FROM feedingrecord
-                WHERE id = ?""",
-                (id,)
-                
-        )
+            cursor.execute(
+                """
+                DELETE FROM feedingrecord
+                WHERE id = ?
+                """,
+                (id,),
+            )
 
-        logger.info(f" id = {id} excluído com sucesso!")
+            if cursor.rowcount == 0:
+                logger.warning(
+                    "Nenhum registro de alimentação encontrado para excluir. "
+                    "ID: %s",
+                    id,
+                )
+            else:
+                conn.commit()
+                logger.info(
+                    "Registro de alimentação excluído. ID: %s",
+                    id,
+                )
 
-        conn.commit()
-        conn.close()
+        finally:
+            conn.close()

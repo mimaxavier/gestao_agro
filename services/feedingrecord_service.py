@@ -1,13 +1,16 @@
 from models.feedingrecord import FeedingRecord
+from datetime import datetime
 from repositories.feedingrecord_repository import FeedingRecordRepository
-from datetime import date, datetime
 import logging
 
 logger = logging.getLogger(__name__)
 
 class FeedingRecordService:
-    def __init__(self, repository = None):
-        self.repository = repository or FeedingRecordRepository()
+    def __init__(self, repository=None):
+        self.repository = (
+            repository if repository is not None
+            else FeedingRecordRepository()
+        )
 
 # Validações
     def _validate_if_feedingrecord_exists(self, id):
@@ -24,16 +27,19 @@ class FeedingRecordService:
 
     def _validate_feeding_quantity(self, feeding_quantity):
         if feeding_quantity.feeding_quantity<=0:
-            raise ValueError("A quantidade de alimento não pode ser menor ou igual a 0. Digite um valor válido.")
+            raise ValueError(
+                "A quantidade de alimento não pode ser menor ou igual a 0. Digite um valor válido."
+                )
 
 #CRUD
 
     def register(self, feedingrecord):
         self._validate_object_is_ready_for_register(feedingrecord)
+        self._validate_feeding_quantity(feedingrecord)
 
         self.repository.save(feedingrecord)
 
-        logger.info = {"Alimentação registrada!"}
+        logger.info = ("Alimentação registrada!")
 
     def findall(self):
         return self.repository.find_all()

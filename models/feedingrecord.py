@@ -1,5 +1,4 @@
-from models.animal import Animal
-from datetime import datetime, date
+from datetime import datetime
 from enums.FeedType import FeedType
 
 class FeedingRecord:

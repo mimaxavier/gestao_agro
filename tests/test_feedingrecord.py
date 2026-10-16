@@ -1,8 +1,6 @@
 from models.feedingrecord import FeedingRecord
 from datetime import datetime
-from datetime import date
 from enums.FeedType import FeedType
-import conftest
 import sqlite3
 import pytest
 
@@ -37,7 +35,7 @@ def test_quantityfeeding_cannot_be_none():
 
     assert str(exc_info.value) == "A quantidade não pode estar vazia!"
 
-def test_date_must_be_string_or_date():
+def test_feeding_date_must_follow_expected_format():
     with pytest.raises(TypeError) as exc_info:
 
         feedingrecord4 = FeedingRecord(3, FeedType.PASTURE, 100, "23/05/25")
@@ -94,3 +92,18 @@ def test_database_should_reject_null_feeding_quantity():
         )
 
     conn.close()
+
+
+def test_quantityfeeding_accepts_float():
+    feedingrecord = FeedingRecord(
+        2, FeedType.PASTURE, 12.5, "25/03/2024 08:30"
+    )
+
+    assert feedingrecord.feeding_quantity == 12.5
+
+
+def test_feeding_date_must_be_string_or_datetime():
+    with pytest.raises(TypeError):
+        FeedingRecord(
+            2, FeedType.PASTURE, 100, 12345
+        )

@@ -169,3 +169,62 @@ def test_remove_should_not_accept_nonexistent_id():
     assert str(exc_info.value) == (
         "O registro não existe! Forneça um ID válido!"
     )
+
+
+
+def test_register_should_not_accept_zero_quantity():
+    service = FeedingRecordService()
+    feed = FeedingRecord(
+        2, FeedType.SILAGE, 50, "12/03/2026 08:30"
+    )
+
+    feed.feeding_quantity = 0
+
+    with pytest.raises(ValueError) as exc_info:
+        service.register(feed)
+
+    assert str(exc_info.value) == (
+        "A quantidade de alimento não pode ser menor ou igual a 0. Digite um valor válido."
+    )
+
+
+def test_update_should_not_accept_nonexistent_id():
+    service = FeedingRecordService()
+    feed = FeedingRecord(
+        2, FeedType.SILAGE, 50, "12/03/2026 08:30"
+    )
+
+    feed.id = 109
+
+    with pytest.raises(ValueError) as exc_info:
+        service.update(feed)
+
+    assert str(exc_info.value) == (
+        "O registro não existe! Forneça um ID válido!"
+    )
+
+
+def test_get_by_id_should_return_none_for_nonexistent_id():
+    service = FeedingRecordService()
+
+    result = service.get_by_id(109)
+
+    assert result is None
+
+
+def test_register_should_not_accept_negative_quantity():
+    service = FeedingRecordService()
+    feed = FeedingRecord(
+        2, FeedType.SILAGE, 50, "12/03/2026 08:30"
+    )
+
+    feed.feeding_quantity = -10
+
+    with pytest.raises(ValueError) as exc_info:
+        service.register(feed)
+
+    assert str(exc_info.value) == (
+        "A quantidade de alimento não pode ser menor ou igual a 0. Digite um valor válido."
+    )
+
+
