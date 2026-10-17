@@ -42,15 +42,19 @@ class VaccineApplicationService:
             "A data de aplicação deve ser uma string ou date."
     )
 
+    
     def _validate_animal_id(self, animal_id):
-
         if animal_id is None:
             raise ValueError("ID do animal não pode estar vazio!")
 
-        if not isinstance(animal_id, int):
+        if not isinstance(animal_id, int) or isinstance(animal_id, bool):
             raise TypeError("Animal ID precisa ser um número inteiro!")
 
+        if animal_id <= 0:
+            raise ValueError("ID do animal precisa ser maior que zero!")
+
         return animal_id
+
 
     def _validate_vaccine_name(self, vaccine_name):
 
@@ -66,7 +70,7 @@ class VaccineApplicationService:
 
         self.repository.save(vaccineapplication)
 
-        logger.info = ("Vacinação Registrada")
+        logger.info("Vacinação registrada com sucesso!")
 
     def findall(self):
         return self.repository.find_all()

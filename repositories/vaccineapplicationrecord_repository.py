@@ -10,141 +10,155 @@ logger = logging.getLogger(__name__)
 
 class VaccineApplicationRepository:
 
-    def save(self, vaccineapplication):
-
-        logger.info(
-            f"Salvando VaccineApplication: {vaccineapplication.animal_id}, "
-            f"{vaccineapplication.vaccine_name}, "
-            f"{vaccineapplication.apply_date}, "
-            f"{vaccineapplication.id}"
-        )
-
+    
+    def save(self, vaccineapplication: VaccineApplication):
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        cursor.execute(
-            """INSERT INTO vaccinesapplication (
-            animal_id,
-            vaccine_name,
-            apply_date
+            cursor.execute(
+                """
+                INSERT INTO vaccinesapplication (
+                    animal_id, vaccine_name, apply_date
+                )
+                VALUES (?, ?, ?)
+                """,
+                (
+                    vaccineapplication.animal_id,
+                    vaccineapplication.vaccine_name.value,
+                    vaccineapplication.apply_date.isoformat(),
+                ),
             )
-            VALUES (?, ?, ?)""",
-            (
-                vaccineapplication.animal_id,
-                vaccineapplication.vaccine_name.value,
-                vaccineapplication.apply_date.isoformat(),
+
+            vaccineapplication.id = cursor.lastrowid
+            conn.commit()
+
+            logger.info(
+                "Vacinação registrada com ID: %s",
+                vaccineapplication.id,
             )
-        )
 
-        vaccineapplication.id = cursor.lastrowid
+        finally:
+            conn.close()
 
-        logger.info(f"ID gerado: {cursor.lastrowid}")
 
-        conn.commit()
-        conn.close()
-
+    
     def get_by_id(self, id: int):
-        query = "SELECT animal_id, vaccine_name, apply_date, id FROM vaccinesapplication WHERE id = ?"
+        query = """
+            SELECT animal_id, vaccine_name, apply_date, id
+            FROM vaccinesapplication
+            WHERE id = ?
+        """
 
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
+            cursor.execute(query, (id,))
+            resultado = cursor.fetchone()
+        finally:
+            conn.close()
 
-        cursor.execute(query, (id,))
-        resultado = cursor.fetchone()
-
-        cursor.close()
-        conn.close()
-
-        if not resultado:
+        if resultado is None:
             return None
-        
-        converted_date = date.fromisoformat(resultado[2]) if resultado[2] else None
+
+        converted_date = date.fromisoformat(resultado[2])
 
         return VaccineApplication(
             id=resultado[3],
-            animal_id = resultado[0],
-            apply_date = converted_date,
-            vaccine_name = VaccineName(resultado[1]),
+            animal_id=resultado[0],
+            vaccine_name=VaccineName(resultado[1]),
+            apply_date=converted_date,
         )
 
     def find_all(self):
         conn = get_connection()
-            
-        cursor = conn.cursor()
-            
-        logger.info(f"Preparando todos os registros da tabela de vacinação!")
-            
-        cursor.execute(
-                        """SELECT * FROM vaccinesapplication"""
-                    )
-            
-        rows = cursor.fetchall()
-            
-        vaccineapplicationrecord = []
-            
-        for row in rows:
-            logger.info("Linha do banco: %s", row)
-            
-            applydate_converted = date.fromisoformat(row[3] if row[3] else None)
-                
-            logger.info("Data convertida fica %s",applydate_converted)
-                
-            vaccineapplication_record = VaccineApplication(
-                                
-                id = row[0],
-                animal_id= row[1],
-                vaccine_name = VaccineName(row[2]),
-                apply_date= applydate_converted
-                
-                            )
-                
-            vaccineapplicationrecord.append(vaccineapplication_record)
-            
-        conn.close()
-            
-            
-        return vaccineapplicationrecord
 
+        try:
+            cursor = conn.cursor()
+
+            logger.info("Preparando todos os registros de vacinação!")
+
+            cursor.execute(
+                """
+                SELECT id, animal_id, vaccine_name, apply_date
+                FROM vaccinesapplication
+                """
+            )
+
+            rows = cursor.fetchall()
+            vaccineapplicationrecord = []
+
+            for row in rows:
+                applydate_converted = date.fromisoformat(row[3])
+
+                vaccineapplication_record = VaccineApplication(
+                    id=row[0],
+                    animal_id=row[1],
+                    vaccine_name=VaccineName(row[2]),
+                    apply_date=applydate_converted,
+                )
+
+                vaccineapplicationrecord.append(vaccineapplication_record)
+
+            return vaccineapplicationrecord
+
+        finally:
+            conn.close()
+
+
+    
     def update(self, vaccineapplication: VaccineApplication):
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        cursor.execute(
-        '''UPDATE vaccinesapplication
-            SET animal_id = ?,
-                vaccine_name = ?,
-                apply_date = ?
-            WHERE id = ?
-            ''',
-            (
-                vaccineapplication.animal_id,
-                vaccineapplication.vaccine_name.value,
-                vaccineapplication.apply_date.isoformat(),
-                vaccineapplication.id
+            cursor.execute(
+                """
+                UPDATE vaccinesapplication
+                SET animal_id = ?,
+                    vaccine_name = ?,
+                    apply_date = ?
+                WHERE id = ?
+                """,
+                (
+                    vaccineapplication.animal_id,
+                    vaccineapplication.vaccine_name.value,
+                    vaccineapplication.apply_date.isoformat(),
+                    vaccineapplication.id,
+                ),
             )
-        )
-        logger.info(f"Atualizando vaccineapplication id = {vaccineapplication.id}")
 
-        conn.commit()
-        conn.close()
+            conn.commit()
 
+            logger.info(
+                "Registro de vacinação atualizado. ID: %s",
+                vaccineapplication.id,
+            )
+
+        finally:
+            conn.close()
+
+    
     def delete(self, id: int):
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        logger.info(f"Deletando VaccineApplication de ID = {id}")
+            cursor.execute(
+                """
+                DELETE FROM vaccinesapplication
+                WHERE id = ?
+                """,
+                (id,),
+            )
 
-        cursor.execute(
-            """DELETE FROM vaccinesapplication
-                WHERE id = ?""",
-                (id,)
-        )
+            conn.commit()
 
-        logger.info(f" id = {id} excluído com sucesso!")
+            logger.info("Exclusão de registro de vacinação solicitada. ID: %s", id)
 
-        conn.commit()
-        conn.close()
+        finally:
+            conn.close()

@@ -18,6 +18,20 @@ def test_animalid_vaccine_must_be_int():
 
     assert str(exc_info.value) == "Animal ID precisa ser um número inteiro!" 
 
+
+def test_animalid_vaccine_must_be_positive():
+    with pytest.raises(ValueError) as exc_info:
+        VaccineApplication(
+            0,
+            VaccineName.BRUCELOSE,
+            "24/05/2024"
+        )
+
+    assert str(exc_info.value) == (
+        "ID do animal precisa ser maior que zero!"
+    )
+
+
 def test_name_vaccine_in_validnames():
     with pytest.raises(TypeError) as exc_info:
 

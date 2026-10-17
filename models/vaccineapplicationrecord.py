@@ -11,14 +11,19 @@ class VaccineApplication:
         self.apply_date = self._validate_apply_date(apply_date)
         self.id = id
 
+   
     def _validate_animalid(self, animalid):
         if animalid is None:
             raise ValueError("ID do animal não pode estar vazio!")
-       
-        if not isinstance(animalid, int):
+
+        if not isinstance(animalid, int) or isinstance(animalid, bool):
             raise TypeError("Animal ID precisa ser um número inteiro!")
-        
+
+        if animalid <= 0:
+            raise ValueError("ID do animal precisa ser maior que zero!")
+
         return animalid
+
 
     def _validate_names_vaccines(self, vaccine_name):
         if not isinstance(vaccine_name, VaccineName):

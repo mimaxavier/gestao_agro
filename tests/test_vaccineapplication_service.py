@@ -418,3 +418,21 @@ def test_calculate_next_dose_for_febre_aftosa():
     result = service.calculate_next_dose(vaccine)
 
     assert result == date(2027, 3, 8)
+
+
+    def test_update_should_not_accept_nonpositive_animal_id():
+        vaccine = VaccineApplication(
+            animal_id=1,
+            vaccine_name=VaccineName.RAIVA,
+            apply_date="20/08/2026"
+        )
+
+        repository = VaccineApplicationRepository()
+        service = VaccineApplicationService(repository)
+
+        service.register(vaccine)
+        vaccine.animal_id = -1
+
+        with pytest.raises(ValueError):
+            service.update(vaccine)
+
