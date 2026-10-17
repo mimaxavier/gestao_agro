@@ -88,3 +88,15 @@ def test_quantityproduction_cannot_be_zero():
         "A quantidade não pode ser menor ou igual a 0!"
     )
 
+
+def test_animalid_must_be_positive():
+        with pytest.raises(ValueError) as exc_info:
+            MilkProductionRecord(
+                0, 50, "24/05/2024 05:25"
+            )
+
+        assert str(exc_info.value) == (
+            "ID do animal precisa ser maior que zero!"
+        )
+
+

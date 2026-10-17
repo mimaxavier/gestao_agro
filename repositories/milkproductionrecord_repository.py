@@ -46,107 +46,133 @@ class MilkProductionRecordRepository:
         finally:
             conn.close()
 
+    
     def get_by_id(self, id: int):
-        query = "SELECT id, animal_id, quantity_production, production_date FROM milkproductionrecord WHERE id = ?"
+        query = """
+            SELECT id, animal_id, quantity_production, production_date
+            FROM milkproductionrecord
+            WHERE id = ?
+        """
 
         conn = get_connection()
 
-        cursor = conn.cursor()
-
-        cursor.execute(query, (id,))
-        resultado = cursor.fetchone()
-
-        cursor.close()
-        conn.close()
-
-        if not resultado:
-            return None
-        
-        converted_date = datetime.fromisoformat(resultado[3]) if resultado[3] else None
-
-        return MilkProductionRecord(
-            id = resultado[0],
-            animal_id=resultado[1],
-            quantity_production = resultado[2],
-            production_date = converted_date
-        )
-
-    def find_all(self):
-            conn = get_connection()
-    
+        try:
             cursor = conn.cursor()
-    
-            logger.info(f"Preparando todos os registros da tabela de produção!")
-    
-            cursor.execute(
-                """SELECT * FROM milkproductionrecord"""
-            )
-    
-            rows = cursor.fetchall()
-    
-            milkproductionrecord = []
-    
-            for row in rows:
-                logger.info("Linha do banco: %s", row)
-    
-                converted_birthdate = datetime.fromisoformat(row[3] if row[3] else None)
-    
-                logger.info("Data convertida fica %s",converted_birthdate)
-    
-                milkproduction = MilkProductionRecord(
-    
-                    id = row[0],
-                    animal_id= row[1],
-                    quantity_production= row[2],
-                    production_date= converted_birthdate
-    
-                )
-    
-                milkproductionrecord.append(milkproduction)
-    
-            conn.close()
-    
-    
-            return milkproductionrecord
+            cursor.execute(query, (id,))
+            resultado = cursor.fetchone()
 
+            if not resultado:
+                return None
+
+            converted_date = (
+                datetime.fromisoformat(resultado[3])
+                if resultado[3]
+                else None
+            )
+
+            return MilkProductionRecord(
+                id=resultado[0],
+                animal_id=resultado[1],
+                quantity_production=resultado[2],
+                production_date=converted_date
+            )
+
+        finally:
+            conn.close()
+
+
+    
+    def find_all(self):
+        conn = get_connection()
+
+        try:
+            cursor = conn.cursor()
+
+            logger.info("Preparando todos os registros da tabela de produção!")
+
+            cursor.execute("""
+                SELECT id, animal_id, quantity_production, production_date
+                FROM milkproductionrecord
+            """)
+
+            rows = cursor.fetchall()
+            milkproductionrecords = []
+
+            for row in rows:
+                converted_date = (
+                    datetime.fromisoformat(row[3])
+                    if row[3]
+                    else None
+                )
+
+                milkproduction = MilkProductionRecord(
+                    id=row[0],
+                    animal_id=row[1],
+                    quantity_production=row[2],
+                    production_date=converted_date
+                )
+
+                milkproductionrecords.append(milkproduction)
+
+            return milkproductionrecords
+
+        finally:
+            conn.close()
+
+
+    
     def update(self, milkproductionrecord: MilkProductionRecord):
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        cursor.execute(
-             '''UPDATE milkproductionrecord
+            cursor.execute(
+                """
+                UPDATE milkproductionrecord
                 SET animal_id = ?,
-                    quantity_production = ?, 
+                    quantity_production = ?,
                     production_date = ?
                 WHERE id = ?
-                ''', 
+                """,
                 (
-                    milkproductionrecord.animal_id, 
+                    milkproductionrecord.animal_id,
                     milkproductionrecord.quantity_production,
-                    milkproductionrecord.production_date,
+                    milkproductionrecord.production_date.isoformat(),
                     milkproductionrecord.id
                 )
-        )
-        logger.info(f"Atualizando milkrecord id = {milkproductionrecord.id}")
+            )
 
-        conn.commit()
-        conn.close()
+            logger.info(
+                "Atualizando milkrecord id = %s",
+                milkproductionrecord.id
+            )
 
-    def delete(self, id:int):
+            conn.commit()
+
+        finally:
+            conn.close()
+
+    
+    def delete(self, id: int):
         conn = get_connection()
 
-        cursor = conn.cursor()
+        try:
+            cursor = conn.cursor()
 
-        logger.info(f"Deletando MilkProductionId {id}")
+            logger.info("Deletando MilkProductionRecord id=%s", id)
 
-        cursor.execute(
-            """DELETE FROM milkproductionrecord
-                WHERE id = ?""",
+            cursor.execute(
+                """
+                DELETE FROM milkproductionrecord
+                WHERE id = ?
+                """,
                 (id,)
-        )
+            )
 
-        logger.info(f" id = {id} excluído com sucesso!")
+            conn.commit()
 
-        conn.commit()
-        conn.close()
+            logger.info("Exclusão do registro id=%s concluída", id)
+
+        finally:
+            conn.close()

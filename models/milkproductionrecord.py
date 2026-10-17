@@ -11,14 +11,19 @@ class MilkProductionRecord:
     
        
     # Validate animal_id
+    
     def _validate_animalid(self, animalid):
         if animalid is None:
             raise ValueError("ID do animal não pode estar vazio!")
 
-        if not isinstance(animalid, int):
+        if not isinstance(animalid, int) or isinstance(animalid, bool):
             raise TypeError("Animal ID precisa ser um número inteiro!")
-        
+
+        if animalid <= 0:
+            raise ValueError("ID do animal precisa ser maior que zero!")
+
         return animalid
+
         
     # Validate quantity
     def _validate_quantity_production(self, quantity_production):

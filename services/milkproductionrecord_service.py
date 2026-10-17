@@ -52,11 +52,34 @@ class MilkProductionService:
     def get_by_id(self, id):
         return self.repository.get_by_id(id)
 
+    
+   
     def update(self, milkproductionrecord):
-        self._validate_if_milkproductionrecord_exists(milkproductionrecord.id)
-        milkproductionrecord.production_date = self._validate_production_date(milkproductionrecord.production_date)
+        self._validate_if_milkproductionrecord_exists(
+            milkproductionrecord.id
+        )
+
+        milkproductionrecord.animal_id = (
+            milkproductionrecord._validate_animalid(
+                milkproductionrecord.animal_id
+            )
+        )
+
+        milkproductionrecord.quantity_production = (
+            milkproductionrecord._validate_quantity_production(
+                milkproductionrecord.quantity_production
+            )
+        )
+
+        milkproductionrecord.production_date = (
+            self._validate_production_date(
+                milkproductionrecord.production_date
+            )
+        )
 
         self.repository.update(milkproductionrecord)
+
+
 
     def remove(self, id):
         self._validate_if_milkproductionrecord_exists(id)

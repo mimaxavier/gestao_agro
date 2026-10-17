@@ -170,3 +170,34 @@ def test_update_should_not_accept_invalid_date_format():
     with pytest.raises(ValueError):
         service.update(milkproduction)
 
+
+def test_update_should_not_accept_negative_quantity():
+    milkproduction = MilkProductionRecord(
+        1, 30, "24/02/2026 12:30"
+    )
+
+    service = MilkProductionService()
+    service.register(milkproduction)
+
+    milkproduction.quantity_production = -10
+
+    with pytest.raises(ValueError):
+        service.update(milkproduction)
+
+
+def test_update_should_not_accept_nonpositive_animal_id():
+    milkproduction = MilkProductionRecord(
+        1, 30, "24/02/2026 12:30"
+    )
+
+    service = MilkProductionService()
+    service.register(milkproduction)
+
+    milkproduction.animal_id = 0
+
+    with pytest.raises(ValueError) as exc_info:
+        service.update(milkproduction)
+
+    assert str(exc_info.value) == (
+        "ID do animal precisa ser maior que zero!"
+    )
