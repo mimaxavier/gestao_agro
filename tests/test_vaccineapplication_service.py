@@ -420,7 +420,7 @@ def test_calculate_next_dose_for_febre_aftosa():
     assert result == date(2027, 3, 8)
 
 
-    def test_update_should_not_accept_nonpositive_animal_id():
+def test_update_should_not_accept_nonpositive_animal_id():
         vaccine = VaccineApplication(
             animal_id=1,
             vaccine_name=VaccineName.RAIVA,
