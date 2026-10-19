@@ -19,11 +19,11 @@ O escopo inicial está concentrado em 4 classes fundamentais que cobrem o ciclo 
 
 ## 🏗️ Arquitetura do Sistema
 
-O projeto adota uma divisão limpa em camadas para isolar responsabilidades:
+O projeto adota uma arquitetura em camadas para separar responsabilidades:
 
-* **Models (Entidades):** Classes puras Python que encapsulam os dados e validações estruturais primárias.
-* **Repositories:** Abstração da persistência de dados utilizando o padrão *Repository* orientado a interfaces (classes abstratas com o módulo `abc`), garantindo independência da tecnologia de banco de dados.
-* **Services:** Camada onde residirão as regras de negócio complexas (cálculo de Dias em Lactação - DEL, médias de produção e alertas de carência sanitária).
+* **Models (Entidades):** classes Python que representam os registros do domínio e validam dados de acordo com as regras definidas.
+* **Repositories:** classes responsáveis pela persistência e recuperação dos dados no SQLite, isolando as operações de banco de dados.
+* **Services:** camada responsável pelas regras de negócio e pela coordenação das operações entre os Models e os Repositories.
 
 ---
 
@@ -43,3 +43,41 @@ A confiabilidade do backend é assegurada por testes automatizados em duas frent
 1. **Testes de Unidade (Models):** Garantem que as regras de criação de entidades e validações funcionem isoladamente.
 2. **Testes de Integração (Repositories):** Utilizam o recurso de banco de dados em memória (`:memory:`) do SQLite, garantindo execuções instantâneas sem poluir o ambiente de desenvolvimento.
 
+---
+
+---
+
+## 🚀 Como executar o projeto
+
+### Pré-requisitos
+
+- Python 3.x
+- Git
+
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/mimaxavier/gestao_agro.git
+cd gestao_agro
+```
+
+### 2. Criar e ativar o ambiente virtual
+
+No macOS ou Linux:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Instalar as dependências
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 4. Executar os testes automatizados
+
+```bash
+python -m pytest -v
+```
