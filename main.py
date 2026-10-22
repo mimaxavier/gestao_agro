@@ -1,16 +1,15 @@
-from datetime import datetime
-from models.animal import Animal
-from models.vaccineapplicationrecord import VaccineApplication
-from models.milkproductionrecord import MilkProductionRecord
-from repositories.animal_repository import AnimalRepository
-from models.feedingrecord import FeedingRecord
-from repositories.feedingrecord_repository import FeedingRecordRepository
+from fastapi import FastAPI
+from services.animal_service import AnimalService
+from schemas.animal import AnimalResponse
 
-animal = Animal("bovine", "22/12/2025", 90)
+app = FastAPI()
 
-print(animal.is_a_calf(animal))
+animal_service = AnimalService()
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
 
-
-
-
+@app.get("/animals", response_model=list[AnimalResponse])
+def list_animals():
+    return animal_service.findall()
