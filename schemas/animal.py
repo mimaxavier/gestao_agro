@@ -8,3 +8,9 @@ class AnimalResponse(BaseModel):
     species: str
     birth_date: date
     weight: float
+
+class AnimalCreate(BaseModel):
+    species: str
+    birth_date: date
+    weight: float
+    

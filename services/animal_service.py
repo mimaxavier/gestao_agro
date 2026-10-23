@@ -40,6 +40,10 @@ class AnimalService:
 
         logger.info(f"Registrando animal de ID = {animal.id}.")
 
+        return animal
+
+        
+
     def findall(self):
         logger.info(f"Buscando todos os registros de animal.")
 
