@@ -9,6 +9,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 class AnimalRepository:
+    def __init__(self, db_path="database/farm.db"):
+        self.db_path = db_path
 
     def save(self, animal):
 
@@ -18,7 +20,7 @@ class AnimalRepository:
             f"{animal.weight}"
         )
 
-        conn = get_connection()
+        conn = get_connection(self.db_path)
 
         try:
             cursor = conn.cursor()
@@ -51,7 +53,7 @@ class AnimalRepository:
     def get_by_id(self, animal_id: int):
         query = "SELECT species, birth_date, weight, id FROM animals WHERE id = ?"
 
-        conn = get_connection()
+        conn = get_connection(self.db_path)
 
         cursor = conn.cursor()
 
@@ -78,7 +80,7 @@ class AnimalRepository:
         )
     
     def find_all(self):
-        conn = get_connection()
+        conn = get_connection(self.db_path)
 
         cursor = conn.cursor()
 
@@ -117,7 +119,7 @@ class AnimalRepository:
 
 
     def update(self, animal):
-        conn = get_connection()
+        conn = get_connection(self.db_path)
 
         cursor = conn.cursor()
 
@@ -147,7 +149,7 @@ class AnimalRepository:
         conn.close()
 
     def delete(self, animal_id):
-        conn = get_connection()
+        conn = get_connection(self.db_path)
 
         try:
             cursor = conn.cursor()
