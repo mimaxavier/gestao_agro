@@ -2,13 +2,16 @@ from fastapi import FastAPI, HTTPException, Depends
 from services.animal_service import AnimalService
 from schemas.animal import AnimalResponse
 from schemas.animal import AnimalCreate
+from repositories.animal_repository import AnimalRepository
 from models.animal import Animal
+from fastapi.testclient import TestClient
 
 # Servidor: uvicorn main:app --reload
 app = FastAPI()
 
 def get_animal_service():
-    return AnimalService()
+    repository = AnimalRepository()
+    return AnimalService(repository=repository) 
 
 @app.get("/health")
 def health_check():
