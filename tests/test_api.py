@@ -37,7 +37,7 @@ def get_test_animal_service():
     return service
 
 
-def test_health_check():
+def test_health_check(client):
 
     response = client.get("/health")
 
@@ -49,5 +49,6 @@ def test_list_animals(client):
     response = client.get("/animals")
 
     assert response.status_code == 200
-    assert isinstance(response, list)
-    assert response
+    assert isinstance(response.json(), list)
+    assert response.json() == []
+
