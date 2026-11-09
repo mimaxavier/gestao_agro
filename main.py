@@ -5,6 +5,8 @@ from schemas.animal import AnimalCreate
 from repositories.animal_repository import AnimalRepository
 from models.animal import Animal
 from fastapi.testclient import TestClient
+from fastapi import Path
+
 
 # Servidor: uvicorn main:app --reload
 app = FastAPI()
@@ -36,3 +38,15 @@ def create_animal(dados: AnimalCreate, animal_service = Depends(get_animal_servi
         )
 
     return animal_service.register(animal)
+
+@app.get("/animals/{animal_id}", response_model= AnimalResponse, status_code=200)
+def get_animal(animal_id: int, animal_service = Depends(get_animal_service)):
+        animal = animal_service.get_by_id(animal_id)
+
+        if animal is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Animal não encontrado!"
+            )
+
+        return animal
