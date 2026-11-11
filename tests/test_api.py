@@ -80,6 +80,14 @@ def test_get_animal_by_id(client):
     response = client.get(f"/animals/{animal_id}")
 
     assert response.status_code == 200
-    assert response.json() == ({
+    assert response.json() == {
         'id': animal_id, 'species': 'Caprino', 'birth_date': '2024-04-11', 'weight': 255
-    })
+    }
+
+def test_get_animal_by_id_inexistent(client):
+    client, repository = client
+
+    response = client.get(f"/animals/{1}")
+
+    assert response.status_code == 404
+
