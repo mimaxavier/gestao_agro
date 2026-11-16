@@ -135,7 +135,7 @@ class AnimalRepository:
                     weight = ?
                 WHERE id = ? """,
                 (animal.species,
-                 animal.birth_date,
+                 animal.birth_date.isoformat(),
                  animal.weight,
                  animal.id
                  )
