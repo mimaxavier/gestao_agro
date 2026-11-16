@@ -91,3 +91,35 @@ def test_get_animal_by_id_inexistent(client):
 
     assert response.status_code == 404
 
+def test_updated_animal(client):
+    client, repository = client
+
+    animal = Animal(
+            species="Caprino",
+            birth_date=date(2024, 4, 11),
+            weight=255
+        )
+
+    response = client.post(f"/animals", json={
+        "species": animal.species,
+        "birth_date": animal.birth_date.isoformat(),
+        "weight": animal.weight
+    }
+    
+    )
+
+    animal_id = response.json() ["id"]
+
+    response = client.put(f"/animals/{animal_id}", json={
+        "species": "Bovino",
+        "birth_date": "2024-03-12",
+        "weight": 200
+    })
+
+    
+    assert response.status_code==200
+    assert response.json() == {
+            'id': animal_id, 'species': 'Bovino', 'birth_date': '2024-03-12', 'weight': 200
+        }
+
+
